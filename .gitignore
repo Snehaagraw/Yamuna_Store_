@@ -1,0 +1,76 @@
+# ==============================================================================
+# Environment Variables & Secrets (CRITICAL: DO NOT COMMIT REAL CREDENTIALS)
+# ==============================================================================
+.env
+.env.*
+*.env
+!.env.example
+
+# ==============================================================================
+# Python & Django
+# ==============================================================================
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+**/venv/
+**/env/
+**/ENV/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Django
+*.sqlite3
+db.sqlite3
+local_settings.py
+staticfiles/
+media/
+**/media/
+**/staticfiles/
+
+# Testing & Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# ==============================================================================
+# Node & Frontend (Vite / React)
+# ==============================================================================
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+dist-ssr/
+*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==============================================================================
+# Operating System & IDE Artifacts
+# ==============================================================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -1,0 +1,591 @@
+/* =========================================================
+   PRODUCT DETAILS PAGE
+   ========================================================= */
+
+.product-details-page {
+  min-height: 100vh;
+  padding: 125px 5vw 90px;
+  background: var(--cream);
+  color: var(--maroon-dark);
+  overflow-x: hidden;
+}
+
+.product-details-container {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+}
+
+/* =========================================================
+   BACK TO COLLECTION
+   ========================================================= */
+
+.product-details-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 7px 0;
+  border: 0;
+  background: transparent;
+  color: rgba(93, 30, 52, 0.78);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.product-details-back:hover {
+  color: var(--gold-dark);
+}
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.product-details-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =========================================================
+   IMAGE GALLERY
+   ========================================================= */
+
+.product-details-gallery {
+  width: min(620px, 100%);
+  min-width: 0;
+}
+
+.product-details-main-image {
+  position: relative;
+  width: 100%;
+  height: 390px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--cream-soft);
+}
+
+.product-details-main-image img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* =========================================================
+   PRODUCT BADGES
+   ========================================================= */
+
+.product-details-badges {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.product-details-badges span {
+  padding: 8px 12px;
+  background: var(--maroon);
+  color: var(--cream);
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   IMAGE PLACEHOLDER
+   ========================================================= */
+
+.product-details-no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(114, 38, 63, 0.08),
+      rgba(201, 154, 69, 0.12)
+    );
+  color: rgba(93, 30, 52, 0.55);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   THUMBNAILS
+   ========================================================= */
+
+.product-details-thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 13px;
+  padding-bottom: 4px;
+  overflow-x: auto;
+}
+
+.product-thumbnail {
+  flex: 0 0 66px;
+  width: 66px;
+  height: 76px;
+  padding: 0;
+  border: 1px solid transparent;
+  background: var(--cream-soft);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+}
+
+.product-thumbnail img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.product-thumbnail:hover {
+  border-color: rgba(157, 116, 49, 0.6);
+}
+
+.product-thumbnail.active {
+  border-color: var(--gold-dark);
+}
+
+/* =========================================================
+   PRODUCT INFORMATION
+   ========================================================= */
+
+.product-details-info {
+  width: min(680px, 100%);
+  padding-top: 42px;
+}
+
+.product-details-category {
+  margin: 0 0 12px;
+  color: var(--gold-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.17em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.product-details-info h1 {
+  margin: 0;
+  color: var(--maroon-dark);
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(58px, 7vw, 88px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+.product-details-price {
+  margin: 20px 0 28px;
+  color: var(--maroon);
+  font-family: "DM Mono", monospace;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.product-details-divider {
+  width: 100%;
+  height: 1px;
+  margin-bottom: 28px;
+  background: rgba(93, 30, 52, 0.18);
+}
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.product-details-description {
+  margin-bottom: 18px;
+}
+
+.product-details-description h3 {
+  margin: 0 0 10px;
+  color: var(--gold-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.product-details-description p {
+  max-width: 680px;
+  margin: 0;
+  color: rgba(67, 38, 51, 0.88);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 23px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   PRODUCT PROPERTIES
+   ========================================================= */
+
+.product-details-property {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 17px 0;
+  border-bottom: 1px solid rgba(93, 30, 52, 0.15);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+}
+
+.product-details-property span {
+  flex-shrink: 0;
+  color: var(--gold-dark);
+  font-size: 11px;
+  letter-spacing: 0.11em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.product-details-property strong {
+  color: var(--maroon-dark);
+  font-size: 12px;
+  font-weight: 400;
+  text-align: right;
+}
+
+/* =========================================================
+   COLORS
+   ========================================================= */
+
+.product-details-colors {
+  align-items: flex-start;
+}
+
+.product-color-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.product-color-list span {
+  padding: 7px 11px;
+  border: 1px solid rgba(93, 30, 52, 0.2);
+  border-radius: 20px;
+  color: rgba(67, 38, 51, 0.82);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: none;
+}
+
+/* =========================================================
+   STOCK
+   ========================================================= */
+
+.product-details-stock {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 25px 0 18px;
+  color: var(--maroon);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.11em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.stock-indicator {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #5c8a54;
+}
+
+.stock-indicator.out {
+  background: #9b4b4b;
+}
+
+/* =========================================================
+   ADD TO CART
+   ========================================================= */
+
+.product-add-cart-button {
+  width: 100%;
+  min-height: 56px;
+  padding: 16px 20px;
+  border: 1px solid var(--maroon);
+  background: var(--maroon);
+  color: var(--cream);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.product-add-cart-button:hover:not(:disabled) {
+  background: var(--maroon-dark);
+  border-color: var(--maroon-dark);
+  color: var(--gold);
+}
+
+.product-add-cart-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   NOTE
+   ========================================================= */
+
+.product-details-note {
+  margin: 15px 0 0;
+  color: rgba(67, 38, 51, 0.68);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   LOADING / ERROR
+   ========================================================= */
+
+.product-details-message {
+  min-height: 55vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.product-details-message h2 {
+  margin: 0 0 12px;
+  color: var(--maroon-dark);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 0.95;
+}
+
+.product-details-message p {
+  max-width: 440px;
+  margin: 0 0 26px;
+  color: rgba(67, 38, 51, 0.7);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+.product-details-back-button {
+  padding: 14px 24px;
+  border: 1px solid var(--maroon);
+  background: var(--maroon);
+  color: var(--cream);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .product-details-page {
+    padding: 110px 5vw 65px;
+  }
+
+  .product-details-container {
+    width: 100%;
+  }
+
+  .product-details-gallery,
+  .product-details-info {
+    width: 100%;
+  }
+
+  .product-details-main-image {
+    height: 320px;
+  }
+
+  .product-details-info {
+    padding-top: 32px;
+  }
+
+  .product-details-info h1 {
+    font-size: clamp(50px, 12vw, 70px);
+  }
+
+  .product-details-price {
+    font-size: 17px;
+  }
+
+  .product-details-description p {
+    font-size: 21px;
+  }
+
+  .product-details-property {
+    font-size: 10px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 500px) {
+  .product-details-page {
+    padding: 100px 20px 55px;
+  }
+
+  .product-details-back {
+    margin-bottom: 20px;
+    font-size: 9px;
+  }
+
+  .product-details-main-image {
+    height: 270px;
+  }
+
+  .product-details-badges {
+    top: 11px;
+    left: 11px;
+  }
+
+  .product-details-badges span {
+    padding: 6px 9px;
+    font-size: 7px;
+  }
+
+  .product-details-thumbnails {
+    justify-content: flex-start;
+    gap: 7px;
+  }
+
+  .product-thumbnail {
+    flex-basis: 60px;
+    width: 60px;
+    height: 70px;
+  }
+
+  .product-details-info {
+    padding-top: 30px;
+  }
+
+  .product-details-category {
+    margin-bottom: 10px;
+    font-size: 9px;
+  }
+
+  .product-details-info h1 {
+    font-size: 52px;
+    line-height: 0.9;
+  }
+
+  .product-details-price {
+    margin: 16px 0 23px;
+    font-size: 16px;
+  }
+
+  .product-details-description h3 {
+    font-size: 10px;
+  }
+
+  .product-details-description p {
+    font-size: 20px;
+  }
+
+  .product-details-property {
+    min-height: 56px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding: 15px 0;
+    font-size: 10px;
+  }
+
+  .product-details-property span {
+    font-size: 10px;
+  }
+
+  .product-details-property strong {
+    font-size: 11px;
+    text-align: left;
+  }
+
+  .product-color-list {
+    justify-content: flex-start;
+  }
+
+  .product-color-list span {
+    font-size: 9px;
+  }
+
+  .product-details-stock {
+    margin-top: 21px;
+    font-size: 10px;
+  }
+
+  .product-add-cart-button {
+    min-height: 54px;
+    font-size: 10px;
+  }
+
+  .product-details-note {
+    font-size: 17px;
+  }
+}
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .product-details-page {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .product-details-main-image {
+    height: 240px;
+  }
+
+  .product-details-info h1 {
+    font-size: 47px;
+  }
+
+  .product-details-description p {
+    font-size: 19px;
+  }
+}

@@ -1,0 +1,163 @@
+/* =========================================================
+   COLLECTIONS SECTION
+   ========================================================= */
+
+.collections-section {
+  position: relative;
+  z-index: 2;
+  padding: 60px 5vw 120px;
+  background: var(--cream);
+  color: var(--maroon-dark);
+  overflow: hidden;
+}
+
+/* .collections-section::before {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 500px;
+  right: -190px;
+  top: -190px;
+  pointer-events: none;
+} */
+
+.collections-section-header {
+  position: relative;
+  z-index: 2;
+  max-width: 1250px;
+  margin: 0 auto 60px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.collections-section-eyebrow {
+  margin: 0 0 18px;
+  font-family: "DM Mono", monospace;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  color: var(--gold-dark);
+}
+
+.collections-section-header h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(52px, 6vw, 82px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--maroon-dark);
+}
+
+.collections-section-header h2 em {
+  color: var(--gold-dark);
+  font-weight: 500;
+}
+
+.collections-section-link {
+  position: relative;
+  flex-shrink: 0;
+  padding-bottom: 9px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.17em;
+  color: var(--maroon-dark);
+}
+
+.collections-section-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--gold-dark);
+  transition: width 0.3s ease;
+}
+
+.collections-section-link:hover::after {
+  width: 65%;
+}
+
+.collection-grid {
+  position: relative;
+  z-index: 2;
+  max-width: 1250px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+}
+
+.collection-card {
+  position: relative;
+  min-height: 430px;
+  overflow: hidden;
+  background: var(--maroon);
+  cursor: pointer;
+}
+
+.collection-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(40, 8, 20, 0.72),
+    rgba(40, 8, 20, 0.02) 65%
+  );
+  pointer-events: none;
+}
+
+.collection-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.5s ease;
+}
+
+.collection-card:hover .collection-card-image {
+  transform: scale(1.06);
+}
+
+.collection-card-content {
+  position: absolute;
+  z-index: 3;
+  left: 22px;
+  right: 22px;
+  bottom: 23px;
+  color: var(--cream);
+}
+
+.collection-card-number {
+  display: block;
+  margin-bottom: 9px;
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+}
+
+.collection-card-title {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.collection-card-arrow {
+  display: inline-block;
+  margin-top: 15px;
+  color: var(--gold);
+  font-size: 18px;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+}
+
+.collection-card:hover .collection-card-arrow {
+  transform: translateX(7px);
+}

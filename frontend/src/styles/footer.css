@@ -1,0 +1,186 @@
+/* =========================================================
+   FOOTER
+   Added without changing the existing color palette
+   ========================================================= */
+
+.footer {
+  position: relative;
+  overflow: hidden;
+  background: var(--maroon);
+  color: var(--cream);
+}
+
+.footer-main {
+  position: relative;
+  z-index: 2;
+  max-width: 1330px;
+  margin: -20px auto;
+  left: -2px;
+  padding: 50px 5vw 70px;
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr 0.9fr 1fr;
+  gap: 30px;
+}
+
+.footer-brand {
+  max-width: 390px;
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo-mark {
+  width: 43px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--maroon-dark);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 3;
+  padding-bottom: 0;
+  padding-top: 3px;
+  box-shadow: 3px 6px 0 rgba(233, 161, 45, 0.3);
+}
+
+.footer-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.footer-logo-text strong {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.footer-logo-text small {
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.19em;
+  color: var(--gold);
+}
+
+.footer-tagline {
+  margin: 28px 0 0;
+  max-width: 300px;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  line-height: 1.9;
+  color: rgba(247, 233, 201, 0.65);
+}
+
+.footer-social-icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 27px;
+}
+
+.footer-social-icons a {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.footer-social-icons a:hover {
+  color: var(--cream);
+  transform: translateY(-2px);
+}
+
+.footer-social-icons svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Footer columns */
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Shift Explore and Visit Us columns to the right */
+.footer-column:nth-child(2),
+.footer-column:nth-child(3),
+.footer-column:nth-child(4) {
+  transform: translateX(150px);
+}
+
+.footer-column h3 {
+  margin: 3px 0 24px;
+  font-family: "DM Mono", monospace;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.footer-column a {
+  position: relative;
+  margin-bottom: 13px;
+  font-family: "DM Mono", monospace;
+  font-size: 14px;
+  color: rgba(247, 233, 201, 0.72);
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: var(--gold);
+  transform: translateX(4px);
+}
+
+.footer-contact p {
+  margin: 0 0 17px;
+  font-family: "DM Mono", monospace;
+  font-size: 14px;
+  line-height: 1.9;
+  color: rgba(247, 233, 201, 0.72);
+}
+
+
+.footer-bottom {
+  position: relative;
+  z-index: 2;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 21px 5vw 23px;
+  border-top: 1px solid rgba(228, 182, 94, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(247, 233, 201, 0.43);
+}

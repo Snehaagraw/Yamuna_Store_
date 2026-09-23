@@ -1,0 +1,182 @@
+/* =========================================================
+   DEVOTEE REVIEWS SECTION
+   ========================================================= */
+
+.reviews-section {
+  position: relative;
+  padding: 85px 4vw 95px;
+  background: var(--cream);
+  color: var(--maroon-dark);
+  border-top: 1px solid rgba(114, 38, 63, 0.12);
+}
+
+.reviews-container {
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.reviews-header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 55px;
+}
+
+.reviews-eyebrow {
+  display: block;
+  margin-bottom: 14px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+}
+
+.reviews-header h2 {
+  margin: 0 0 16px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(48px, 6vw, 76px);
+  font-weight: 500;
+  line-height: 0.95;
+  color: var(--maroon-dark);
+}
+
+.reviews-header h2 em {
+  color: var(--gold-dark);
+  font-weight: 500;
+  font-style: italic;
+}
+
+.reviews-intro {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  color: rgba(93, 30, 52, 0.72);
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+.review-card {
+  background: #fff;
+  border: 1px solid rgba(114, 38, 63, 0.14);
+  padding: 34px 28px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(93, 30, 52, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(93, 30, 52, 0.08);
+}
+
+.review-stars {
+  color: var(--gold-dark);
+  font-size: 16px;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.review-category-tag {
+  display: inline-block;
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.review-title {
+  margin: 0 0 12px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--maroon-dark);
+}
+
+.review-body {
+  margin: 0 0 24px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  line-height: 1.8;
+  color: rgba(93, 30, 52, 0.78);
+  flex-grow: 1;
+}
+
+.review-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(114, 38, 63, 0.1);
+}
+
+.author-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--maroon);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.author-info strong {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--maroon-dark);
+}
+
+.author-info small {
+  display: block;
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: var(--gold-dark);
+}
+
+.reviews-footer-note {
+  margin-top: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--maroon-dark);
+  opacity: 0.7;
+}
+
+@media (max-width: 900px) {
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .reviews-section {
+    padding: 65px 5vw 75px;
+  }
+
+  .reviews-footer-note {
+    flex-direction: column;
+    gap: 6px;
+  }
+}

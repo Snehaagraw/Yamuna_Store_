@@ -1,0 +1,324 @@
+/* =========================================================
+   HERO SECTION
+   ========================================================= */
+
+.hero-section {
+  position: relative;
+  min-height: calc(100vh - 122px);
+  display: grid;
+  grid-template-columns: 40% 56%;
+  align-items: center;
+  overflow: hidden;
+  padding: 190px 4vw 65px;
+  background: var(--maroon);
+  color: var(--cream);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 60;
+  padding-left: 1.5vw;
+  padding-top: 15px;
+}
+
+.hero-eyebrow {
+  margin: 0 0 25px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.23em;
+  color: var(--gold);
+}
+
+.hero-content h1 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(65px, 7.1vw, 108px);
+  font-weight: 500;
+  line-height: 0.84;
+  letter-spacing: -0.045em;
+  color: var(--cream);
+}
+
+.hero-content h1 span {
+  color: var(--gold);
+}
+
+.hero-content h1 em {
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.hero-description {
+  max-width: 400px;
+  margin: 34px 0 30px;
+  font-family: "DM Mono", monospace;
+  font-size: 14px;
+  line-height: 1.8;
+  color: rgba(247, 233, 201, 0.72);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.hero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.hero-button-primary {
+  padding: 0 22px;
+  background: var(--gold);
+  color: var(--maroon-dark);
+}
+
+.hero-button-primary span {
+  margin-left: 10px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.hero-button-primary:hover {
+  background: var(--cream);
+  transform: translateY(-3px);
+}
+
+.hero-button-secondary {
+  position: relative;
+  padding: 0 0 7px;
+  color: var(--cream);
+}
+
+.hero-button-secondary::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+
+.hero-button-secondary:hover {
+  color: var(--gold);
+}
+
+.hero-button-secondary:hover::after {
+  width: 65%;
+}
+
+
+/* =========================================================
+   HERO VISUAL
+   ========================================================= */
+
+.hero-visual {
+  position: relative;
+  width: min(650px, 100%);
+  height: min(650px, 70vh);
+  min-height: 500px;
+  justify-self: center;
+}
+
+.hero-image-main {
+  position: absolute;
+  z-index: 3;
+  width: 50%;
+  height: 82%;
+  right: 24%;
+  top: 2%;
+  overflow: hidden;
+
+  border: 7px solid rgba(161, 117, 35, 0.87);
+ border-radius: 55% 55% 10% 10% / 50% 50% 7% 7%;
+
+  transform-origin: 100% 10%;
+  animation: hangingImage 5s ease-in-out infinite;
+
+  box-shadow: 20px 20px 0 rgba(35, 18, 27, 0.18);
+}
+
+.hero-image-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+
+}
+
+
+@keyframes hangingImage {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+
+  25% {
+    transform: rotate(-2.5deg);
+  }
+
+  50% {
+    transform: rotate(-5deg);
+  }
+
+  75% {
+    transform: rotate(-7deg);
+  }
+}
+
+.hero-image-secondary {
+  position: absolute;
+  z-index: 2;
+
+  width: 50%;
+  height: 82%;
+
+  left: 50%;
+  bottom: -4%;
+
+  overflow: hidden;
+
+  border: 7px solid rgba(243, 176, 51, 0.788);
+
+  border-radius: 10% 10% 58% 58% / 7% 7% 45% 45%;
+
+  transform: rotate(10deg);
+
+  opacity: 0.92;
+  filter: brightness(0.75) saturate(0.8);
+}
+
+.hero-image-secondary img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+}
+
+
+
+/* =========================================================
+   HERO DECORATIONS
+   ========================================================= */
+
+.hero-decoration {
+  position: absolute;
+  z-index: 1;
+  border: 1px solid rgba(228, 182, 94, 0.2);
+  border-radius: 100%;
+  pointer-events: none;
+}
+
+.hero-decoration-top {
+  width: 400px;
+  height: 400px;
+  right: -100px;
+  top: -100px;
+}
+
+.hero-decoration-bottom {
+  width: 470px;
+  height: 500px;
+  right: 28%;
+  bottom: -150px;
+}
+
+
+/* =========================================================
+   Radhe BADGE
+   ========================================================= */
+
+.radhe-badge {
+  position: absolute;
+  z-index: 1100;
+  width: 116px;
+  height: 116px;
+  left: 22%;
+  bottom: 5%;
+  animation: badgeFloat 4s ease-in-out infinite;
+}
+.radhe-badge-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--maroon-dark);
+  box-shadow: 0 15px 35px rgba(20, 4, 10, 0.22);
+  transform: rotate(-8deg);
+}
+
+.badge-made,
+.badge-slowly {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.badge-slowly {
+  margin-top: 2px;
+}
+
+@keyframes badgeFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-8deg);
+  }
+
+  50% {
+    transform: translateY(-7px) rotate(-5deg);
+  }
+}
+
+/* =========================================================
+   HERO PAGINATION
+   ========================================================= */
+
+.hero-pagination {
+  position: absolute;
+  z-index: 12;
+  left: 7vw;
+  bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.pagination-dot {
+  width: 5px;
+  height: 5px;
+  padding: 0;
+  border: 1px solid rgba(228, 182, 94, 0.65);
+  border-radius: 50%;
+  background: transparent;
+}
+
+.pagination-dot.active {
+  background: var(--gold);
+}

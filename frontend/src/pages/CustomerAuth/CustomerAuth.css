@@ -1,0 +1,279 @@
+/* =========================================================
+   CUSTOMER AUTHENTICATION PAGE
+   ========================================================= */
+
+.customer-auth-page {
+  min-height: 85vh;
+  padding: 130px 4vw 80px;
+  background: var(--cream);
+  color: var(--maroon-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customer-auth-container {
+  width: min(520px, 100%);
+  margin: 0 auto;
+}
+
+.customer-auth-card {
+  background: #fff;
+  border: 1px solid rgba(114, 38, 63, 0.16);
+  padding: 45px 40px;
+  box-shadow: 0 15px 45px rgba(93, 30, 52, 0.07);
+}
+
+.customer-auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.customer-auth-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--maroon-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 26px;
+  font-weight: 800;
+  box-shadow: 2px 4px 0 rgba(233, 161, 45, 0.25);
+}
+
+.customer-auth-brand-text h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--maroon-dark);
+}
+
+.customer-auth-brand-text small {
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--gold-dark);
+}
+
+.customer-auth-header {
+  margin-bottom: 28px;
+}
+
+.customer-auth-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+}
+
+.customer-auth-header h1 {
+  margin: 0 0 10px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--maroon-dark);
+}
+
+.customer-auth-header p {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  line-height: 1.7;
+  color: rgba(93, 30, 52, 0.72);
+}
+
+.customer-auth-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 28px;
+  padding: 4px;
+  background: var(--cream-soft);
+  border: 1px solid rgba(114, 38, 63, 0.12);
+}
+
+.auth-toggle-btn {
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  color: var(--maroon-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.auth-toggle-btn.active {
+  background: var(--maroon);
+  color: var(--gold);
+}
+
+.customer-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-field label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--maroon-dark);
+  font-weight: 500;
+}
+
+.auth-field input {
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(114, 38, 63, 0.22);
+  background: transparent;
+  color: var(--maroon-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+
+.auth-field input:focus {
+  border-color: var(--gold-dark);
+}
+
+.auth-error-message {
+  padding: 10px 14px;
+  background: rgba(155, 75, 75, 0.1);
+  border-left: 3px solid #9b4b4b;
+  color: #9b4b4b;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+}
+
+.auth-submit-btn {
+  margin-top: 10px;
+  padding: 14px 20px;
+  border: 1px solid var(--maroon);
+  background: var(--maroon);
+  color: var(--gold);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-submit-btn:hover:not(:disabled) {
+  background: var(--maroon-dark);
+  color: var(--cream);
+  transform: translateY(-1px);
+}
+
+.auth-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.customer-auth-footer {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(114, 38, 63, 0.12);
+  text-align: center;
+}
+
+.customer-auth-footer p {
+  margin: 0 0 12px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: rgba(93, 30, 52, 0.7);
+}
+
+.auth-link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--maroon);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-link-button:hover {
+  color: var(--gold-dark);
+}
+
+.auth-footer-help a {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--gold-dark);
+  text-decoration: none;
+}
+
+.auth-footer-help a:hover {
+  text-decoration: underline;
+}
+
+.auth-success-message {
+  margin: 16px 0 0;
+  padding: 10px 14px;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 4px;
+  color: #166534;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.forgot-password-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--gold-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 6px;
+  display: block;
+  text-align: right;
+  width: 100%;
+}
+
+.forgot-password-link:hover {
+  color: var(--maroon);
+}
+
+@media (max-width: 600px) {
+  .customer-auth-page {
+    padding: 100px 5vw 60px;
+  }
+
+  .customer-auth-card {
+    padding: 30px 20px;
+  }
+}

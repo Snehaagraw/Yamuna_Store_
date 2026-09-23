@@ -1,0 +1,520 @@
+/* =========================================================
+   COLLECTIONS PAGE
+   ========================================================= */
+
+.collections-page {
+  min-height: 100vh;
+  background: var(--cream);
+  color: var(--maroon-dark);
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   COLLECTION HERO
+   ========================================================= */
+
+.collections-hero {
+  width: min(1215px, calc(100% - 10vw));
+  margin: 0 auto;
+  padding: 145px 0 55px;
+  border-bottom: 1px solid rgba(114, 38, 63, 0.18);
+}
+
+.collections-hero-inner {
+  max-width: 900px;
+}
+
+.collections-eyebrow {
+  display: block;
+  margin: 0 0 22px;
+  color: var(--gold-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.collections-hero h1 {
+  margin: 0;
+  color: var(--maroon-dark);
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(72px, 8.5vw, 112px);
+  font-weight: 500;
+  line-height: 0.82;
+  letter-spacing: -0.055em;
+}
+
+.collections-hero h1 em {
+  color: var(--maroon);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.collections-hero p {
+  max-width: 620px;
+  margin: 28px 0 0;
+  color: rgba(67, 38, 51, 0.78);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   COLLECTION CONTENT
+   ========================================================= */
+
+.collections-content {
+  width: min(1215px, calc(100% - 10vw));
+  margin: 0 auto;
+}
+
+/* =========================================================
+   TOOLBAR
+   ========================================================= */
+
+.collections-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(114, 38, 63, 0.18);
+}
+
+/* =========================================================
+   CATEGORY BUTTONS
+   ========================================================= */
+
+.collection-categories {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.collection-category {
+  min-height: 38px;
+  padding: 0 17px;
+  border: 1px solid rgba(114, 38, 63, 0.25);
+  border-radius: 24px;
+  background: transparent;
+  color: rgba(93, 30, 52, 0.72);
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.09em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.collection-category:hover {
+  border-color: var(--maroon);
+  color: var(--maroon);
+}
+
+.collection-category.active {
+  border-color: var(--maroon);
+  background: var(--maroon);
+  color: var(--cream);
+}
+
+/* =========================================================
+   SEARCH + SORT
+   ========================================================= */
+
+.collection-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.collection-search input,
+.collection-sort select {
+  height: 40px;
+  border: 1px solid rgba(114, 38, 63, 0.25);
+  border-radius: 22px;
+  background: transparent;
+  color: var(--maroon-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  outline: none;
+}
+
+.collection-search input {
+  width: 175px;
+  padding: 0 17px;
+}
+
+.collection-search input::placeholder {
+  color: rgba(93, 30, 52, 0.48);
+}
+
+.collection-search input:focus,
+.collection-sort select:focus {
+  border-color: var(--gold-dark);
+}
+
+.collection-sort select {
+  width: 145px;
+  padding: 0 14px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   RESULTS COUNT
+   ========================================================= */
+
+.collections-results-heading {
+  display: flex;
+  align-items: center;
+  min-height: 62px;
+  padding: 8px 0;
+}
+
+.collections-results-heading span {
+  color: var(--gold-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   COLLECTION PRODUCT GRID
+   ---------------------------------------------------------
+   These override genericProduct.css ONLY inside the
+   collections page.
+   ========================================================= */
+
+.collections-content .product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 48px 26px;
+  padding: 5px 0 90px;
+}
+
+/* =========================================================
+   COLLECTION PRODUCT CARD
+   ========================================================= */
+
+.collections-content .product-card {
+  min-width: 0;
+}
+
+.collections-content .product-image-wrapper {
+  aspect-ratio: 0.82;
+}
+
+.collections-content .product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.collections-content .product-badges {
+  top: 14px;
+  left: 14px;
+}
+
+.collections-content .product-badge {
+  padding: 7px 10px;
+  font-size: 8px;
+}
+
+/* =========================================================
+   COLLECTION PRODUCT INFORMATION
+   ========================================================= */
+
+.collections-content .product-info {
+  padding: 16px 2px 0;
+}
+
+.collections-content .product-category {
+  margin: 0 0 7px;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+}
+
+.collections-content .product-name {
+  margin: 0 0 7px;
+  font-size: 29px;
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.collections-content .product-price {
+  margin: 0;
+  font-size: 12px;
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.collections-content .product-grid-empty {
+  min-height: 300px;
+  padding: 70px 20px 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collections-content .product-grid-empty p {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 25px;
+  color: rgba(67, 38, 51, 0.68);
+}
+
+/* =========================================================
+   LOADING / ERROR
+   ========================================================= */
+
+.collections-message {
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px 80px;
+  text-align: center;
+}
+
+.collections-message p {
+  max-width: 550px;
+  margin: 0;
+  color: rgba(67, 38, 51, 0.7);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 23px;
+  line-height: 1.45;
+}
+
+.collections-error p {
+  color: var(--maroon);
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .collections-hero {
+    width: min(900px, calc(100% - 8vw));
+    padding-top: 130px;
+  }
+
+  .collections-content {
+    width: min(900px, calc(100% - 8vw));
+  }
+
+  .collections-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .collection-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .collection-search {
+    flex: 1;
+  }
+
+  .collection-search input {
+    width: 100%;
+  }
+
+  .collection-sort select {
+    width: 170px;
+  }
+
+  .collections-content .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 42px 22px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+  .collections-hero {
+    width: calc(100% - 40px);
+    padding: 110px 0 42px;
+  }
+
+  .collections-eyebrow {
+    margin-bottom: 17px;
+    font-size: 9px;
+    letter-spacing: 0.17em;
+  }
+
+  .collections-hero h1 {
+    font-size: clamp(58px, 17vw, 82px);
+    line-height: 0.84;
+  }
+
+  .collections-hero p {
+    margin-top: 22px;
+    font-size: 19px;
+    line-height: 1.45;
+  }
+
+  .collections-content {
+    width: calc(100% - 40px);
+  }
+
+  .collections-toolbar {
+    padding: 18px 0;
+    gap: 16px;
+  }
+
+  .collection-categories {
+    width: 100%;
+    flex-wrap: nowrap;
+    gap: 7px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    scrollbar-width: none;
+  }
+
+  .collection-categories::-webkit-scrollbar {
+    display: none;
+  }
+
+  .collection-category {
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 0 14px;
+    font-size: 8px;
+  }
+
+  .collection-controls {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .collection-search {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .collection-search input {
+    width: 100%;
+    height: 40px;
+    font-size: 9px;
+  }
+
+  .collection-sort {
+    flex: 0 0 130px;
+  }
+
+  .collection-sort select {
+    width: 100%;
+    height: 40px;
+    font-size: 9px;
+  }
+
+  .collections-results-heading {
+    min-height: 52px;
+  }
+
+  .collections-results-heading span {
+    font-size: 9px;
+  }
+
+  .collections-content .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 13px;
+    padding-bottom: 65px;
+  }
+
+  .collections-content .product-badges {
+    top: 9px;
+    left: 9px;
+  }
+
+  .collections-content .product-badge {
+    padding: 6px 8px;
+    font-size: 6px;
+  }
+
+  .collections-content .product-info {
+    padding-top: 12px;
+  }
+
+  .collections-content .product-category {
+    margin-bottom: 5px;
+    font-size: 7px;
+  }
+
+  .collections-content .product-name {
+    font-size: 23px;
+    line-height: 0.98;
+  }
+
+  .collections-content .product-price {
+    font-size: 10px;
+  }
+}
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .collections-hero {
+    width: calc(100% - 32px);
+    padding-top: 100px;
+  }
+
+  .collections-content {
+    width: calc(100% - 32px);
+  }
+
+  .collections-hero h1 {
+    font-size: 56px;
+  }
+
+  .collections-hero p {
+    font-size: 18px;
+  }
+
+  .collection-controls {
+    flex-direction: column;
+  }
+
+  .collection-search,
+  .collection-sort {
+    width: 100%;
+    flex: none;
+  }
+
+  .collection-sort select {
+    width: 100%;
+  }
+
+  .collections-content .product-grid {
+    gap: 28px 11px;
+  }
+
+  .collections-content .product-name {
+    font-size: 21px;
+  }
+}

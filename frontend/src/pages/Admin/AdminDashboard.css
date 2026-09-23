@@ -1,0 +1,296 @@
+.admin-dashboard-page {
+  min-height: 100vh;
+  background: #f7e9c9;
+  color: #5d1e34;
+}
+
+.admin-dashboard-header {
+  width: 100%;
+  min-height: 76px;
+  padding: 0 5%;
+
+  background: #72263f;
+  color: #f7e9c9;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.admin-dashboard-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  border: none;
+  background: transparent;
+  color: inherit;
+
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.admin-dashboard-mark {
+  width: 43px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--maroon-dark);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 3;
+  padding-bottom: 0px;
+  padding-top: 3px;
+  box-shadow: 3px 6px 0 rgba(233, 161, 45, 0.3);
+}
+
+.admin-dashboard-brand h1 {
+  margin: 0;
+
+  font-family: "Cormorant Garamond", serif;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.admin-dashboard-brand span {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #e4b65e;
+
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+}
+
+.admin-logout-button {
+  border: 1px solid rgba(247, 233, 201, 0.5);
+  background: transparent;
+  color: #f7e9c9;
+
+  padding: 10px 20px;
+
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.admin-logout-button:hover {
+  background: #f7e9c9;
+  color: #72263f;
+}
+
+/* Main dashboard */
+
+.admin-dashboard-content {
+  width: min(1200px, 90%);
+  margin: 0 auto;
+  padding: 70px 0;
+}
+
+.admin-dashboard-intro > span,
+.admin-section-heading > span {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #9d7431;
+
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+.admin-dashboard-intro h2 {
+  margin: 0;
+
+  color: #5d1e34;
+
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(48px, 6vw, 76px);
+  font-weight: 500;
+  line-height: 0.9;
+}
+
+.admin-dashboard-intro p {
+  max-width: 520px;
+
+  margin: 20px 0 0;
+
+  color: #7d2d49;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Top navigation */
+
+.admin-dashboard-tabs {
+  display: flex;
+  align-items: center;
+  gap: 38px;
+
+  margin-top: 55px;
+
+  border-bottom: 1px solid rgba(114, 38, 63, 0.22);
+}
+
+.admin-dashboard-tab {
+  position: relative;
+
+  padding: 0 0 16px;
+
+  border: none;
+  background: transparent;
+  color: #9d7431;
+
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.admin-dashboard-tab::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+
+  width: 0;
+  height: 2px;
+
+  background: #72263f;
+
+  transition: width 0.25s ease;
+}
+
+.admin-dashboard-tab:hover {
+  color: #72263f;
+}
+
+.admin-dashboard-tab.active {
+  color: #72263f;
+}
+
+.admin-dashboard-tab.active::after {
+  width: 100%;
+}
+
+/* Content below tabs */
+
+.admin-dashboard-main-content {
+  padding-top: 45px;
+}
+
+.admin-section-content {
+  width: 100%;
+}
+
+.admin-section-heading h2 {
+  margin: 0;
+
+  color: #5d1e34;
+
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(42px, 5vw, 64px);
+  font-weight: 500;
+  line-height: 0.95;
+}
+
+.admin-section-heading p {
+  max-width: 520px;
+
+  margin: 18px 0 0;
+
+  color: #7d2d49;
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.admin-empty-section {
+  margin-top: 40px;
+
+  padding: 50px;
+
+  border: 1px solid rgba(114, 38, 63, 0.18);
+
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.admin-empty-section h3 {
+  margin: 0;
+
+  color: #5d1e34;
+
+  font-family: "Cormorant Garamond", serif;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.admin-empty-section p {
+  margin: 8px 0 0;
+
+  color: #7d2d49;
+
+  font-size: 14px;
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+  .admin-dashboard-header {
+    padding: 0 20px;
+  }
+
+  .admin-dashboard-content {
+    width: calc(100% - 40px);
+    padding: 50px 0;
+  }
+
+  .admin-dashboard-tabs {
+    gap: 24px;
+    overflow-x: auto;
+  }
+
+  .admin-dashboard-tab {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-dashboard-brand h1 {
+    font-size: 21px;
+  }
+
+  .admin-dashboard-mark {
+    width: 38px;
+    height: 38px;
+  }
+
+  .admin-logout-button {
+    padding: 9px 13px;
+  }
+
+  .admin-dashboard-tabs {
+    gap: 20px;
+  }
+}
