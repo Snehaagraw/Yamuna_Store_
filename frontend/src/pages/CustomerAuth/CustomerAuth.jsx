@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/client";
 import { useAuth } from "../../context/AuthContext";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -89,7 +89,7 @@ function CustomerAuth() {
 
       setLoading(true);
       try {
-        const resp = await axios.post("http://127.0.0.1:8000/api/auth/reset-password/", {
+        const resp = await api.post("/api/auth/reset-password/", {
           email: identifier,
           new_password: newPassword,
         });

@@ -1,7 +1,7 @@
 import "./Admin.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/client";
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ function AdminLogin() {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/login/",
+      const response = await api.post(
+        "/api/auth/login/",
         {
           username,
           password,
@@ -37,7 +37,9 @@ function AdminLogin() {
 
       navigate("/admin/dashboard");
     } catch (err) {
-      if (err.response?.status === 401) {
+      if (err.response?.status === 429) {
+        setError("Too many login attempts. Please wait a minute before trying again.");
+      } else if (err.response?.status === 401) {
         setError("Invalid username or password.");
       } else {
         setError("Unable to connect to the server. Please try again.");

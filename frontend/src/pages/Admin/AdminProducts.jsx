@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import api from "../../api/client";
 
 import "./AdminProducts.css";
 
@@ -160,14 +160,16 @@ function AdminProducts({
 
   const [deletingProductId, setDeletingProductId] =
     useState(null);
+  const [activeSectionFilter, setActiveSectionFilter] =
+    useState("all");
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
       setError("");
 
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/products/"
+      const response = await api.get(
+        "/api/products/"
       );
 
       setProducts(response.data);
@@ -210,8 +212,8 @@ function AdminProducts({
       setDeletingProductId(product.id);
       setError("");
 
-      await axios.delete(
-        `http://127.0.0.1:8000/api/products/${product.id}/`,
+      await api.delete(
+        `/api/products/${product.id}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -273,6 +275,39 @@ function AdminProducts({
         </button>
       </div>
 
+      {!loading && !error && products.length > 0 && (
+        <div className="admin-cat-section-tabs">
+          <button
+            type="button"
+            className={`admin-cat-section-tab ${activeSectionFilter === "all" ? "active" : ""}`}
+            onClick={() => setActiveSectionFilter("all")}
+          >
+            All Products ({products.length})
+          </button>
+          <button
+            type="button"
+            className={`admin-cat-section-tab ${activeSectionFilter === "women" ? "active" : ""}`}
+            onClick={() => setActiveSectionFilter("women")}
+          >
+            🌸 Women's ({products.filter((p) => (p.section || "women") === "women").length})
+          </button>
+          <button
+            type="button"
+            className={`admin-cat-section-tab ${activeSectionFilter === "men" ? "active" : ""}`}
+            onClick={() => setActiveSectionFilter("men")}
+          >
+            🪔 Men's ({products.filter((p) => p.section === "men").length})
+          </button>
+          <button
+            type="button"
+            className={`admin-cat-section-tab ${activeSectionFilter === "kids" ? "active" : ""}`}
+            onClick={() => setActiveSectionFilter("kids")}
+          >
+            ✨ Kids' ({products.filter((p) => p.section === "kids").length})
+          </button>
+        </div>
+      )}
+
       {loading && (
         <div className="admin-products-message">
           <p>Loading products...</p>
@@ -313,19 +348,40 @@ function AdminProducts({
         !error &&
         products.length > 0 && (
           <div className="admin-products-grid">
-            {products.map((product) => (
-              <article
-                className="admin-product-card"
-                key={product.id}
-              >
-                <ProductImageCarousel
-                  product={product}
-                />
+            {products
+              .filter((p) => {
+                if (activeSectionFilter === "all") return true;
+                return (p.section || "women") === activeSectionFilter;
+              })
+              .map((product) => {
+                const sec = product.section || "women";
+                return (
+                  <article
+                    className="admin-product-card"
+                    key={product.id}
+                  >
+                    <ProductImageCarousel
+                      product={product}
+                    />
 
-                <div className="admin-product-info">
-                  <div className="admin-product-category">
-                    {product.category}
-                  </div>
+                    <div className="admin-product-info">
+                      <div className="admin-product-category">
+                        <span
+                          className={`cat-section-pill section-${sec}`}
+                          style={{
+                            marginRight: "6px",
+                            fontSize: "10px",
+                            padding: "2px 8px",
+                          }}
+                        >
+                          {sec === "men"
+                            ? "🪔 Men"
+                            : sec === "kids"
+                            ? "✨ Kids"
+                            : "🌸 Women"}
+                        </span>
+                        {product.category}
+                      </div>
 
                   <h3>{product.name}</h3>
 
@@ -346,6 +402,13 @@ function AdminProducts({
                     </p>
                   )}
 
+                  {product.weight && (
+                    <p className="admin-product-fabric">
+                      <strong>Weight:</strong>{" "}
+                      {product.weight}
+                    </p>
+                  )}
+
                   {product.colors &&
                     product.colors.length > 0 && (
                       <div className="admin-product-colors">
@@ -361,6 +424,52 @@ function AdminProducts({
                               </span>
                             )
                           )}
+                        </div>
+                      </div>
+                    )}
+
+                  {product.sizes &&
+                    product.sizes.length > 0 && (
+                      <div className="admin-product-sizes">
+                        <strong>Sizes & Stock:</strong>
+
+                        <div className="admin-product-size-list">
+                          {product.sizes.map((size, index) => {
+                            const stock =
+                              product.size_inventory &&
+                              product.size_inventory[size] !== undefined
+                                ? Number(product.size_inventory[size])
+                                : null;
+                            const customPrice =
+                              product.size_prices &&
+                              product.size_prices[size] !== undefined &&
+                              product.size_prices[size] !== ""
+                                ? Number(product.size_prices[size])
+                                : null;
+                            const isSoldOut = stock !== null && stock <= 0;
+
+                            return (
+                              <span
+                                key={`${size}-${index}`}
+                                className={`admin-product-size-tag ${
+                                  isSoldOut ? "sold-out" : ""
+                                }`}
+                                style={
+                                  isSoldOut
+                                    ? {
+                                        background: "rgba(180, 40, 40, 0.1)",
+                                        color: "#b02020",
+                                        borderColor: "rgba(180, 40, 40, 0.3)",
+                                      }
+                                    : {}
+                                }
+                              >
+                                {size}
+                                {customPrice !== null ? ` · ₹${customPrice}` : ""}
+                                {stock !== null ? ` (${stock} pcs)` : ""}
+                              </span>
+                            );
+                          })}
                         </div>
                       </div>
                     )}
@@ -423,7 +532,8 @@ function AdminProducts({
                   </div>
                 </div>
               </article>
-            ))}
+            );
+          })}
           </div>
         )}
     </section>

@@ -79,13 +79,34 @@
 /* Table */
 .admin-orders-table-wrapper {
   background: #fff;
-  border: 1px solid rgba(114, 38, 63, 0.14);
+  border: 1px solid rgba(114, 38, 63, 0.16);
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   box-shadow: 0 10px 30px rgba(93, 30, 52, 0.04);
+  scrollbar-width: thin;
+  scrollbar-color: var(--maroon) rgba(114, 38, 63, 0.06);
+}
+
+.admin-orders-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.admin-orders-table-wrapper::-webkit-scrollbar-track {
+  background: rgba(114, 38, 63, 0.04);
+}
+
+.admin-orders-table-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(114, 38, 63, 0.3);
+  border-radius: 4px;
+}
+
+.admin-orders-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--maroon);
 }
 
 .admin-orders-table {
   width: 100%;
+  min-width: 1060px;
   border-collapse: collapse;
   text-align: left;
   font-family: "DM Mono", monospace;
@@ -99,39 +120,168 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--maroon-dark);
-  border-bottom: 1px solid rgba(114, 38, 63, 0.14);
+  border-bottom: 2px solid rgba(114, 38, 63, 0.16);
+  white-space: nowrap;
 }
 
 .admin-orders-table td {
-  padding: 16px;
+  padding: 14px 16px;
   border-bottom: 1px solid rgba(114, 38, 63, 0.08);
   vertical-align: middle;
+  background: #fff;
 }
 
-.admin-orders-table tr:hover {
-  background: rgba(247, 233, 201, 0.25);
+.admin-orders-table tr:hover td {
+  background: rgba(247, 233, 201, 0.28);
+}
+
+/* Customer Cell */
+.admin-customer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 150px;
 }
 
 .order-customer-name {
   display: block;
+  font-size: 12px;
   font-weight: 600;
   color: var(--maroon-dark);
 }
 
 .order-customer-city {
   display: block;
-  font-size: 9px;
+  font-size: 9.5px;
   color: rgba(93, 30, 52, 0.65);
 }
 
-.order-wa-link {
-  color: #25d366;
-  font-weight: 700;
-  text-decoration: none;
+.admin-customer-username {
+  font-size: 9.5px;
+  color: rgba(93, 30, 52, 0.6);
 }
 
-.order-wa-link:hover {
-  text-decoration: underline;
+/* Structured Phone / Country Code Cell */
+.admin-phone-block {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 195px;
+}
+
+.admin-phone-country-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-country-code-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(114, 38, 63, 0.07);
+  border: 1px solid rgba(114, 38, 63, 0.18);
+  color: var(--maroon);
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.admin-country-code-badge.international {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.badge-flag {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.badge-dial {
+  font-weight: 700;
+}
+
+.badge-iso {
+  font-size: 8px;
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+.admin-country-name-tag {
+  font-size: 9.5px;
+  color: rgba(93, 30, 52, 0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+.admin-phone-contact-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-phone-number {
+  font-family: "DM Mono", monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--maroon-dark);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.admin-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #e6f4ea;
+  border: 1px solid #b7e1cd;
+  color: #137333;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.admin-wa-btn:hover {
+  background: #137333;
+  color: #fff;
+  border-color: #137333;
+}
+
+.admin-phone-na {
+  color: rgba(93, 30, 52, 0.45);
+  font-style: italic;
+  font-size: 10px;
+}
+
+/* Location and Email Cells */
+.admin-location-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+}
+
+.admin-city-text {
+  font-size: 11px;
+  color: var(--maroon-dark);
+}
+
+.admin-email-text {
+  font-size: 10.5px;
+  color: rgba(93, 30, 52, 0.85);
+  word-break: break-all;
 }
 
 .order-payment-method {
@@ -377,6 +527,45 @@
   font-size: 14px;
   font-weight: 700;
   color: var(--maroon);
+}
+
+/* Modal Customer Contact Card */
+.modal-contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--cream-soft);
+  padding: 12px 14px;
+  border: 1px solid rgba(114, 38, 63, 0.12);
+  margin-top: 6px;
+}
+
+.modal-contact-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.modal-label {
+  flex: 0 0 95px;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+}
+
+.modal-val {
+  flex: 1;
+  color: var(--maroon-dark);
+  font-size: 11.5px;
+}
+
+.modal-phone-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 600px) {

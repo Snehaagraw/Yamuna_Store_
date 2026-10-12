@@ -4,10 +4,12 @@
 
 .reviews-section {
   position: relative;
+  z-index: 2;
+  margin-top: -24px;
   padding: 85px 4vw 95px;
   background: var(--cream);
   color: var(--maroon-dark);
-  border-top: 1px solid rgba(114, 38, 63, 0.12);
+  border-top: none;
 }
 
 .reviews-container {
@@ -162,6 +164,301 @@
   text-transform: uppercase;
   color: var(--maroon-dark);
   opacity: 0.7;
+}
+
+.write-store-review-btn {
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  background: var(--maroon);
+  color: var(--cream);
+  border: 1px solid var(--gold-dark);
+  border-radius: 25px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.2);
+  transition: all 0.25s ease;
+}
+
+.write-store-review-btn:hover {
+  background: var(--maroon-dark);
+  color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(114, 38, 63, 0.3);
+}
+
+.review-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.review-verified-pill {
+  font-family: "DM Mono", monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: rgba(39, 140, 74, 0.1);
+  color: #1b6d36;
+  font-weight: 600;
+}
+
+/* Empty State when awaiting live reviews */
+.reviews-empty-state {
+  text-align: center;
+  max-width: 640px;
+  margin: 10px auto 40px;
+  padding: 48px 32px;
+  background: #ffffff;
+  border: 1.5px dashed rgba(114, 38, 63, 0.22);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(93, 30, 52, 0.04);
+}
+
+.reviews-empty-icon {
+  font-size: 38px;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.reviews-empty-title {
+  margin: 0 0 10px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--maroon-dark);
+}
+
+.reviews-empty-text {
+  margin: 0 0 24px;
+  font-family: "DM Mono", monospace;
+  font-size: 11.5px;
+  line-height: 1.8;
+  color: rgba(93, 30, 52, 0.75);
+}
+
+.write-first-btn {
+  margin: 0 auto;
+}
+
+/* =========================================================
+   REVIEW MODAL STYLES
+   ========================================================= */
+
+.review-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 4, 12, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.review-modal-card {
+  width: min(520px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1.5px solid rgba(228, 182, 94, 0.5);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  animation: modalFadeIn 0.25s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.review-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  border-bottom: 1px solid rgba(114, 38, 63, 0.12);
+  padding-bottom: 14px;
+}
+
+.modal-om {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 16px;
+  color: var(--gold-dark);
+}
+
+.review-modal-header h3 {
+  margin: 2px 0 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--maroon-dark);
+}
+
+.review-modal-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--maroon-dark);
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.2s ease;
+}
+
+.review-modal-close:hover {
+  transform: rotate(90deg);
+  color: var(--maroon);
+}
+
+.review-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rating-select-group label,
+.review-form-field label {
+  display: block;
+  font-family: "DM Mono", monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--maroon-dark);
+  margin-bottom: 6px;
+}
+
+.interactive-star-picker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.star-pick-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #d1c8c1;
+  cursor: pointer;
+  transition: transform 0.15s ease, color 0.15s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.star-pick-btn:hover {
+  transform: scale(1.2);
+}
+
+.star-pick-btn.filled {
+  color: #df9e2c;
+  text-shadow: 0 0 8px rgba(223, 158, 44, 0.4);
+}
+
+.star-rating-label {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--maroon);
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.review-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.review-form-field input,
+.review-form-field textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid rgba(114, 38, 63, 0.18);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.review-form-field input:focus,
+.review-form-field textarea:focus {
+  border-color: var(--gold-dark);
+}
+
+.review-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.modal-cancel-btn {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid rgba(114, 38, 63, 0.2);
+  border-radius: 20px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.modal-submit-btn {
+  padding: 10px 24px;
+  background: var(--maroon);
+  color: var(--cream);
+  border: 1px solid var(--gold-dark);
+  border-radius: 20px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-submit-btn:hover {
+  background: var(--maroon-dark);
+  color: var(--gold);
+}
+
+.review-modal-success {
+  text-align: center;
+  padding: 40px 10px;
+}
+
+.review-modal-success .success-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.review-modal-success h4 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 26px;
+  color: var(--maroon-dark);
+  margin: 0 0 8px;
+}
+
+.review-modal-success p {
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  color: rgba(93, 30, 52, 0.8);
 }
 
 @media (max-width: 900px) {

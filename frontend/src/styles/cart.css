@@ -47,7 +47,7 @@
 
 .cart-page {
   min-height: 70vh;
-  padding: 100px 0 100px;
+  padding: 145px 0 100px;
   background: var(--cream);
   color: var(--maroon-dark);
 }
@@ -414,7 +414,7 @@
 
 @media (max-width: 600px) {
   .cart-page {
-    padding: 50px 0 70px;
+    padding: 135px 0 70px;
   }
 
   .cart-container {
@@ -453,18 +453,25 @@
   }
 
   .quantity-button {
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
+    font-size: 19px;
   }
 
   .quantity-value {
-    min-width: 30px;
+    min-width: 34px;
+    font-size: 11px;
   }
 
   .cart-item-remove {
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+  }
+
+  .checkout-button {
+    min-height: 48px;
+    font-size: 11px;
   }
 
   .cart-summary {

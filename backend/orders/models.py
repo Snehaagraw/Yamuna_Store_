@@ -15,8 +15,11 @@ class Order(models.Model):
     ]
 
     PAYMENT_METHOD_CHOICES = [
-        ("Cash on Delivery", "Cash on Delivery"),
         ("UPI", "UPI"),
+        ("Cards", "Credit / Debit Card"),
+        ("Razorpay", "Razorpay (UPI / Cards / Netbanking)"),
+        ("International Bank Wire", "International Bank Wire (SWIFT Transfer)"),
+        ("Cash on Delivery", "Cash on Delivery"),
         ("Online", "Online"),
     ]
 
@@ -43,6 +46,7 @@ class Order(models.Model):
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     pincode = models.CharField(max_length=20)
+    country = models.CharField(max_length=100, default="India")
     order_notes = models.TextField(blank=True)
 
     total_amount = models.DecimalField(
@@ -50,10 +54,32 @@ class Order(models.Model):
         decimal_places=2,
     )
 
-    payment_method = models.CharField(
+    shipping_fee = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+    )
+    shipping_carrier = models.CharField(
+        max_length=100,
+        default="India Post",
+        blank=True,
+    )
+    total_weight = models.CharField(
         max_length=50,
-        choices=PAYMENT_METHOD_CHOICES,
+        blank=True,
+        default="",
+    )
+
+    payment_method = models.CharField(
+        max_length=100,
         default="UPI",
+    )
+
+    transaction_id = models.CharField(
+        max_length=150,
+        blank=True,
+        default="",
+        help_text="Razorpay payment ID or International Bank Wire UTR number",
     )
 
     payment_status = models.CharField(
@@ -65,37 +91,34 @@ class Order(models.Model):
         max_length=50,
         choices=STATUS_CHOICES,
         default="Pending",
+        db_index=True,
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["-created_at"]),
+            models.Index(fields=["order_status"]),
+            models.Index(fields=["customer", "-created_at"]),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.order_number:
             date_str = timezone.now().strftime("%Y%m%d")
             today_prefix = f"YS-{date_str}-"
 
-            # Find the highest existing sequence number for today
-            today_orders = Order.objects.filter(order_number__startswith=today_prefix)
-            last_order = today_orders.order_by("-order_number").first()
+            today_count = Order.objects.filter(order_number__startswith=today_prefix).count()
+            next_seq = today_count + 1
+            rand_suffix = uuid.uuid4().hex[:4].upper()
+            candidate_number = f"{today_prefix}{next_seq:03d}-{rand_suffix}"
 
-            if last_order:
-                try:
-                    last_seq = int(last_order.order_number.split("-")[-1])
-                    next_seq = last_seq + 1
-                except (ValueError, IndexError):
-                    next_seq = today_orders.count() + 1
-            else:
-                next_seq = 1
-
-            candidate_number = f"{today_prefix}{next_seq:03d}"
-            # Ensure uniqueness
             while Order.objects.filter(order_number=candidate_number).exists():
                 next_seq += 1
-                candidate_number = f"{today_prefix}{next_seq:03d}"
+                rand_suffix = uuid.uuid4().hex[:4].upper()
+                candidate_number = f"{today_prefix}{next_seq:03d}-{rand_suffix}"
 
             self.order_number = candidate_number
 

@@ -9,7 +9,11 @@ function CollectionCard({
 }) {
   return (
     <Link
-      to={href}
+      to={
+        category
+          ? `/collections?category=${encodeURIComponent(category)}`
+          : href
+      }
       state={
         category
           ? { selectedCategory: category }

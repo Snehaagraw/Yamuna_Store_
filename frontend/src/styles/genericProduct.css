@@ -96,6 +96,31 @@
   color: var(--maroon-dark);
 }
 
+.product-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 4px 0 6px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+}
+
+.product-card-rating .card-stars {
+  color: #df9e2c;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.product-card-rating .card-rating-num {
+  font-weight: 700;
+  color: var(--maroon-dark);
+}
+
+.product-card-rating .card-reviews-count {
+  color: rgba(93, 30, 52, 0.6);
+  font-size: 9.5px;
+}
+
 .product-grid-empty {
   padding: 70px 20px;
   text-align: center;

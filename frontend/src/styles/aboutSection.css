@@ -3,8 +3,8 @@
    ========================================================= */
 
 .about-section {
-  top: -15px;
   position: relative;
+  margin-top: -15px;
   min-height: 400px;
   display: flex;
   align-items: center;

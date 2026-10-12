@@ -34,14 +34,14 @@ function HeroSection() {
             to="/collections"
             className="hero-button hero-button-primary"
           >
-            Explore <span>→</span>
+            Explore Collections <span>→</span>
           </Link>
 
           <Link
             to="/about"
             className="hero-button hero-button-secondary"
           >
-            Visit Us
+            Visit Our Store
           </Link>
         </div>
       </div>
@@ -61,8 +61,6 @@ function HeroSection() {
           />
         </div>
 
-        
-
         <div className="radhe-badge">
           <div className="radhe-badge-inner">
             <span className="badge-made">
@@ -74,13 +72,6 @@ function HeroSection() {
             </span>
           </div>
         </div>
-      </div>
-
-      <div className="hero-pagination">
-        <span className="pagination-dot active" />
-        <span className="pagination-dot" />
-        <span className="pagination-dot" />
-        <span className="pagination-dot" />
       </div>
     </section>
   );

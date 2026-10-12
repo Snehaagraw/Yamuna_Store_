@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/client";
 import { useAuth } from "../../context/AuthContext";
+import { COUNTRIES, getCountryByName, splitPhoneAndDialCode } from "../../constants/countries";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 
@@ -9,11 +10,91 @@ import "./CustomerAccount.css";
 
 function CustomerAccount() {
   const navigate = useNavigate();
-  const { customerUser, customerToken, isCustomerLoggedIn, customerLogout } = useAuth();
+  const { customerUser, customerToken, isCustomerLoggedIn, customerLogout, updateCustomerAddress } = useAuth();
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [addressFormData, setAddressFormData] = useState({
+    name: "",
+    country: "India",
+    dialCode: "+91",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+  });
+  const [addressSaving, setAddressSaving] = useState(false);
+  const [addressMessage, setAddressMessage] = useState({ type: "", text: "" });
+
+  useEffect(() => {
+    if (customerUser?.saved_address) {
+      const savedCountry = customerUser.saved_address.country || "India";
+      const { dialCode: parsedDialCode, phone: parsedPhone } = splitPhoneAndDialCode(
+        customerUser.saved_address.phone || "",
+        savedCountry
+      );
+
+      setAddressFormData({
+        name: customerUser.saved_address.name || "",
+        country: savedCountry,
+        dialCode: parsedDialCode || "+91",
+        phone: parsedPhone || "",
+        address: customerUser.saved_address.address || "",
+        city: customerUser.saved_address.city || "",
+        state: customerUser.saved_address.state || "",
+        pincode: customerUser.saved_address.pincode || "",
+      });
+    }
+  }, [customerUser?.saved_address]);
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setAddressFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCountryChange = (e) => {
+    const selectedCountry = e.target.value;
+    const countryObj = getCountryByName(selectedCountry);
+    setAddressFormData((prev) => ({
+      ...prev,
+      country: selectedCountry,
+      dialCode: countryObj.dialCode !== "+" ? countryObj.dialCode : prev.dialCode,
+    }));
+  };
+
+  const handleSaveAddress = async (e) => {
+    e.preventDefault();
+    setAddressSaving(true);
+    setAddressMessage({ type: "", text: "" });
+
+    const fullPhone = addressFormData.phone
+      ? `${addressFormData.dialCode.trim()} ${addressFormData.phone.trim()}`.trim()
+      : "";
+
+    const payload = {
+      name: addressFormData.name,
+      country: addressFormData.country,
+      phone: fullPhone,
+      address: addressFormData.address,
+      city: addressFormData.city,
+      state: addressFormData.state,
+      pincode: addressFormData.pincode,
+    };
+
+    const result = await updateCustomerAddress(payload);
+    setAddressSaving(false);
+
+    if (result.success) {
+      setAddressMessage({ type: "success", text: "Delivery address updated successfully." });
+      setIsEditingAddress(false);
+    } else {
+      setAddressMessage({ type: "error", text: result.error || "Failed to update address." });
+    }
+  };
 
   // Guard: if not logged in, redirect to login
   useEffect(() => {
@@ -32,7 +113,7 @@ function CustomerAccount() {
       try {
         setLoading(true);
         setError("");
-        const response = await axios.get("http://127.0.0.1:8000/api/orders/?mine=true", {
+        const response = await api.get("/api/orders/?mine=true", {
           headers: {
             Authorization: `Bearer ${customerToken}`,
           },
@@ -107,6 +188,203 @@ function CustomerAccount() {
             </div>
           </div>
 
+          {/* Saved Delivery Address Card */}
+          <section className="account-address-card">
+            <div className="account-address-header">
+              <div>
+                <span className="account-eyebrow">SAVED DELIVERY ADDRESS</span>
+                <h2>Default Shipping Details</h2>
+              </div>
+
+              {!isEditingAddress && (
+                <button
+                  type="button"
+                  className="account-edit-address-btn"
+                  onClick={() => setIsEditingAddress(true)}
+                >
+                  {customerUser?.saved_address?.address ? "Edit Address" : "+ Add Delivery Address"}
+                </button>
+              )}
+            </div>
+
+            {addressMessage.text && (
+              <div className={`account-address-alert ${addressMessage.type}`}>
+                {addressMessage.text}
+              </div>
+            )}
+
+            {!isEditingAddress ? (
+              <div className="account-address-content">
+                {customerUser?.saved_address?.address ? (
+                  <div className="saved-address-details">
+                    <p className="saved-address-name">
+                      <strong>Recipient:</strong> {customerUser.saved_address.name || customerUser.first_name || customerUser.username}
+                    </p>
+                    <p className="saved-address-country">
+                      <strong>Country:</strong> {customerUser.saved_address.country || "India"}
+                    </p>
+                    <p className="saved-address-phone">
+                      <strong>WhatsApp / Phone:</strong> {customerUser.saved_address.phone || "Not specified"}
+                    </p>
+                    <p className="saved-address-line">
+                      <strong>Address:</strong> {customerUser.saved_address.address}
+                    </p>
+                    <p className="saved-address-locality">
+                      <strong>Location:</strong> {customerUser.saved_address.city}, {customerUser.saved_address.state} - {customerUser.saved_address.pincode}
+                    </p>
+                    <small className="saved-address-badge-note">
+                      ✓ Automatically pre-fills during checkout so you don't have to re-enter it.
+                    </small>
+                  </div>
+                ) : (
+                  <div className="saved-address-empty">
+                    <p>No delivery address saved yet.</p>
+                    <small>
+                      When you enter your address at checkout, it will automatically be saved to your account, or you can add it here now.
+                    </small>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <form onSubmit={handleSaveAddress} className="account-address-form">
+                <div className="address-form-grid">
+                  <div className="address-form-group">
+                    <label htmlFor="addr-name">Full Name *</label>
+                    <input
+                      id="addr-name"
+                      name="name"
+                      type="text"
+                      placeholder="Receiver's Full Name"
+                      value={addressFormData.name}
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="address-form-group">
+                    <label htmlFor="addr-country">Country / Region *</label>
+                    <select
+                      id="addr-country"
+                      name="country"
+                      className="account-country-select"
+                      value={addressFormData.country}
+                      onChange={handleCountryChange}
+                      required
+                    >
+                      {COUNTRIES.map((c) => (
+                        <option key={c.code} value={c.name}>
+                          {c.flag} {c.name} ({c.dialCode})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="address-form-group full-width">
+                    <label htmlFor="addr-phone">WhatsApp / Mobile *</label>
+                    <div className="phone-input-group">
+                      <select
+                        className="phone-dial-select"
+                        name="dialCode"
+                        value={addressFormData.dialCode}
+                        onChange={handleAddressChange}
+                        aria-label="Country Dial Code"
+                      >
+                        {COUNTRIES.filter((c) => c.dialCode !== "+").map((c) => (
+                          <option key={c.code} value={c.dialCode}>
+                            {c.flag} {c.dialCode} ({c.name})
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        id="addr-phone"
+                        name="phone"
+                        type="tel"
+                        className="phone-number-input"
+                        placeholder="Subscriber number"
+                        value={addressFormData.phone}
+                        onChange={handleAddressChange}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="address-form-group full-width">
+                    <label htmlFor="addr-address">Street Address / House / Ashram No. *</label>
+                    <textarea
+                      id="addr-address"
+                      name="address"
+                      rows="2"
+                      placeholder="Full street address, landmark"
+                      value={addressFormData.address}
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="address-form-group">
+                    <label htmlFor="addr-city">City / Town *</label>
+                    <input
+                      id="addr-city"
+                      name="city"
+                      type="text"
+                      placeholder="e.g. Vrindavan / New York / London"
+                      value={addressFormData.city}
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="address-form-group">
+                    <label htmlFor="addr-state">State / Province / Region *</label>
+                    <input
+                      id="addr-state"
+                      name="state"
+                      type="text"
+                      placeholder="e.g. Uttar Pradesh / California"
+                      value={addressFormData.state}
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="address-form-group">
+                    <label htmlFor="addr-pincode">Pincode / Postal Code *</label>
+                    <input
+                      id="addr-pincode"
+                      name="pincode"
+                      type="text"
+                      placeholder="e.g. 281121 / 10001"
+                      value={addressFormData.pincode}
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="address-form-actions">
+                  <button
+                    type="button"
+                    className="address-cancel-btn"
+                    onClick={() => {
+                      setIsEditingAddress(false);
+                      setAddressMessage({ type: "", text: "" });
+                    }}
+                    disabled={addressSaving}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="address-save-btn"
+                    disabled={addressSaving}
+                  >
+                    {addressSaving ? "Saving..." : "Save Delivery Address"}
+                  </button>
+                </div>
+              </form>
+            )}
+          </section>
+
           {/* Orders Section */}
           <section className="account-orders-section">
             <div className="account-orders-heading">
@@ -173,9 +451,18 @@ function CustomerAccount() {
                           <span className={`order-status-badge status-${order.order_status.toLowerCase()}`}>
                             {order.order_status}
                           </span>
-                          <span className="order-card-total">
-                            ₹{Number(order.total_amount).toLocaleString("en-IN")}
-                          </span>
+                          <div style={{ textAlign: "right" }}>
+                            <span className="order-card-total">
+                              ₹{Number(order.total_amount).toLocaleString("en-IN")}
+                            </span>
+                            {order.shipping_carrier && (
+                              <div>
+                                <small style={{ fontSize: "9.5px", color: "rgba(93, 30, 52, 0.7)" }}>
+                                  {order.shipping_carrier} {order.total_weight ? `· ${order.total_weight}` : ""}
+                                </small>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
 
@@ -233,7 +520,7 @@ function CustomerAccount() {
                         <div className="order-delivery-address">
                           <strong>Delivery Address:</strong>{" "}
                           <span>
-                            {order.shipping_address}, {order.city}, {order.state} - {order.pincode}
+                            {order.shipping_address}, {order.city}, {order.state} - {order.pincode} ({order.country || "India"})
                           </span>
                         </div>
 

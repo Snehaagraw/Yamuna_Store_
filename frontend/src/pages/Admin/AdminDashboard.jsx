@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import AdminProducts from "./AdminProducts";
 import AdminAddProduct from "./AdminAddProduct";
+import AdminCategories from "./AdminCategories";
 import AdminOrders from "./AdminOrders";
 import AdminCustomers from "./AdminCustomers";
 
@@ -34,6 +35,12 @@ function AdminDashboard() {
 
   const handleProductsClick = () => {
     setActiveSection("products");
+    setShowAddProduct(false);
+    setEditingProduct(null);
+  };
+
+  const handleCategoriesClick = () => {
+    setActiveSection("categories");
     setShowAddProduct(false);
     setEditingProduct(null);
   };
@@ -103,6 +110,10 @@ function AdminDashboard() {
       );
     }
 
+    if (activeSection === "categories") {
+      return <AdminCategories />;
+    }
+
     if (activeSection === "orders") {
       return <AdminOrders />;
     }
@@ -165,6 +176,18 @@ function AdminDashboard() {
             onClick={handleProductsClick}
           >
             Products
+          </button>
+
+          <button
+            type="button"
+            className={
+              activeSection === "categories"
+                ? "admin-dashboard-tab active"
+                : "admin-dashboard-tab"
+            }
+            onClick={handleCategoriesClick}
+          >
+            Categories
           </button>
 
           <button

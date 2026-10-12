@@ -1,11 +1,11 @@
 /* =========================================================
-   CHECKOUT PAGE
+   HOSTINGER-STYLE 2-STEP MODULAR CHECKOUT
    ========================================================= */
 
 .checkout-page {
   min-height: 90vh;
   padding: 130px 4vw 90px;
-  background: var(--cream);
+  background: #fbf9f5; /* Subtle cream canvas */
   color: var(--maroon-dark);
 }
 
@@ -15,12 +15,12 @@
 }
 
 .checkout-header {
-  margin-bottom: 45px;
+  margin-bottom: 35px;
 }
 
 .checkout-eyebrow {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-family: "DM Mono", monospace;
   font-size: 10px;
   letter-spacing: 0.22em;
@@ -28,9 +28,9 @@
 }
 
 .checkout-header h1 {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(42px, 5vw, 64px);
+  font-size: clamp(38px, 4.5vw, 56px);
   font-weight: 500;
   line-height: 0.95;
   color: var(--maroon-dark);
@@ -43,42 +43,174 @@
   color: rgba(93, 30, 52, 0.75);
 }
 
-/* Layout */
+/* 2-Column Responsive Layout */
 .checkout-layout {
   display: grid;
-  grid-template-columns: 1.25fr 0.85fr;
-  gap: 45px;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 36px;
   align-items: start;
 }
 
-/* Cards */
-.checkout-card {
-  background: #fff;
-  border: 1px solid rgba(114, 38, 63, 0.16);
-  padding: 34px 30px;
-  box-shadow: 0 10px 30px rgba(93, 30, 52, 0.05);
+/* =========================================================
+   HOSTINGER STEP CARDS (White Rounded Modular Cards)
+   ========================================================= */
+
+.hostinger-step-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.checkout-card h2 {
-  margin: 0 0 24px;
+.hostinger-step-card:hover {
+  border-color: #d1d5db;
+}
+
+.hostinger-step-card.is-confirmed {
+  border-color: #e5e7eb;
+}
+
+/* Card Header */
+.hostinger-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.hostinger-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Step 1 Check Icon (Hostinger Green Circle) */
+.hostinger-step-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid #9ca3af;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: "DM Mono", monospace;
+}
+
+.hostinger-step-icon.confirmed {
+  border-color: #10b981;
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+/* Step 2 Badge (Hostinger Purple / Indigo Circle) */
+.hostinger-step-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--maroon);
+  color: var(--maroon);
+  background: rgba(93, 30, 52, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: "DM Mono", monospace;
+}
+
+.hostinger-card-header h2 {
+  margin: 0;
   font-family: "Cormorant Garamond", serif;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
   color: var(--maroon-dark);
-  border-bottom: 1px solid rgba(114, 38, 63, 0.1);
-  padding-bottom: 12px;
+}
+
+/* Hostinger "Edit" Link Button */
+.hostinger-edit-btn {
+  background: none;
+  border: none;
+  color: #5d1e34;
+  font-family: "DM Mono", monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.hostinger-edit-btn:hover {
+  background: rgba(93, 30, 52, 0.08);
+  color: var(--maroon-dark);
+  text-decoration: underline;
+}
+
+/* Confirmed Address Body */
+.hostinger-confirmed-address-body {
+  padding-left: 38px;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  color: rgba(30, 10, 20, 0.85);
+}
+
+.confirmed-name {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--maroon-dark);
+}
+
+.confirmed-phone {
+  margin: 0 0 4px;
+  color: rgba(93, 30, 52, 0.9);
+}
+
+.confirmed-location,
+.confirmed-street {
+  margin: 0 0 2px;
+  color: #4b5563;
+}
+
+.confirmed-notes {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 11px;
+}
+
+/* Address Form Wrap */
+.hostinger-address-form-wrap {
+  padding-top: 6px;
+}
+
+.saved-address-hint {
+  margin: 0 0 18px;
+  padding: 8px 14px;
+  background: #ecfdf5;
+  border-left: 3px solid #10b981;
+  color: #065f46;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  border-radius: 0 6px 6px 0;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: 16px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
 .form-group.full-width {
@@ -87,292 +219,890 @@
 
 .form-group label {
   font-family: "DM Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--maroon-dark);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .form-group input,
+.form-group select,
 .form-group textarea {
-  padding: 12px 14px;
-  border: 1px solid rgba(114, 38, 63, 0.22);
-  background: transparent;
+  padding: 11px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
   color: var(--maroon-dark);
   font-family: "DM Mono", monospace;
-  font-size: 12px;
+  font-size: 12.5px;
   outline: none;
-  transition: border-color 0.25s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
-  border-color: var(--gold-dark);
+  border-color: var(--maroon);
+  box-shadow: 0 0 0 3px rgba(93, 30, 52, 0.08);
 }
 
-/* Payment Options */
-.payment-options {
+.phone-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.phone-dial-select {
+  width: 130px;
+  flex-shrink: 0;
+}
+
+.phone-number-input {
+  flex-grow: 1;
+}
+
+.address-confirm-action-row {
+  margin-top: 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.confirm-address-btn {
+  background: var(--maroon);
+  color: #fff;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirm-address-btn:hover {
+  background: var(--maroon-dark);
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   STEP 2: PAYMENT ACCORDION (HOSTINGER UI)
+   ========================================================= */
+
+.payment-step-card {
+  padding-bottom: 22px;
+}
+
+.instant-pay-label {
+  margin: 0 0 14px;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.hostinger-payment-accordion {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+/* Accordion Item */
+.payment-accordion-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #ffffff;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.payment-accordion-item.expanded {
+  border-color: var(--maroon);
+  box-shadow: 0 4px 14px rgba(93, 30, 52, 0.06);
+}
+
+/* Accordion Header */
+.payment-accordion-header {
+  padding: 15px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  background: #ffffff;
+}
+
+.payment-accordion-header:hover {
+  background: #fdfaf6;
+}
+
+.header-method-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-method-name input[type="radio"] {
+  accent-color: var(--maroon);
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+}
+
+.method-title {
+  font-family: "DM Mono", monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--maroon-dark);
+}
+
+.header-logos-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Logos & Badges */
+.upi-logo-badge {
+  background: #097939;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: sans-serif;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.brand-mini-badge {
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "DM Mono", monospace;
+  border: 1px solid #e5e7eb;
+}
+
+.card-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  font-family: sans-serif;
+}
+
+.card-badge.visa {
+  background: #1a1f71;
+  color: #ffffff;
+}
+
+.card-badge.mc {
+  background: #eb001b;
+  color: #ffffff;
+}
+
+.card-badge.rupay {
+  background: #097939;
+  color: #ffffff;
+}
+
+.card-badge.paypal {
+  background: #003087;
+  color: #ffffff;
+}
+
+.wire-badge {
+  background: rgba(228, 182, 94, 0.18);
+  color: #855d14;
+  border: 1px solid rgba(228, 182, 94, 0.4);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-family: "DM Mono", monospace;
+}
+
+.netbanking-hint {
+  font-size: 10.5px;
+  color: #6b7280;
+  font-family: "DM Mono", monospace;
+}
+
+.accordion-chevron {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-left: 4px;
+}
+
+/* Accordion Body */
+.payment-accordion-body {
+  padding: 18px 22px 22px;
+  border-top: 1px solid #f3f4f6;
+  background: #fafafa;
+}
+
+.method-instruction {
+  margin: 0 0 16px;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+/* Hostinger Purple/Maroon Submit Payment CTA */
+.hostinger-submit-payment-btn {
+  width: 100%;
+  padding: 15px 24px;
+  background: #5d1e34; /* Rich Yamuna Maroon (or #673ab7 Hostinger purple) */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-family: "DM Mono", monospace;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(93, 30, 52, 0.2);
+}
+
+.hostinger-submit-payment-btn:hover:not(:disabled) {
+  background: #471325;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(93, 30, 52, 0.28);
+}
+
+.hostinger-submit-payment-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.hostinger-submit-payment-btn.bank-wire-submit {
+  background: #1e4542; /* Devotional forest teal for international */
+  box-shadow: 0 4px 14px rgba(30, 69, 66, 0.2);
+}
+
+.hostinger-submit-payment-btn.bank-wire-submit:hover:not(:disabled) {
+  background: #143230;
+  box-shadow: 0 6px 20px rgba(30, 69, 66, 0.28);
+}
+
+/* Security Badge under CTA */
+.payment-security-badge {
+  margin: 12px 0 14px;
+  text-align: center;
+}
+
+.payment-security-badge span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.payment-terms-disclaimer {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: #9ca3af;
+  text-align: center;
+}
+
+/* =========================================================
+   INTERNATIONAL BANK DETAILS CARD
+   ========================================================= */
+
+.bank-details-card {
+  background: #fffdf9;
+  border: 1.5px solid rgba(184, 134, 11, 0.45);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.bank-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(184, 134, 11, 0.2);
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.bank-card-header strong {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  color: var(--maroon-dark);
+}
+
+.bank-currency-tag {
+  background: rgba(228, 182, 94, 0.2);
+  color: #8a6213;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.bank-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 14px;
 }
 
-.payment-option {
+.bank-info-line {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 18px;
-  border: 1px solid rgba(114, 38, 63, 0.18);
-  background: var(--cream-soft);
+  flex-direction: column;
+  gap: 3px;
+  font-family: "DM Mono", monospace;
+  font-size: 11.5px;
+}
+
+.bank-info-line.full {
+  grid-column: 1 / -1;
+}
+
+.info-label {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  color: #855d14;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.info-value-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.info-value-row strong {
+  color: var(--maroon-dark);
+  font-size: 13px;
+}
+
+.code-highlight {
+  color: #92400e;
+  background: #fef3c7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  border: 1px solid #fde68a;
+}
+
+.copy-chip-btn {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.copy-chip-btn:hover {
+  background: #e5e7eb;
+}
+
+.bank-transfer-note {
+  margin: 14px 0 0;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(184, 134, 11, 0.25);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: #78350f;
+  line-height: 1.5;
+}
+
+/* Bank Transfer Form */
+.bank-transfer-form h4 {
+  margin: 0 0 14px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--maroon-dark);
+}
+
+/* =========================================================
+   DELIVERY ASSURANCE CARD
+   ========================================================= */
+
+.checkout-verification-card {
+  margin-top: 18px;
+  background: #ffffff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 12px;
+  padding: 18px 20px;
   transition: all 0.25s ease;
 }
 
-.payment-option.selected {
-  border-color: var(--maroon);
-  background: rgba(114, 38, 63, 0.04);
-  box-shadow: inset 3px 0 0 var(--maroon);
+.checkout-verification-card.is-confirmed {
+  border-color: #10b981;
+  background: #f0fdf4;
 }
 
-.payment-option input[type="radio"] {
-  margin-top: 3px;
-  accent-color: var(--maroon);
+.checkout-verification-card.has-error {
+  border-color: #ef4444;
+  background: #fef2f2;
+  animation: shakeConsent 0.4s ease-in-out;
 }
 
-.payment-option-info {
+@keyframes shakeConsent {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.verification-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.verification-checkbox-touch {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.verification-native-checkbox {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.verification-custom-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1.5px solid #9ca3af;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.checkout-verification-card.is-confirmed .verification-custom-box {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.verification-text-group {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.payment-option-info strong {
-  font-family: "DM Mono", monospace;
-  font-size: 12px;
-  color: var(--maroon-dark);
-}
-
-.payment-option-info small {
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  color: rgba(93, 30, 52, 0.7);
-  line-height: 1.5;
-}
-
-/* Right Summary Card */
-.checkout-summary-card {
-  background: #fff;
-  border: 1px solid rgba(114, 38, 63, 0.16);
-  padding: 30px;
-  position: sticky;
-  top: 100px;
-  box-shadow: 0 10px 30px rgba(93, 30, 52, 0.05);
-}
-
-.checkout-summary-card h2 {
-  margin: 0 0 20px;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--maroon-dark);
-  border-bottom: 1px solid rgba(114, 38, 63, 0.1);
-  padding-bottom: 12px;
-}
-
-.checkout-items-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-height: 320px;
-  overflow-y: auto;
-  padding-right: 6px;
-  margin-bottom: 22px;
-  border-bottom: 1px solid rgba(114, 38, 63, 0.12);
-  padding-bottom: 18px;
-}
-
-.checkout-item-row {
-  display: grid;
-  grid-template-columns: 50px 1fr auto;
-  gap: 14px;
-  align-items: center;
-}
-
-.checkout-item-thumb {
-  position: relative;
-  width: 50px;
-  height: 62px;
-  background: var(--cream-soft);
-  overflow: hidden;
-}
-
-.checkout-item-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.checkout-thumb-placeholder {
-  width: 100%;
-  height: 100%;
+.verification-title-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 22px;
-  color: var(--gold-dark);
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.checkout-item-qty {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--gold);
-  color: var(--maroon-dark);
+.verification-badge {
+  background: #dbeafe;
+  color: #1e40af;
   font-family: "DM Mono", monospace;
-  font-size: 9px;
+  font-size: 9.5px;
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
 }
 
-.checkout-item-desc h4 {
-  margin: 0 0 3px;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 17px;
-  font-weight: 600;
+.verification-title-row strong {
+  font-family: "DM Mono", monospace;
+  font-size: 12.5px;
   color: var(--maroon-dark);
-  line-height: 1.2;
 }
 
-.checkout-item-desc p {
+.verification-subtext {
   margin: 0;
   font-family: "DM Mono", monospace;
-  font-size: 8px;
-  color: var(--gold-dark);
-  text-transform: uppercase;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #4b5563;
 }
 
-.checkout-item-price {
+.verification-error-pill {
+  margin: 10px 0 0;
+  padding: 6px 12px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 6px;
   font-family: "DM Mono", monospace;
   font-size: 11px;
   font-weight: 600;
-  color: var(--maroon-dark);
-}
-
-/* Totals */
-.checkout-totals {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 22px;
-}
-
-.totals-row {
-  display: flex;
-  justify-content: space-between;
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
-  color: rgba(93, 30, 52, 0.8);
-}
-
-.shipping-free {
-  color: #2d5c59;
-  font-weight: 700;
-}
-
-.total-highlight {
-  margin-top: 10px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(114, 38, 63, 0.18);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--maroon);
 }
 
 .checkout-error {
-  padding: 10px 14px;
-  background: rgba(155, 75, 75, 0.1);
-  border-left: 3px solid #9b4b4b;
-  color: #9b4b4b;
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: #fee2e2;
+  border-left: 3px solid #dc2626;
+  color: #991b1b;
+  border-radius: 0 8px 8px 0;
   font-family: "DM Mono", monospace;
-  font-size: 11px;
-  margin-bottom: 16px;
+  font-size: 12px;
 }
 
-.checkout-place-order-btn {
-  width: 100%;
-  padding: 16px 20px;
-  background: var(--maroon);
-  color: var(--gold);
-  border: 1px solid var(--maroon);
+/* =========================================================
+   RIGHT COLUMN: HOSTINGER-STYLE ORDER SUMMARY CARD
+   ========================================================= */
+
+.hostinger-summary-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 28px 26px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  position: sticky;
+  top: 110px;
+}
+
+.hostinger-summary-card h2 {
+  margin: 0 0 20px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--maroon-dark);
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 12px;
+}
+
+/* Items List */
+.summary-items-list {
+  max-height: 220px;
+  overflow-y: auto;
+  margin-bottom: 18px;
+  padding-right: 4px;
+}
+
+.summary-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 9px 0;
+  border-bottom: 1px solid #f9fafb;
+  font-family: "DM Mono", monospace;
+  font-size: 11.5px;
+}
+
+.summary-item-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 65%;
+}
+
+.summary-item-name {
+  color: var(--maroon-dark);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.summary-item-size,
+.summary-item-qty {
+  font-size: 10px;
+  color: #6b7280;
+}
+
+.summary-item-subtotal {
+  font-weight: 600;
+  color: var(--maroon-dark);
+}
+
+/* Calculations Table */
+.summary-calc-table {
+  border-top: 1px solid #f3f4f6;
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "DM Mono", monospace;
+  font-size: 12.5px;
+  color: #4b5563;
+}
+
+/* Zepto-Style Delivery Accordion inside Summary */
+.delivery-accordion-wrap {
+  border: 1px solid rgba(228, 182, 94, 0.35);
+  border-radius: 8px;
+  background: rgba(228, 182, 94, 0.05);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.delivery-accordion-trigger {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+}
+
+.delivery-trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.delivery-title {
+  font-weight: 600;
+  color: var(--maroon-dark);
+}
+
+.weight-badge-pill {
+  background: rgba(228, 182, 94, 0.22);
+  color: #855d14;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.dropdown-chevron-icon {
+  font-size: 12px;
+  color: #855d14;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-chevron-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.delivery-trigger-price {
+  font-weight: 700;
+  color: var(--maroon-dark);
+}
+
+.delivery-dropdown-tray {
+  padding: 10px 12px;
+  border-top: 1px dashed rgba(228, 182, 94, 0.3);
+  background: rgba(255, 255, 255, 0.85);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   font-family: "DM Mono", monospace;
   font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+}
+
+.tray-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #6b7280;
+}
+
+.tray-line strong {
+  color: var(--maroon-dark);
+}
+
+.taxes-free-badge {
+  background: #ecfdf5;
+  color: #065f46;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Total Row */
+.total-row {
+  border-top: 2px solid #f3f4f6;
+  padding-top: 14px;
+  margin-top: 4px;
+  align-items: flex-end;
+}
+
+.total-row strong {
+  font-size: 15px;
+  color: var(--maroon-dark);
+}
+
+.total-sub {
+  display: block;
+  font-size: 10px;
+  color: #9ca3af;
+  font-weight: normal;
+  margin-top: 2px;
+}
+
+.total-number {
+  font-family: "DM Mono", monospace;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--maroon-dark);
+}
+
+/* Hostinger "Have a coupon code?" */
+.hostinger-coupon-block {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.coupon-toggle-link {
+  background: none;
+  border: none;
+  color: #6366f1; /* Purple/Indigo accent */
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 0;
+  text-decoration: none;
 }
 
-.checkout-place-order-btn:hover:not(:disabled) {
-  background: var(--maroon-dark);
-  color: var(--cream);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(93, 30, 52, 0.18);
+.coupon-toggle-link:hover {
+  text-decoration: underline;
 }
 
-.checkout-place-order-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.coupon-form-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
 }
 
-.checkout-guarantee {
-  margin: 18px 0 0;
+.coupon-input {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   font-family: "DM Mono", monospace;
-  font-size: 9px;
-  color: rgba(93, 30, 52, 0.65);
-  line-height: 1.8;
+  font-size: 12px;
+  outline: none;
+}
+
+.coupon-input:focus {
+  border-color: var(--maroon);
+}
+
+.coupon-apply-btn {
+  background: #374151;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.coupon-apply-btn:hover {
+  background: #111827;
+}
+
+.coupon-success-pill {
+  margin: 8px 0 0;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: #059669;
+}
+
+.summary-security-footer {
+  margin-top: 24px;
   text-align: center;
+  font-family: "DM Mono", monospace;
+  color: #9ca3af;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 10.5px;
 }
 
 .checkout-back-link {
-  margin-top: 18px;
+  margin-top: 14px;
   text-align: center;
 }
 
 .checkout-back-link a {
+  color: rgba(93, 30, 52, 0.7);
   font-family: "DM Mono", monospace;
-  font-size: 10px;
-  color: var(--gold-dark);
+  font-size: 11.5px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.checkout-back-link a:hover {
+  color: var(--maroon);
   text-decoration: underline;
 }
 
-@media (max-width: 900px) {
+/* =========================================================
+   RESPONSIVENESS (TABLET & MOBILE)
+   ========================================================= */
+
+@media (max-width: 960px) {
   .checkout-layout {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
 
-  .checkout-summary-card {
+  .hostinger-summary-card {
     position: static;
   }
 }
 
 @media (max-width: 600px) {
   .checkout-page {
-    padding: 100px 4vw 60px;
+    padding: 100px 4vw 70px;
   }
 
-  .form-grid {
+  .hostinger-step-card,
+  .hostinger-summary-card {
+    padding: 20px 16px;
+  }
+
+  .form-grid,
+  .bank-card-grid {
     grid-template-columns: 1fr;
   }
 
-  .checkout-card,
-  .checkout-summary-card {
-    padding: 24px 18px;
+  .phone-input-group {
+    flex-direction: column;
+  }
+
+  .phone-dial-select {
+    width: 100%;
+  }
+
+  .header-logos-wrap {
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 }

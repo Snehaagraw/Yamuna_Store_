@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api/client";
+import { getPhoneDisplayInfo } from "../../constants/countries";
+import "./AdminOrders.css";
 
 function AdminCustomers() {
   const [customers, setCustomers] = useState([]);
@@ -18,7 +20,7 @@ function AdminCustomers() {
     try {
       setLoading(true);
       setError("");
-      const response = await axios.get("http://127.0.0.1:8000/api/auth/customers/", {
+      const response = await api.get("/api/auth/customers/", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -46,7 +48,7 @@ function AdminCustomers() {
 
     try {
       setDeletingId(customerId);
-      await axios.delete(`http://127.0.0.1:8000/api/auth/customers/${customerId}/`, {
+      await api.delete(`/api/auth/customers/${customerId}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCustomers((prev) => prev.filter((c) => c.id !== customerId));
@@ -112,63 +114,102 @@ function AdminCustomers() {
               </tr>
             </thead>
             <tbody>
-              {customers.map((c) => (
-                <tr key={c.id}>
-                  <td>
-                    <strong>{c.name}</strong>
-                    <br />
-                    <small style={{ color: "rgba(93,30,52,0.6)" }}>{c.username}</small>
-                  </td>
-                  <td>
-                    {c.phone && c.phone !== "N/A" ? (
-                      <a
-                        href={`https://wa.me/91${c.phone.replace(/\D/g, "")}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="order-wa-link"
+              {customers.map((c) => {
+                const phoneInfo = getPhoneDisplayInfo(
+                  c.phone,
+                  c.country || "India",
+                  `Hare Krishna ${c.name}, regards from Yamuna Store Vrindavan.`
+                );
+
+                return (
+                  <tr key={c.id}>
+                    <td>
+                      <div className="admin-customer-info">
+                        <strong className="order-customer-name">{c.name}</strong>
+                        <small className="admin-customer-username">@{c.username}</small>
+                      </div>
+                    </td>
+                    <td>
+                      {phoneInfo.isValid ? (
+                        <div className="admin-phone-block">
+                          <div className="admin-phone-country-line">
+                            <span className={`admin-country-code-badge ${phoneInfo.isInternational ? "international" : ""}`}>
+                              <span className="badge-flag">{phoneInfo.flag}</span>
+                              <span className="badge-dial">{phoneInfo.dialCode}</span>
+                              <span className="badge-iso">{phoneInfo.countryCode}</span>
+                            </span>
+                            <span className="admin-country-name-tag" title={phoneInfo.countryName}>
+                              {phoneInfo.countryName}
+                            </span>
+                          </div>
+                          <div className="admin-phone-contact-line">
+                            <span className="admin-phone-number">{phoneInfo.subscriberNumber}</span>
+                            {phoneInfo.whatsappUrl && (
+                              <a
+                                href={phoneInfo.whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="admin-wa-btn"
+                                title={`WhatsApp ${phoneInfo.dialCode} ${phoneInfo.subscriberNumber}`}
+                              >
+                                <span>💬</span> WA ↗
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="admin-phone-na">Not Provided</span>
+                      )}
+                    </td>
+                    <td>
+                      <span className="admin-email-text">{c.email || "N/A"}</span>
+                    </td>
+                    <td>
+                      <div className="admin-location-block">
+                        {c.city && c.city !== "N/A" && (
+                          <span className="admin-city-text">{c.city}{c.state ? `, ${c.state}` : ""}</span>
+                        )}
+                        <span className={`admin-country-code-badge ${c.country && c.country.toLowerCase() !== "india" ? "international" : ""}`}>
+                          <span className="badge-flag">{phoneInfo.flag}</span>
+                          <span className="badge-dial">{c.country || "India"}</span>
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="order-count-badge">{c.order_count}</span>
+                    </td>
+                    <td>
+                      <strong>₹{Number(c.total_spent || 0).toLocaleString("en-IN")}</strong>
+                    </td>
+                    <td>
+                      <span className="order-date">
+                        {c.last_order_date
+                          ? new Date(c.last_order_date).toLocaleDateString("en-IN", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            })
+                          : new Date(c.date_joined).toLocaleDateString("en-IN", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className="order-delete-btn"
+                        disabled={deletingId === c.id}
+                        title={`Delete customer account for ${c.name}`}
+                        onClick={() => handleDeleteCustomer(c.id, c.name)}
                       >
-                        {c.phone} ↗
-                      </a>
-                    ) : (
-                      "N/A"
-                    )}
-                  </td>
-                  <td>{c.email || "N/A"}</td>
-                  <td>
-                    {c.city && c.city !== "N/A" ? `${c.city}${c.state ? `, ${c.state}` : ""}` : "—"}
-                  </td>
-                  <td>
-                    <span className="order-count-badge">{c.order_count}</span>
-                  </td>
-                  <td>
-                    <strong>₹{Number(c.total_spent || 0).toLocaleString("en-IN")}</strong>
-                  </td>
-                  <td>
-                    {c.last_order_date
-                      ? new Date(c.last_order_date).toLocaleDateString("en-IN", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })
-                      : new Date(c.date_joined).toLocaleDateString("en-IN", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      className="order-delete-btn"
-                      disabled={deletingId === c.id}
-                      title={`Delete customer account for ${c.name}`}
-                      onClick={() => handleDeleteCustomer(c.id, c.name)}
-                    >
-                      {deletingId === c.id ? "..." : "Delete"}
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                        {deletingId === c.id ? "..." : "Delete"}
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -1,4 +1,4 @@
-function QuantityControl({ quantity, onDecrease, onIncrease }) {
+function QuantityControl({ quantity, onDecrease, onIncrease, disabledIncrease = false }) {
   return (
     <div className="quantity-control">
       <button
@@ -14,9 +14,12 @@ function QuantityControl({ quantity, onDecrease, onIncrease }) {
 
       <button
         type="button"
-        className="quantity-button"
+        className={`quantity-button ${disabledIncrease ? "disabled" : ""}`}
         onClick={onIncrease}
+        disabled={disabledIncrease}
+        title={disabledIncrease ? "Maximum available stock reached" : "Increase quantity"}
         aria-label="Increase quantity"
+        style={disabledIncrease ? { opacity: 0.35, cursor: "not-allowed" } : {}}
       >
         +
       </button>

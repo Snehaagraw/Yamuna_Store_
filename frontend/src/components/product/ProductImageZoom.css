@@ -1,0 +1,405 @@
+/* =========================================================
+   PRODUCT IMAGE ZOOM & MAGNIFIER
+   ========================================================= */
+
+.product-zoom-root {
+  position: relative;
+  width: 100%;
+}
+
+.product-zoom-container {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream-soft);
+  border: 1px solid rgba(114, 38, 63, 0.16);
+  border-radius: 6px;
+  cursor: crosshair;
+  user-select: none;
+  -webkit-user-select: none;
+  box-shadow: 0 4px 20px rgba(67, 38, 51, 0.04);
+  transition: border-color 0.3s ease;
+}
+
+.product-zoom-container:hover {
+  border-color: rgba(201, 154, 69, 0.45);
+}
+
+.product-zoom-main-img {
+  width: auto;
+  height: auto;
+  max-width: 92%;
+  max-height: 92%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.product-zoom-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(114, 38, 63, 0.08),
+    rgba(201, 154, 69, 0.12)
+  );
+  color: rgba(93, 30, 52, 0.55);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   DESKTOP MAGNIFYING LENS (ON PRODUCT IMAGE)
+   ========================================================= */
+
+.product-zoom-lens {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border: 1.5px solid var(--gold-dark);
+  background: rgba(228, 182, 94, 0.24);
+  box-shadow:
+    0 0 12px rgba(114, 38, 63, 0.22),
+    inset 0 0 10px rgba(228, 182, 94, 0.35);
+  border-radius: 2px;
+  z-index: 20;
+  will-change: transform;
+}
+
+/* =========================================================
+   DESKTOP RIGHT-SIDE MAGNIFIED PREVIEW WINDOW
+   ========================================================= */
+
+.product-zoom-preview-window {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 24px);
+  width: 500px;
+  height: 100%;
+  min-height: 520px;
+  background-color: var(--cream);
+  background-repeat: no-repeat;
+  border: 1px solid rgba(114, 38, 63, 0.25);
+  border-radius: 6px;
+  box-shadow:
+    0 24px 60px rgba(67, 38, 51, 0.2),
+    0 6px 18px rgba(114, 38, 63, 0.08);
+  z-index: 999;
+  pointer-events: none;
+  overflow: hidden;
+  animation: zoomWindowFade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes zoomWindowFade {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.product-zoom-preview-header {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  padding: 5px 12px;
+  background: rgba(45, 12, 22, 0.88);
+  color: var(--gold-light);
+  border: 1px solid rgba(228, 182, 94, 0.35);
+  border-radius: 20px;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================================
+   MOBILE / TABLET HINT PILL
+   ========================================================= */
+
+.product-zoom-mobile-hint {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(45, 12, 22, 0.85);
+  color: var(--cream);
+  border: 1px solid rgba(201, 154, 69, 0.35);
+  border-radius: 24px;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 901px) {
+  .product-zoom-mobile-hint {
+    opacity: 0;
+  }
+  .product-zoom-container:hover .product-zoom-mobile-hint {
+    opacity: 0;
+  }
+}
+
+/* Hide desktop zoom window & lens on mobile / touch */
+@media (max-width: 900px), (hover: none) {
+  .product-zoom-lens,
+  .product-zoom-preview-window {
+    display: none !important;
+  }
+  .product-zoom-container {
+    cursor: pointer;
+  }
+}
+
+/* =========================================================
+   FULLSCREEN MOBILE / TOUCH LIGHTBOX MODAL
+   ========================================================= */
+
+.product-lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(26, 6, 14, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: lightboxFadeIn 0.25s ease-out;
+}
+
+@keyframes lightboxFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.product-lightbox-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  height: 94vh;
+  display: flex;
+  flex-direction: column;
+  background: #19050d;
+  border: 1px solid rgba(201, 154, 69, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+/* Lightbox Topbar */
+.product-lightbox-topbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: rgba(38, 9, 20, 0.95);
+  border-bottom: 1px solid rgba(201, 154, 69, 0.2);
+  gap: 16px;
+}
+
+.product-lightbox-title-group {
+  min-width: 0;
+  flex: 1;
+}
+
+.product-lightbox-brand {
+  display: block;
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.product-lightbox-title {
+  margin: 2px 0 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-lightbox-scale-badge {
+  padding: 4px 10px;
+  background: rgba(201, 154, 69, 0.15);
+  border: 1px solid rgba(201, 154, 69, 0.35);
+  color: var(--gold);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  border-radius: 14px;
+}
+
+.product-lightbox-close-btn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(201, 154, 69, 0.3);
+  border-radius: 50%;
+  color: var(--cream);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.product-lightbox-close-btn:hover {
+  background: var(--maroon);
+  color: var(--gold);
+  transform: rotate(90deg);
+}
+
+/* Lightbox Viewport */
+.product-lightbox-viewport {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  touch-action: none;
+  background: radial-gradient(circle at center, #240713 0%, #120208 100%);
+  cursor: grab;
+}
+
+.product-lightbox-viewport:active {
+  cursor: grabbing;
+}
+
+.product-lightbox-img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+}
+
+/* Lightbox Footer & Controls */
+.product-lightbox-footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px 16px;
+  background: rgba(38, 9, 20, 0.95);
+  border-top: 1px solid rgba(201, 154, 69, 0.2);
+}
+
+.product-lightbox-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lightbox-btn {
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(201, 154, 69, 0.35);
+  border-radius: 4px;
+  color: var(--cream);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lightbox-btn:hover:not(:disabled) {
+  background: var(--maroon);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.lightbox-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.lightbox-reset {
+  background: rgba(201, 154, 69, 0.15);
+  border-color: rgba(201, 154, 69, 0.5);
+  color: var(--gold);
+}
+
+.product-lightbox-gesture-hint {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  color: rgba(246, 239, 227, 0.65);
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .product-zoom-container {
+    height: 320px;
+  }
+
+  .product-lightbox-dialog {
+    height: 98vh;
+    border-radius: 0;
+  }
+
+  .product-lightbox-topbar {
+    padding: 10px 14px;
+  }
+
+  .product-lightbox-title {
+    font-size: 16px;
+  }
+
+  .product-lightbox-footer {
+    padding: 10px 14px 14px;
+  }
+
+  .lightbox-btn {
+    padding: 7px 12px;
+    font-size: 9px;
+  }
+
+  .product-lightbox-gesture-hint {
+    font-size: 9px;
+  }
+}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/client";
 
 import "./AdminAddProduct.css";
 
@@ -12,15 +12,21 @@ function AdminAddProduct({
 
   const [formData, setFormData] = useState({
     name: "",
+    section: "women",
     category: "Gopi Dress",
     description: "",
     price: "",
     fabric: "",
+    weight: "",
     colors: "",
+    sizes: "",
     stock_status: "In Stock",
     is_best_seller: false,
     is_new_collection: false,
   });
+
+  const [sizeInventory, setSizeInventory] = useState({});
+  const [sizePrices, setSizePrices] = useState({});
 
   /*
    * New images selected from the computer.
@@ -42,8 +48,35 @@ function AdminAddProduct({
    */
   const [removedImageIds, setRemovedImageIds] = useState([]);
 
+  const [availableCategories, setAvailableCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await api.get("/api/categories/");
+        if (response.data && response.data.length > 0) {
+          setAvailableCategories(response.data);
+          if (!productToEdit) {
+            const initialSection = "women";
+            const firstCat = response.data.find(
+              (c) => (c.section || "women") === initialSection
+            ) || response.data[0];
+            setFormData((prev) => ({
+              ...prev,
+              section: prev.section || initialSection,
+              category: prev.category || firstCat?.name || "Gopi Dress",
+            }));
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load categories:", err);
+      }
+    };
+
+    fetchCategories();
+  }, [productToEdit]);
 
   /*
    * Populate the form when editing an existing product.
@@ -52,16 +85,21 @@ function AdminAddProduct({
     if (!productToEdit) {
       setFormData({
         name: "",
+        section: "women",
         category: "Gopi Dress",
         description: "",
         price: "",
         fabric: "",
+        weight: "",
         colors: "",
+        sizes: "",
         stock_status: "In Stock",
         is_best_seller: false,
         is_new_collection: false,
       });
 
+      setSizeInventory({});
+      setSizePrices({});
       setExistingImages([]);
       setRemovedImageIds([]);
 
@@ -70,12 +108,17 @@ function AdminAddProduct({
 
     setFormData({
       name: productToEdit.name || "",
+      section: productToEdit.section || "women",
       category: productToEdit.category || "Gopi Dress",
       description: productToEdit.description || "",
       price: productToEdit.price ?? "",
       fabric: productToEdit.fabric || "",
+      weight: productToEdit.weight || "",
       colors: Array.isArray(productToEdit.colors)
         ? productToEdit.colors.join(", ")
+        : "",
+      sizes: Array.isArray(productToEdit.sizes)
+        ? productToEdit.sizes.join(", ")
         : "",
       stock_status:
         productToEdit.stock_status || "In Stock",
@@ -85,6 +128,16 @@ function AdminAddProduct({
         Boolean(productToEdit.is_new_collection),
     });
 
+    setSizeInventory(
+      productToEdit.size_inventory && typeof productToEdit.size_inventory === "object"
+        ? { ...productToEdit.size_inventory }
+        : {}
+    );
+    setSizePrices(
+      productToEdit.size_prices && typeof productToEdit.size_prices === "object"
+        ? { ...productToEdit.size_prices }
+        : {}
+    );
     setExistingImages(productToEdit.images || []);
     setRemovedImageIds([]);
     setImages([]);
@@ -117,6 +170,43 @@ function AdminAddProduct({
         type === "checkbox"
           ? checked
           : value,
+    }));
+  };
+
+  const handleSectionChange = (event) => {
+    const newSection = event.target.value;
+    const matchingCats = availableCategories.filter(
+      (c) => (c.section || "women") === newSection
+    );
+    setFormData((previous) => ({
+      ...previous,
+      section: newSection,
+      category: matchingCats.length > 0 ? matchingCats[0].name : "",
+    }));
+  };
+
+  const handleToggleSizePreset = (preset) => {
+    const currentSizes = formData.sizes
+      ? formData.sizes
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+
+    const existsIndex = currentSizes.findIndex(
+      (s) => s.toUpperCase() === preset.toUpperCase()
+    );
+
+    let newSizes;
+    if (existsIndex >= 0) {
+      newSizes = currentSizes.filter((_, idx) => idx !== existsIndex);
+    } else {
+      newSizes = [...currentSizes, preset];
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      sizes: newSizes.join(", "),
     }));
   };
 
@@ -257,6 +347,11 @@ function AdminAddProduct({
       );
 
       data.append(
+        "section",
+        formData.section || "women"
+      );
+
+      data.append(
         "category",
         formData.category
       );
@@ -274,6 +369,11 @@ function AdminAddProduct({
       data.append(
         "fabric",
         formData.fabric.trim()
+      );
+
+      data.append(
+        "weight",
+        formData.weight ? formData.weight.trim() : ""
       );
 
       data.append(
@@ -299,6 +399,44 @@ function AdminAddProduct({
       data.append(
         "colors",
         JSON.stringify(colorsArray)
+      );
+
+      const sizesArray = formData.sizes
+        ? formData.sizes
+            .split(",")
+            .map((size) => size.trim())
+            .filter(Boolean)
+        : [];
+
+      data.append(
+        "sizes",
+        JSON.stringify(sizesArray)
+      );
+
+      const finalSizeInventory = {};
+      const finalSizePrices = {};
+      if (sizesArray.length > 0) {
+        sizesArray.forEach((sz) => {
+          finalSizeInventory[sz] =
+            sizeInventory[sz] !== undefined ? Number(sizeInventory[sz]) : 10;
+          if (
+            sizePrices[sz] !== undefined &&
+            sizePrices[sz] !== "" &&
+            !isNaN(Number(sizePrices[sz]))
+          ) {
+            finalSizePrices[sz] = Number(sizePrices[sz]);
+          } else if (formData.price) {
+            finalSizePrices[sz] = Number(formData.price);
+          }
+        });
+      }
+      data.append(
+        "size_inventory",
+        JSON.stringify(finalSizeInventory)
+      );
+      data.append(
+        "size_prices",
+        JSON.stringify(finalSizePrices)
       );
 
       /*
@@ -339,11 +477,11 @@ function AdminAddProduct({
       }
 
       const url = isEditMode
-        ? `http://127.0.0.1:8000/api/products/${productToEdit.id}/`
-        : "http://127.0.0.1:8000/api/products/";
+        ? `/api/products/${productToEdit.id}/`
+        : "/api/products/";
 
       if (isEditMode) {
-        await axios.patch(
+        await api.patch(
           url,
           data,
           {
@@ -353,7 +491,7 @@ function AdminAddProduct({
           }
         );
       } else {
-        await axios.post(
+        await api.post(
           url,
           data,
           {
@@ -378,10 +516,23 @@ function AdminAddProduct({
           err.response.data
         );
 
+        const dataErr = err.response.data;
+        let detailedMsg = "";
+        if (typeof dataErr === "object") {
+          const firstKey = Object.keys(dataErr)[0];
+          const firstVal = dataErr[firstKey];
+          if (Array.isArray(firstVal) && firstVal.length > 0) {
+            detailedMsg = `${firstKey}: ${firstVal[0]}`;
+          } else if (typeof firstVal === "string") {
+            detailedMsg = `${firstKey}: ${firstVal}`;
+          }
+        }
+
         setError(
-          isEditMode
-            ? "Unable to update the product. Please check the details."
-            : "Unable to create the product. Please check the details."
+          detailedMsg ||
+            (isEditMode
+              ? "Unable to update the product. Please check the details."
+              : "Unable to create the product. Please check the details.")
         );
       } else {
         setError(
@@ -444,7 +595,7 @@ function AdminAddProduct({
           <div className="admin-form-grid">
             <div className="admin-form-group">
               <label htmlFor="product-name">
-                Product Name
+                Product Name *
               </label>
 
               <input
@@ -454,12 +605,30 @@ function AdminAddProduct({
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter product name"
+                required
               />
             </div>
 
             <div className="admin-form-group">
+              <label htmlFor="product-section">
+                Collection Sub-Section *
+              </label>
+
+              <select
+                id="product-section"
+                name="section"
+                value={formData.section || "women"}
+                onChange={handleSectionChange}
+              >
+                <option value="women">🌸 Women's Collection</option>
+                <option value="men">🪔 Men's Collection</option>
+                <option value="kids">✨ Kids' Collection</option>
+              </select>
+            </div>
+
+            <div className="admin-form-group">
               <label htmlFor="product-category">
-                Category
+                Category ({formData.section === "men" ? "Men's" : formData.section === "kids" ? "Kids'" : "Women's"}) *
               </label>
 
               <select
@@ -468,25 +637,21 @@ function AdminAddProduct({
                 value={formData.category}
                 onChange={handleChange}
               >
-                <option value="Gopi Dress">
-                  Gopi Dress
-                </option>
-
-                <option value="Sarees">
-                  Sarees
-                </option>
-
-                <option value="Kurties">
-                  Kurties
-                </option>
-
-                <option value="Dupattas">
-                  Dupattas
-                </option>
-
-                <option value="Dhoti Kurta">
-                  Dhoti Kurta
-                </option>
+                {availableCategories.filter(
+                  (cat) => (cat.section || "women") === (formData.section || "women")
+                ).length > 0 ? (
+                  availableCategories
+                    .filter(
+                      (cat) => (cat.section || "women") === (formData.section || "women")
+                    )
+                    .map((cat) => (
+                      <option key={cat.id} value={cat.name}>
+                        {cat.name}
+                      </option>
+                    ))
+                ) : (
+                  <option value="">No categories under {formData.section} section</option>
+                )}
               </select>
             </div>
 
@@ -537,7 +702,44 @@ function AdminAddProduct({
               />
             </div>
 
-            <div className="admin-form-group admin-form-group-full">
+            <div className="admin-form-group">
+              <div className="admin-field-header-row">
+                <label htmlFor="product-weight">
+                  Weight
+                </label>
+                <span className="admin-field-tag-optional">Optional</span>
+              </div>
+
+              <input
+                id="product-weight"
+                name="weight"
+                type="text"
+                value={formData.weight}
+                onChange={handleChange}
+                placeholder="e.g. 450 g or 0.5 kg"
+              />
+
+              <div className="admin-size-presets" style={{ marginTop: "6px" }}>
+                <span className="admin-presets-label">Quick:</span>
+                {["200 g", "350 g", "500 g", "750 g", "1 kg", "1.5 kg"].map((preset) => (
+                  <button
+                    key={preset}
+                    type="button"
+                    className={`admin-size-preset-btn ${formData.weight === preset ? "selected" : ""}`}
+                    onClick={() => setFormData((prev) => ({ ...prev, weight: preset }))}
+                    title={`Set weight to ${preset}`}
+                  >
+                    {preset}
+                  </button>
+                ))}
+              </div>
+
+              <small>
+                Used for shipping calculation & displayed on product page.
+              </small>
+            </div>
+
+            <div className="admin-form-group">
               <label htmlFor="product-colors">
                 Colors
               </label>
@@ -553,6 +755,256 @@ function AdminAddProduct({
 
               <small>
                 Enter multiple colors separated by commas.
+              </small>
+            </div>
+
+            <div className="admin-form-group admin-form-group-full">
+              <div className="admin-field-header-row">
+                <label htmlFor="product-sizes">
+                  Available Sizes
+                </label>
+                <span className="admin-field-tag-optional">Optional</span>
+              </div>
+
+              <input
+                id="product-sizes"
+                name="sizes"
+                type="text"
+                value={formData.sizes}
+                onChange={handleChange}
+                placeholder="e.g. S, M, L, XL or Free Size"
+              />
+
+              <div className="admin-size-presets">
+                <span className="admin-presets-label">Quick Presets:</span>
+                {["XS", "S", "M", "L", "XL", "XXL", "Free Size"].map((preset) => {
+                  const isSelected = formData.sizes
+                    .split(",")
+                    .map((s) => s.trim().toUpperCase())
+                    .includes(preset.toUpperCase());
+                  return (
+                    <button
+                      key={preset}
+                      type="button"
+                      className={`admin-size-preset-btn ${isSelected ? "selected" : ""}`}
+                      onClick={() => handleToggleSizePreset(preset)}
+                      title={`Toggle ${preset}`}
+                    >
+                      {isSelected ? `✓ ${preset}` : `+ ${preset}`}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {formData.sizes
+                .split(",")
+                .map((s) => s.trim())
+                .filter(Boolean).length > 0 && (
+                <div
+                  className="admin-size-inventory-section"
+                  style={{
+                    marginTop: "14px",
+                    padding: "14px 16px",
+                    background: "rgba(93, 30, 52, 0.04)",
+                    border: "1px solid rgba(93, 30, 52, 0.14)",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      gap: "8px",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    <div>
+                      <label
+                        style={{
+                          margin: 0,
+                          fontSize: "11px",
+                          fontWeight: "600",
+                          color: "var(--maroon)",
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                          display: "block",
+                        }}
+                      >
+                        🏷️ Size Pricing & Inventory
+                      </label>
+                      <small style={{ fontSize: "10px", color: "rgba(93, 30, 52, 0.65)" }}>
+                        Set custom price and stock per size. If price is left empty, Base Price (₹{formData.price || 0}) is used.
+                      </small>
+                    </div>
+
+                    {formData.price && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const sizesArray = formData.sizes
+                            .split(",")
+                            .map((s) => s.trim())
+                            .filter(Boolean);
+                          const updated = {};
+                          sizesArray.forEach((s) => {
+                            updated[s] = formData.price;
+                          });
+                          setSizePrices(updated);
+                        }}
+                        style={{
+                          background: "#fff",
+                          border: "1px solid var(--maroon)",
+                          color: "var(--maroon)",
+                          borderRadius: "14px",
+                          padding: "4px 12px",
+                          fontSize: "10px",
+                          cursor: "pointer",
+                          fontWeight: "500",
+                          transition: "all 0.2s ease",
+                        }}
+                        title="Copy the base product price to all available sizes"
+                      >
+                        📋 Copy Base Price (₹{formData.price}) to All Sizes
+                      </button>
+                    )}
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "10px",
+                    }}
+                  >
+                    {formData.sizes
+                      .split(",")
+                      .map((s) => s.trim())
+                      .filter(Boolean)
+                      .map((sz) => (
+                        <div
+                          key={sz}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            background: "#fff",
+                            padding: "8px 12px",
+                            border: "1px solid rgba(93, 30, 52, 0.18)",
+                            borderRadius: "6px",
+                            boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
+                          }}
+                        >
+                          <strong
+                            style={{
+                              fontSize: "13px",
+                              color: "var(--maroon-dark)",
+                              minWidth: "28px",
+                            }}
+                          >
+                            {sz}
+                          </strong>
+
+                          {/* Price Input */}
+                          <div
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "3px",
+                            }}
+                            title={`Custom price for size ${sz} (leave empty to use ₹${formData.price || 0})`}
+                          >
+                            <span
+                              style={{
+                                fontSize: "11px",
+                                color: "var(--gold-dark)",
+                                fontWeight: "600",
+                              }}
+                            >
+                              ₹
+                            </span>
+                            <input
+                              type="number"
+                              min="0"
+                              step="any"
+                              placeholder={formData.price || "Price"}
+                              style={{
+                                width: "75px",
+                                padding: "4px 6px",
+                                fontSize: "12px",
+                                border: "1px solid #ccc",
+                                borderRadius: "3px",
+                                textAlign: "center",
+                              }}
+                              value={
+                                sizePrices[sz] !== undefined
+                                  ? sizePrices[sz]
+                                  : ""
+                              }
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setSizePrices((prev) => ({
+                                  ...prev,
+                                  [sz]: val,
+                                }));
+                              }}
+                            />
+                          </div>
+
+                          {/* Stock Input */}
+                          <div
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "3px",
+                            }}
+                            title={`Stock count for size ${sz}`}
+                          >
+                            <input
+                              type="number"
+                              min="0"
+                              style={{
+                                width: "55px",
+                                padding: "4px 6px",
+                                fontSize: "12px",
+                                border: "1px solid #ccc",
+                                borderRadius: "3px",
+                                textAlign: "center",
+                              }}
+                              value={
+                                sizeInventory[sz] !== undefined
+                                  ? sizeInventory[sz]
+                                  : 10
+                              }
+                              onChange={(e) => {
+                                const val = Math.max(
+                                  0,
+                                  parseInt(e.target.value, 10) || 0
+                                );
+                                setSizeInventory((prev) => ({
+                                  ...prev,
+                                  [sz]: val,
+                                }));
+                              }}
+                            />
+                            <span
+                              style={{
+                                fontSize: "10.5px",
+                                color: "#666",
+                              }}
+                            >
+                              pcs
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              <small>
+                Optional. Enter sizes separated by commas, or click quick presets above. Adjust per-size stock counts above. Leave blank if sizing does not apply.
               </small>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Navbar from "../../components/navbar/Navbar";
@@ -8,6 +9,7 @@ import CartSummary from "../../components/cart/CartSummary";
 
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
+import { calculateShipping } from "../../utils/shippingCalculator";
 
 import "../../styles/cart.css";
 
@@ -23,16 +25,22 @@ function Cart() {
     removeFromCart,
   } = useCart();
 
+  const totalParcelWeight = useMemo(() => {
+    if (!cartItems || cartItems.length === 0) return "";
+    const calc = calculateShipping({ items: cartItems });
+    return calc.totalWeightFormatted;
+  }, [cartItems]);
+
   const handleDecrease = (item) => {
-    decreaseQuantity(item.product.id);
+    decreaseQuantity(item.product.id, item.product.size);
   };
 
   const handleIncrease = (item) => {
-    increaseQuantity(item.product.id);
+    increaseQuantity(item.product.id, item.product.size);
   };
 
   const handleRemove = (item) => {
-    removeFromCart(item.product.id);
+    removeFromCart(item.product.id, item.product.size);
   };
 
   const handleCheckout = () => {
@@ -92,7 +100,7 @@ function Cart() {
 
                   return (
                     <CartItem
-                      key={item.id}
+                      key={`${item.id}-${item.size || ""}`}
                       item={cartItem}
                       onDecrease={handleDecrease}
                       onIncrease={handleIncrease}
@@ -104,6 +112,7 @@ function Cart() {
 
               <CartSummary
                 subtotal={cartTotal}
+                totalWeight={totalParcelWeight}
                 onCheckout={handleCheckout}
               />
             </div>

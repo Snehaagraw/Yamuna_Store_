@@ -122,11 +122,9 @@
   align-items: flex-start;
 }
 
-/* Shift Explore and Visit Us columns to the right */
-.footer-column:nth-child(2),
-.footer-column:nth-child(3),
-.footer-column:nth-child(4) {
-  transform: translateX(150px);
+/* Footer columns alignment */
+.footer-column {
+  min-width: 0;
 }
 
 .footer-column h3 {

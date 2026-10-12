@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
 const INSTAGRAM_URL = "https://www.instagram.com/yamuna_store_vrindavan/";
-const FACEBOOK_URL = "https://www.facebook.com/";
+const FACEBOOK_URL = "https://www.facebook.com/yamunastores.in/";
 const WHATSAPP_URL = "https://wa.me/918533804168";
-const EMAIL_ADDRESS = "mailto:";
+const EMAIL_ADDRESS = "mailto:agrawaljii31415@gmail.com";
 
 function Footer() {
   return (
@@ -97,16 +97,34 @@ function Footer() {
           <Link to="/admin/login">Admin Portal</Link>
         </div>
 
+        <div className="footer-column">
+          <h3>Customer Care</h3>
+
+          <Link to="/refund-policy">Refund & Cancellation</Link>
+          <Link to="/shipping-policy">Shipping & Delivery</Link>
+          <Link to="/terms-and-conditions">Terms & Conditions</Link>
+          <Link to="/privacy-policy">Privacy Policy</Link>
+          <Link to="/about">Contact & Store Info</Link>
+        </div>
 
         <div className="footer-column footer-contact">
           <h3>Visit Us</h3>
 
           <p>
-            Vrindavan, 281121
+            Inside Nidhivan Plaza, Near Nidhivan Temple, Vrindavan, 281121
             <br />
             Uttar Pradesh, India
           </p>
 
+          <p>
+            <a href="tel:+916397972342" style={{ color: "var(--gold)", textDecoration: "none" }}>
+              📞 +91 6397972342
+            </a>
+            <br />
+            <a href="mailto:agrawaljii31415@gmail.com" style={{ color: "rgba(247, 233, 201, 0.72)", textDecoration: "none" }}>
+              ✉️ agrawaljii31415@gmail.com
+            </a>
+          </p>
         </div>
       </div>
 

@@ -476,3 +476,248 @@
     align-items: flex-start;
   }
 }
+
+/* Saved Delivery Address Card */
+.account-address-card {
+  background: #fff;
+  border: 1px solid rgba(114, 38, 63, 0.16);
+  padding: 30px 36px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(93, 30, 52, 0.05);
+}
+
+.account-address-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(114, 38, 63, 0.12);
+}
+
+.account-address-header h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--maroon-dark);
+}
+
+.account-edit-address-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--maroon);
+  background: transparent;
+  color: var(--maroon);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.account-edit-address-btn:hover {
+  background: var(--maroon);
+  color: var(--gold);
+}
+
+.account-address-alert {
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+}
+
+.account-address-alert.success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #166534;
+}
+
+.account-address-alert.error {
+  background: rgba(155, 75, 75, 0.1);
+  border: 1px solid rgba(155, 75, 75, 0.3);
+  color: #9b4b4b;
+}
+
+.saved-address-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.saved-address-details p {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  color: var(--maroon-dark);
+  line-height: 1.6;
+}
+
+.saved-address-details strong {
+  color: var(--gold-dark);
+  margin-right: 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.saved-address-badge-note {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  color: #166534;
+}
+
+.saved-address-empty p {
+  margin: 0 0 6px;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  color: var(--maroon-dark);
+}
+
+.saved-address-empty small {
+  display: block;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  color: rgba(93, 30, 52, 0.7);
+  line-height: 1.6;
+}
+
+/* Edit Address Form */
+.account-address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.address-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.address-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.address-form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.address-form-group label {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--maroon-dark);
+  font-weight: 500;
+}
+
+.address-form-group input,
+.address-form-group select,
+.address-form-group textarea {
+  padding: 10px 12px;
+  border: 1px solid rgba(114, 38, 63, 0.22);
+  background: #fff;
+  color: var(--maroon-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+
+.address-form-group input:focus,
+.address-form-group select:focus,
+.address-form-group textarea:focus {
+  border-color: var(--gold-dark);
+}
+
+.account-country-select {
+  cursor: pointer;
+}
+
+.account-address-form .phone-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.account-address-form .phone-dial-select {
+  flex: 0 0 110px;
+  padding: 10px 8px;
+  border: 1px solid rgba(114, 38, 63, 0.22);
+  background: #fff;
+  color: var(--maroon-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+}
+
+.account-address-form .phone-dial-select:focus {
+  border-color: var(--gold-dark);
+}
+
+.account-address-form .phone-number-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.address-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.address-cancel-btn {
+  padding: 10px 20px;
+  border: 1px solid rgba(114, 38, 63, 0.25);
+  background: transparent;
+  color: var(--maroon-dark);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.address-save-btn {
+  padding: 10px 22px;
+  border: 1px solid var(--maroon);
+  background: var(--maroon);
+  color: var(--gold);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.address-save-btn:hover:not(:disabled) {
+  background: var(--maroon-dark);
+  color: var(--cream);
+}
+
+@media (max-width: 600px) {
+  .account-address-card {
+    padding: 24px 20px;
+  }
+
+  .address-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .address-form-group input,
+  .address-form-group textarea {
+    font-size: 16px;
+  }
+}

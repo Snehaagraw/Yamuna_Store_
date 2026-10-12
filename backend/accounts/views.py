@@ -4,9 +4,55 @@ from rest_framework import permissions, status
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.throttling import AnonRateThrottle
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+from .models import CustomerAddress
+
+
+class AuthRateThrottle(AnonRateThrottle):
+    scope = "auth"
+
+
+def get_user_saved_address(user):
+    """
+    Returns the user's saved delivery address dictionary.
+    If no CustomerAddress record exists yet, checks for past orders
+    and initializes CustomerAddress from the most recent order.
+    """
+    if not user or not user.is_authenticated:
+        return None
+
+    address_obj = getattr(user, "address", None)
+    if address_obj:
+        return address_obj.to_dict()
+
+    try:
+        from orders.models import Order
+        latest_order = Order.objects.filter(customer=user).order_by("-created_at").first()
+        if not latest_order and user.email:
+            latest_order = Order.objects.filter(customer_email__iexact=user.email).order_by("-created_at").first()
+
+        if latest_order:
+            country_val = getattr(latest_order, "country", "India") or "India"
+            address_obj = CustomerAddress.objects.create(
+                user=user,
+                name=latest_order.customer_name,
+                phone=latest_order.customer_phone,
+                country=country_val,
+                address=latest_order.shipping_address,
+                city=latest_order.city,
+                state=latest_order.state,
+                pincode=latest_order.pincode,
+            )
+            return address_obj.to_dict()
+    except Exception:
+        pass
+
+    return None
 
 
 # -----------------------------------------------------------------------------
@@ -35,6 +81,7 @@ class AdminLoginSerializer(TokenObtainPairSerializer):
 
 class AdminLoginView(TokenObtainPairView):
     serializer_class = AdminLoginSerializer
+    throttle_classes = [AuthRateThrottle]
 
 
 # -----------------------------------------------------------------------------
@@ -63,6 +110,7 @@ class CustomerLoginSerializer(TokenObtainPairSerializer):
             "first_name": self.user.first_name,
             "last_name": self.user.last_name,
             "is_staff": self.user.is_staff,
+            "saved_address": get_user_saved_address(self.user),
         }
 
         return data
@@ -70,10 +118,12 @@ class CustomerLoginSerializer(TokenObtainPairSerializer):
 
 class CustomerLoginView(TokenObtainPairView):
     serializer_class = CustomerLoginSerializer
+    throttle_classes = [AuthRateThrottle]
 
 
 class CustomerRegisterView(APIView):
     permission_classes = [permissions.AllowAny]
+    throttle_classes = [AuthRateThrottle]
 
     def post(self, request):
         username = request.data.get("username", "").strip()
@@ -134,6 +184,7 @@ class CustomerRegisterView(APIView):
                     "first_name": user.first_name,
                     "last_name": user.last_name,
                     "is_staff": user.is_staff,
+                    "saved_address": get_user_saved_address(user),
                 },
                 "message": "Account created successfully.",
             },
@@ -154,8 +205,53 @@ class CustomerProfileView(APIView):
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 "is_staff": user.is_staff,
+                "saved_address": get_user_saved_address(user),
             }
         )
+
+    def put(self, request):
+        user = request.user
+        first_name = request.data.get("first_name")
+        if first_name is not None:
+            user.first_name = first_name.strip()
+            user.save()
+
+        address_data = request.data.get("saved_address") or request.data
+        address_obj, _ = CustomerAddress.objects.get_or_create(user=user)
+
+        if "country" in address_data:
+            address_obj.country = str(address_data.get("country") or "India").strip() or "India"
+        if "name" in address_data:
+            address_obj.name = str(address_data.get("name") or "").strip()
+        if "phone" in address_data:
+            address_obj.phone = str(address_data.get("phone") or "").strip()
+        if "address" in address_data:
+            address_obj.address = str(address_data.get("address") or "").strip()
+        if "city" in address_data:
+            address_obj.city = str(address_data.get("city") or "").strip()
+        if "state" in address_data:
+            address_obj.state = str(address_data.get("state") or "").strip()
+        if "pincode" in address_data:
+            address_obj.pincode = str(address_data.get("pincode") or "").strip()
+
+        address_obj.save()
+
+        return Response(
+            {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "is_staff": user.is_staff,
+                "saved_address": address_obj.to_dict(),
+                "message": "Delivery address saved successfully.",
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    def patch(self, request):
+        return self.put(request)
 
 
 class CustomerResetPasswordView(APIView):
@@ -215,6 +311,12 @@ class AdminCustomerListView(APIView):
             order_count = user_orders.count()
             total_spent = user_orders.aggregate(total=Sum("total_amount"))["total"] or 0
             latest_order = user_orders.first()
+            user_address = getattr(user, "address", None)
+
+            customer_phone = (user_address.phone if (user_address and user_address.phone) else None) or (latest_order.customer_phone if latest_order else "N/A")
+            customer_city = (user_address.city if (user_address and user_address.city) else None) or (latest_order.city if latest_order else "N/A")
+            customer_state = (user_address.state if (user_address and user_address.state) else None) or (latest_order.state if latest_order else "")
+            customer_country = (user_address.country if (user_address and user_address.country) else None) or (getattr(latest_order, "country", "India") if latest_order else "India")
 
             customer_list.append({
                 "id": user.id,
@@ -225,9 +327,10 @@ class AdminCustomerListView(APIView):
                 "order_count": order_count,
                 "total_spent": float(total_spent),
                 "last_order_date": latest_order.created_at if latest_order else None,
-                "phone": latest_order.customer_phone if latest_order else "N/A",
-                "city": latest_order.city if latest_order else "N/A",
-                "state": latest_order.state if latest_order else "",
+                "phone": customer_phone,
+                "city": customer_city,
+                "state": customer_state,
+                "country": customer_country,
             })
 
         return Response(customer_list, status=status.HTTP_200_OK)

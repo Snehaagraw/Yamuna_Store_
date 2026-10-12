@@ -13,28 +13,28 @@
    ========================================================= */
 
 .about-eyebrow {
-  margin: 0 0 24px;
+  margin: 0 0 20px;
   font-family: "DM Mono", monospace;
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold-dark);
 }
 
 /* =========================================================
-   OUR STORY
+   OUR STORY & HERO
    ========================================================= */
 
 .about-story {
   max-width: 1250px;
-  min-height: 720px;
+  min-height: 680px;
   margin: 0 auto;
-  padding: 150px 5vw 90px;
+  padding: 140px 5vw 80px;
   display: grid;
-  grid-template-columns: 1fr 0.82fr;
+  grid-template-columns: 1.05fr 1fr;
   align-items: center;
-  gap: 80px;
+  gap: 60px;
 }
 
 .about-story-content {
@@ -42,31 +42,91 @@
 }
 
 .about-story-content h1 {
-  margin: 0;
+  margin: 0 0 24px;
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(65px, 7vw, 98px);
+  font-size: clamp(60px, 6.5vw, 92px);
   font-weight: 500;
-  line-height: 0.85;
-  letter-spacing: -0.05em;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
   color: var(--maroon-dark);
 }
 
 .about-story-content h1 em {
   color: var(--maroon-light);
   font-weight: 500;
+  font-style: italic;
+}
+
+/* Quick Action Bar for Pilgrims */
+.about-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.quick-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.action-map {
+  background: var(--maroon);
+  color: var(--cream);
+  border: 1px solid var(--maroon);
+}
+
+.action-map:hover {
+  background: var(--maroon-dark);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.action-wa {
+  background: rgba(37, 211, 102, 0.12);
+  color: #128c46;
+  border: 1px solid rgba(37, 211, 102, 0.4);
+}
+
+.action-wa:hover {
+  background: #25d366;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.action-call {
+  background: rgba(114, 38, 63, 0.06);
+  color: var(--maroon-dark);
+  border: 1px solid rgba(114, 38, 63, 0.2);
+}
+
+.action-call:hover {
+  background: var(--maroon);
+  color: var(--cream);
+  transform: translateY(-2px);
 }
 
 .about-story-text {
   max-width: 580px;
-  margin-top: 42px;
 }
 
 .about-story-text p {
-  margin: 0 0 19px;
+  margin: 0 0 18px;
   font-family: "DM Mono", monospace;
-  font-size: 13px;
+  font-size: 12.5px;
   line-height: 1.9;
-  color: rgba(116, 20, 60, 0.72);
+  color: rgba(93, 30, 52, 0.78);
 }
 
 .about-story-text p:last-child {
@@ -74,15 +134,109 @@
 }
 
 /* =========================================================
-   STORY IMAGE
+   STOREFRONT SHOWCASE CARD (Architectural Heritage Card)
    ========================================================= */
 
-.about-story-image {
+.about-storefront-frame {
   width: 100%;
-  height: 570px;
-  padding: 15px;
-  border: 1px solid rgba(157, 116, 49, 0.35);
-  border-radius: 48% 48% 10% 10% / 34% 34% 8% 8%;
+  position: relative;
+}
+
+.storefront-card {
+  background: #ffffff;
+  border: 1.5px solid rgba(197, 155, 78, 0.45);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 
+    0 16px 40px rgba(114, 38, 63, 0.09),
+    0 2px 10px rgba(197, 155, 78, 0.15);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.storefront-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 24px 50px rgba(114, 38, 63, 0.14),
+    0 4px 16px rgba(197, 155, 78, 0.22);
+}
+
+.storefront-card-top-tag {
+  background: linear-gradient(135deg, #72263f 0%, #4a1425 100%);
+  color: var(--gold);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(228, 182, 94, 0.3);
+}
+
+.top-tag-om {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+}
+
+.top-tag-text {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 233, 201, 0.9);
+}
+
+.storefront-image-wrap {
+  width: 100%;
+  background: #14030a;
+  position: relative;
+  overflow: hidden;
+}
+
+.storefront-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10.6;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.storefront-card:hover .storefront-img {
+  transform: scale(1.02);
+}
+
+.storefront-caption {
+  padding: 14px 20px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid rgba(197, 155, 78, 0.2);
+}
+
+.caption-pin {
+  font-size: 18px;
+  color: var(--gold-dark);
+  flex-shrink: 0;
+}
+
+.caption-text strong {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--maroon-dark);
+  line-height: 1.25;
+}
+
+.caption-text small {
+  display: block;
+  font-family: "DM Mono", monospace;
+  font-size: 10.5px;
+  color: rgba(93, 30, 52, 0.65);
+  margin-top: 2px;
 }
 
 .about-image-placeholder {
@@ -94,65 +248,164 @@
   justify-content: center;
   border-radius: 42% 42% 7% 7% / 30% 30% 6% 6%;
   background:
-    linear-gradient(
-      145deg,
-      rgba(114, 38, 63, 0.1),
-      rgba(228, 182, 94, 0.18)
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(228, 182, 94, 0.25) 0%,
+      rgba(114, 38, 63, 0.08) 60%,
+      rgba(45, 92, 89, 0.05) 100%
     );
-  color: var(--maroon-light);
+  color: var(--maroon-dark);
   text-align: center;
+  padding: 30px;
 }
 
-.about-image-placeholder span {
+.placeholder-om {
   font-family: "Cormorant Garamond", serif;
-  font-size: 30px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: 20px;
+  color: var(--gold-dark);
+  margin-bottom: 12px;
+  letter-spacing: 0.1em;
 }
 
-.about-image-placeholder small {
-  margin-top: 7px;
+.placeholder-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--maroon-dark);
+}
+
+.placeholder-sub {
+  margin-top: 10px;
   font-family: "DM Mono", monospace;
-  font-size: 8px;
-  letter-spacing: 0.2em;
-  color: var(--gold-dark);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(93, 30, 52, 0.6);
 }
 
 /* =========================================================
-   CONTACT SECTION
+   WHOLESALE & TEMPLE SEVA STRIP
+   ========================================================= */
+
+.about-wholesale-strip {
+  background: #1e4542;
+  color: var(--cream);
+  padding: 45px 5vw;
+  border-top: 1px solid rgba(228, 182, 94, 0.2);
+  border-bottom: 1px solid rgba(228, 182, 94, 0.2);
+}
+
+.wholesale-strip-content {
+  max-width: 1250px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.wholesale-strip-info {
+  max-width: 780px;
+}
+
+.wholesale-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(228, 182, 94, 0.15);
+  border: 1px solid rgba(228, 182, 94, 0.4);
+  border-radius: 14px;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.wholesale-strip-info h3 {
+  margin: 0 0 8px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(26px, 3vw, 34px);
+  font-weight: 600;
+  color: var(--cream);
+}
+
+.wholesale-strip-info p {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 11.5px;
+  line-height: 1.8;
+  color: rgba(247, 233, 201, 0.8);
+}
+
+.wholesale-inquiry-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  background: var(--gold);
+  color: var(--maroon-dark);
+  border-radius: 25px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+}
+
+.wholesale-inquiry-btn:hover {
+  background: #f7e9c9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================================
+   CONTACT / STORE DETAILS SECTION
    ========================================================= */
 
 .about-contact {
   position: relative;
   background: #2d5c59;
   color: var(--cream);
-  padding: 100px 7vw;
+  padding: 95px 6vw;
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
-  gap: 80px;
+  gap: 70px;
+  align-items: start;
 }
 
-.about-contact-heading h2,
-.about-location-heading h2 {
-  margin: 0;
+.about-contact-heading h2 {
+  margin: 0 0 16px;
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(65px, 6vw, 88px);
+  font-size: clamp(55px, 5.5vw, 82px);
   font-weight: 500;
-  line-height: 0.85;
-  letter-spacing: -0.05em;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
 }
 
-.about-contact-heading h2 em,
-.about-location-heading h2 em {
+.about-contact-heading h2 em {
   color: var(--gold);
   font-weight: 500;
+  font-style: italic;
+}
+
+.contact-heading-sub {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  line-height: 1.85;
+  color: rgba(247, 233, 201, 0.75);
+  max-width: 440px;
 }
 
 .about-contact-details {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 52px;
-  padding-top: -5px;
+  gap: 36px;
 }
 
 .about-contact-block {
@@ -162,66 +415,327 @@
 }
 
 .about-contact-label {
-  margin-bottom: 22px;
+  margin-bottom: 18px;
   font-family: "DM Mono", monospace;
-  font-size: 16px;
-  letter-spacing: 0.22em;
+  font-size: 11px;
+  letter-spacing: 0.18em;
   color: var(--gold);
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-.about-contact-block p,
-.about-contact-block a {
-  margin: 0;
+.contact-address-text {
+  margin: 0 0 16px;
   font-family: "DM Mono", monospace;
-  font-size: 13px;
-  line-height: 1.9;
-  color: rgba(247, 233, 201, 0.75);
+  font-size: 12px;
+  line-height: 1.85;
+  color: rgba(247, 233, 201, 0.85);
 }
 
-.about-contact-block a {
+.contact-address-text strong {
+  color: #fff;
+  font-size: 14px;
+}
+
+.address-map-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: rgba(228, 182, 94, 0.15);
+  border: 1px solid rgba(228, 182, 94, 0.35);
+  border-radius: 14px;
+  color: var(--gold);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.address-map-badge:hover {
+  background: var(--gold);
+  color: var(--maroon-dark);
+}
+
+/* Contact Person Items */
+.contact-persons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   margin-bottom: 16px;
-  transition:
-    color 0.3s ease,
-    transform 0.3s ease;
+  width: 100%;
 }
 
-.about-contact-block a:hover {
+.contact-person-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.person-name {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.person-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.person-phone {
+  font-family: "DM Mono", monospace;
+  font-size: 11.5px;
+  color: rgba(247, 233, 201, 0.8);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.person-phone:hover {
   color: var(--gold);
-  transform: translateX(4px);
+}
+
+.person-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  background: rgba(37, 211, 102, 0.18);
+  border: 1px solid rgba(37, 211, 102, 0.4);
+  border-radius: 12px;
+  font-family: "DM Mono", monospace;
+  font-size: 9.5px;
+  color: #55ef88;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.person-wa-btn:hover {
+  background: #25d366;
+  color: #ffffff;
+}
+
+.contact-email-link {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: rgba(247, 233, 201, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-email-link:hover {
+  color: var(--gold);
+}
+
+/* Hours Block */
+.contact-hours-text {
+  margin: 0 0 14px;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  line-height: 1.85;
+  color: rgba(247, 233, 201, 0.85);
+}
+
+.contact-hours-text strong {
+  color: #fff;
+  font-size: 14px;
+}
+
+.hours-darshan-tip {
+  padding: 10px 12px;
+  background: rgba(247, 233, 201, 0.08);
+  border-left: 2px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+}
+
+.hours-darshan-tip span {
+  display: block;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 3px;
+}
+
+.hours-darshan-tip small {
+  display: block;
+  font-family: "DM Mono", monospace;
+  font-size: 9.5px;
+  line-height: 1.5;
+  color: rgba(247, 233, 201, 0.7);
 }
 
 /* =========================================================
-   LOCATION
+   PILGRIM'S TRAVEL GUIDE
+   ========================================================= */
+
+.about-pilgrim-guide {
+  padding: 85px 5vw;
+  background: #fbf6ec;
+  border-bottom: 1px solid rgba(114, 38, 63, 0.1);
+}
+
+.pilgrim-guide-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 45px;
+}
+
+.pilgrim-guide-header h2 {
+  margin: 0 0 12px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(38px, 4.5vw, 54px);
+  font-weight: 600;
+  color: var(--maroon-dark);
+}
+
+.pilgrim-guide-header p {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  color: rgba(93, 30, 52, 0.72);
+}
+
+.pilgrim-cards-grid {
+  max-width: 1200px;
+  margin: 0 auto 35px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.pilgrim-card {
+  background: #ffffff;
+  border: 1px solid rgba(114, 38, 63, 0.12);
+  border-radius: 12px;
+  padding: 30px 24px;
+  box-shadow: 0 6px 20px rgba(93, 30, 52, 0.03);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pilgrim-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(93, 30, 52, 0.06);
+}
+
+.pilgrim-card-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 14px;
+}
+
+.pilgrim-card h3 {
+  margin: 0 0 10px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--maroon-dark);
+}
+
+.pilgrim-card p {
+  margin: 0 0 18px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  line-height: 1.8;
+  color: rgba(93, 30, 52, 0.78);
+  flex-grow: 1;
+}
+
+.pilgrim-time-badge {
+  display: inline-block;
+  width: fit-content;
+  padding: 4px 10px;
+  background: rgba(228, 182, 94, 0.15);
+  border: 1px solid rgba(228, 182, 94, 0.35);
+  border-radius: 12px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--dark-gold);
+}
+
+.pilgrim-local-tip {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(45, 92, 89, 0.06);
+  border: 1px solid rgba(45, 92, 89, 0.2);
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.tip-star {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.pilgrim-local-tip p {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  line-height: 1.75;
+  color: #204c49;
+}
+
+/* =========================================================
+   LOCATION & MAP SECTION
    ========================================================= */
 
 .about-location {
-  padding: 75px 5vw 110px;
+  padding: 85px 5vw 110px;
   background: var(--cream);
 }
 
 .about-location-heading {
   max-width: 1250px;
-  margin: 0 auto 50px;
+  margin: 0 auto 40px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 50px;
 }
 
+.about-location-heading h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(52px, 5.5vw, 76px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--maroon-dark);
+}
+
+.about-location-heading h2 em {
+  color: var(--gold-dark);
+  font-weight: 500;
+  font-style: italic;
+}
+
 .about-location-heading > p {
-  max-width: 350px;
+  max-width: 400px;
   margin: 0 0 7px;
   font-family: "DM Mono", monospace;
-  font-size: 11px;
-  line-height: 1.9;
-  color: rgba(93, 30, 52, 0.65);
+  font-size: 11.5px;
+  line-height: 1.85;
+  color: rgba(93, 30, 52, 0.72);
 }
 
 .about-map {
   width: 100%;
-  height: 480px;
+  max-width: 1250px;
+  height: 500px;
+  margin: 0 auto;
   overflow: hidden;
-  border: 1px solid rgba(114, 38, 63, 0.18);
+  border: 1.5px solid rgba(114, 38, 63, 0.18);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(93, 30, 52, 0.05);
 }
 
 .about-map iframe {
@@ -231,177 +745,155 @@
   border: 0;
 }
 
+.about-map-actions {
+  max-width: 1250px;
+  margin: 22px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
 .about-map-link {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding-bottom: 7px;
-  border-bottom: 1px solid var(--gold-dark);
-  color: var(--maroon-dark);
+  gap: 8px;
+  padding: 10px 22px;
+  background: var(--maroon);
+  color: var(--cream);
+  border: 1px solid var(--maroon);
+  border-radius: 25px;
   font-family: "DM Mono", monospace;
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: all 0.3s ease;
-}
-
-.about-map-link span {
-  font-size: 16px;
-  line-height: 1;
+  text-decoration: none;
+  transition: all 0.25s ease;
 }
 
 .about-map-link:hover {
-  background: var(--cream);
+  background: var(--maroon-dark);
+  color: var(--gold);
   transform: translateY(-2px);
 }
 
-.about-map-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.about-map-pin {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--gold);
-  color: var(--maroon-dark);
-  font-size: 18px;
-}
-
-.about-map-content p {
-  margin: 0 0 8px;
+.about-map-wa-link {
   font-family: "DM Mono", monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: var(--maroon-light);
+  font-size: 11.5px;
+  color: #128c46;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.2s ease;
 }
 
-.about-map-content span:last-child {
-  font-family: "DM Mono", monospace;
-  font-size: 9px;
-  color: rgba(93, 30, 52, 0.5);
+.about-map-wa-link:hover {
+  color: #0b6832;
 }
 
 /* =========================================================
-   TABLET
+   TABLET RESPONSIVENESS
    ========================================================= */
 
-@media (max-width: 1050px) {
+@media (max-width: 1080px) {
   .about-story {
-    grid-template-columns: 1fr 0.8fr;
+    grid-template-columns: 1fr;
     gap: 50px;
+    padding-top: 120px;
+  }
+
+  .about-storefront-frame {
+    max-width: 620px;
+    margin: 0 auto;
+    width: 100%;
   }
 
   .about-contact {
     grid-template-columns: 1fr;
-    gap: 55px;
+    gap: 45px;
+    padding: 75px 5vw;
   }
 
   .about-contact-details {
-    padding-top: 0;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
   }
-}
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 700px) {
-  .about-story {
-    min-height: auto;
-    padding: 80px 6vw 70px;
+  .pilgrim-cards-grid {
     grid-template-columns: 1fr;
-    gap: 55px;
-  }
-
-  .about-story-content h1 {
-    font-size: clamp(58px, 16vw, 80px);
-  }
-
-  .about-story-text {
-    margin-top: 35px;
-  }
-
-  .about-story-image {
-    height: 470px;
-  }
-
-  .about-contact {
-    padding: 75px 6vw;
-    gap: 55px;
-  }
-
-  .about-contact-heading h2,
-  .about-location-heading h2 {
-    font-size: clamp(58px, 15vw, 78px);
-  }
-
-  .about-contact-details {
-    grid-template-columns: 1fr;
-    gap: 35px;
-  }
-
-  .about-location {
-    padding: 75px 6vw 80px;
+    gap: 16px;
   }
 
   .about-location-heading {
     flex-direction: column;
     align-items: flex-start;
-    gap: 30px;
-    margin-bottom: 35px;
-  }
-
-  .about-map {
-    height: 400px;
-  }
-
-  .about-map-link{
-    margin-top: 18px;
+    gap: 20px;
   }
 }
 
 /* =========================================================
-   SMALL MOBILE
+   MOBILE RESPONSIVENESS
    ========================================================= */
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .about-story {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .about-contact {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .about-location {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 100px 5vw 60px;
+    gap: 40px;
   }
 
   .about-story-content h1 {
-    font-size: 57px;
+    font-size: clamp(48px, 12vw, 68px);
   }
 
-  .about-story-image {
-    height: 400px;
+  .about-quick-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .quick-action-btn {
+    justify-content: center;
+  }
+
+  .about-storefront-frame {
+    width: 100%;
+  }
+
+  .wholesale-strip-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .wholesale-inquiry-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .about-contact-details {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-contact-heading h2 {
+    font-size: clamp(44px, 11vw, 60px);
+  }
+
+  .about-pilgrim-guide {
+    padding: 65px 5vw;
   }
 
   .about-map {
-    height: 330px;
+    height: 380px;
   }
 
-  .about-map-link{
-    margin-top: 12px;
+  .about-map-actions {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .about-map-link {
+    justify-content: center;
   }
 }

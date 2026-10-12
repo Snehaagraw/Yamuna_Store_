@@ -276,4 +276,12 @@
   .customer-auth-card {
     padding: 30px 20px;
   }
+
+  .auth-field input {
+    font-size: 16px; /* Prevents iOS Safari auto-zoom on focus */
+  }
+
+  .auth-submit-btn {
+    min-height: 48px;
+  }
 }

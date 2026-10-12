@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api/client";
+import { getPhoneDisplayInfo } from "../../constants/countries";
 import "./AdminOrders.css";
 
 const STATUS_OPTIONS = [
@@ -30,7 +31,7 @@ function AdminOrders() {
 
     try {
       setDeletingId(orderId);
-      await axios.delete(`http://127.0.0.1:8000/api/orders/${orderId}/`, {
+      await api.delete(`/api/orders/${orderId}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setOrders((prev) => prev.filter((o) => o.id !== orderId));
@@ -56,7 +57,7 @@ function AdminOrders() {
     try {
       setLoading(true);
       setError("");
-      const response = await axios.get("http://127.0.0.1:8000/api/orders/", {
+      const response = await api.get("/api/orders/", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setOrders(response.data);
@@ -78,8 +79,8 @@ function AdminOrders() {
 
     try {
       setUpdatingId(orderId);
-      await axios.patch(
-        `http://127.0.0.1:8000/api/orders/${orderId}/`,
+      await api.patch(
+        `/api/orders/${orderId}/`,
         { order_status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -148,78 +149,120 @@ function AdminOrders() {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
-                <tr key={order.id}>
-                  <td>
-                    <strong>{order.order_number}</strong>
-                  </td>
-                  <td>
-                    <span className="order-customer-name">{order.customer_name}</span>
-                    <small className="order-customer-city">{order.city}, {order.state}</small>
-                  </td>
-                  <td>
-                    <a
-                      href={`https://wa.me/91${order.customer_phone.replace(/\D/g, "")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="order-wa-link"
-                    >
-                      {order.customer_phone} ↗
-                    </a>
-                  </td>
-                  <td>
-                    {order.items?.length || 0} {order.items?.length === 1 ? "piece" : "pieces"}
-                  </td>
-                  <td>
-                    <strong>₹{Number(order.total_amount).toLocaleString("en-IN")}</strong>
-                    <br />
-                    <small className="order-payment-method">{order.payment_method}</small>
-                  </td>
-                  <td>
-                    <select
-                      className={`order-status-select status-${order.order_status.toLowerCase()}`}
-                      value={order.order_status}
-                      disabled={updatingId === order.id}
-                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                    >
-                      {STATUS_OPTIONS.map((st) => (
-                        <option key={st} value={st}>
-                          {st}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                  <td>
-                    <span className="order-date">
-                      {new Date(order.created_at).toLocaleDateString("en-IN", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="admin-actions-cell">
-                      <button
-                        type="button"
-                        className="order-view-details-btn"
-                        onClick={() => setSelectedOrder(order)}
+              {orders.map((order) => {
+                const phoneInfo = getPhoneDisplayInfo(
+                  order.customer_phone,
+                  order.country || "India",
+                  `Hare Krishna ${order.customer_name}, regards from Yamuna Store Vrindavan regarding order ${order.order_number}.`
+                );
+
+                return (
+                  <tr key={order.id}>
+                    <td>
+                      <strong>{order.order_number}</strong>
+                    </td>
+                    <td>
+                      <div className="admin-customer-info">
+                        <span className="order-customer-name">{order.customer_name}</span>
+                        <span className="order-customer-city">
+                          {order.city ? `${order.city}, ` : ""}{order.state || ""}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      {phoneInfo.isValid ? (
+                        <div className="admin-phone-block">
+                          <div className="admin-phone-country-line">
+                            <span className={`admin-country-code-badge ${phoneInfo.isInternational ? "international" : ""}`}>
+                              <span className="badge-flag">{phoneInfo.flag}</span>
+                              <span className="badge-dial">{phoneInfo.dialCode}</span>
+                              <span className="badge-iso">{phoneInfo.countryCode}</span>
+                            </span>
+                            <span className="admin-country-name-tag" title={phoneInfo.countryName}>
+                              {phoneInfo.countryName}
+                            </span>
+                          </div>
+                          <div className="admin-phone-contact-line">
+                            <span className="admin-phone-number">{phoneInfo.subscriberNumber}</span>
+                            {phoneInfo.whatsappUrl && (
+                              <a
+                                href={phoneInfo.whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="admin-wa-btn"
+                                title={`WhatsApp ${phoneInfo.dialCode} ${phoneInfo.subscriberNumber}`}
+                              >
+                                <span>💬</span> WA ↗
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="admin-phone-na">N/A</span>
+                      )}
+                    </td>
+                    <td>
+                      {order.items?.length || 0} {order.items?.length === 1 ? "piece" : "pieces"}
+                    </td>
+                    <td>
+                      <strong>₹{Number(order.total_amount).toLocaleString("en-IN")}</strong>
+                      <br />
+                      <small className="order-payment-method">
+                        {order.shipping_carrier ? `${order.shipping_carrier} · ` : ""}
+                        {order.payment_method}
+                      </small>
+                      {order.total_weight && (
+                        <div>
+                          <small style={{ color: "#666", fontSize: "9.5px" }}>⚖️ {order.total_weight}</small>
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      <select
+                        className={`order-status-select status-${order.order_status.toLowerCase()}`}
+                        value={order.order_status}
+                        disabled={updatingId === order.id}
+                        onChange={(e) => handleStatusChange(order.id, e.target.value)}
                       >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        className="order-delete-btn"
-                        disabled={deletingId === order.id}
-                        title="Delete this order"
-                        onClick={() => handleDeleteOrder(order.id, order.order_number)}
-                      >
-                        {deletingId === order.id ? "..." : "Delete"}
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                        {STATUS_OPTIONS.map((st) => (
+                          <option key={st} value={st}>
+                            {st}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td>
+                      <span className="order-date">
+                        {new Date(order.created_at).toLocaleDateString("en-IN", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="admin-actions-cell">
+                        <button
+                          type="button"
+                          className="order-view-details-btn"
+                          onClick={() => setSelectedOrder(order)}
+                        >
+                          View
+                        </button>
+                        <button
+                          type="button"
+                          className="order-delete-btn"
+                          disabled={deletingId === order.id}
+                          title="Delete this order"
+                          onClick={() => handleDeleteOrder(order.id, order.order_number)}
+                        >
+                          {deletingId === order.id ? "..." : "Delete"}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -247,18 +290,71 @@ function AdminOrders() {
               <div className="order-modal-grid">
                 <div>
                   <h4>Customer Contact</h4>
-                  <p>
-                    <strong>Name:</strong> {selectedOrder.customer_name}<br />
-                    <strong>Phone:</strong> {selectedOrder.customer_phone}<br />
-                    <strong>Email:</strong> {selectedOrder.customer_email || "N/A"}
-                  </p>
+                  {(() => {
+                    const modalPhone = getPhoneDisplayInfo(
+                      selectedOrder.customer_phone,
+                      selectedOrder.country || "India",
+                      `Hare Krishna ${selectedOrder.customer_name}, regards from Yamuna Store Vrindavan regarding order ${selectedOrder.order_number}.`
+                    );
+                    return (
+                      <div className="modal-contact-card">
+                        <div className="modal-contact-row">
+                          <span className="modal-label">Name:</span>
+                          <span className="modal-val"><strong>{selectedOrder.customer_name}</strong></span>
+                        </div>
+                        <div className="modal-contact-row">
+                          <span className="modal-label">Email:</span>
+                          <span className="modal-val">{selectedOrder.customer_email || "N/A"}</span>
+                        </div>
+                        <div className="modal-contact-row">
+                          <span className="modal-label">Country:</span>
+                          <span className="modal-val">
+                            <span className={`admin-country-code-badge ${modalPhone.isInternational ? "international" : ""}`}>
+                              <span className="badge-flag">{modalPhone.flag}</span>
+                              <span className="badge-dial">{selectedOrder.country || modalPhone.countryName}</span>
+                              <span className="badge-iso">{modalPhone.countryCode}</span>
+                            </span>
+                          </span>
+                        </div>
+                        <div className="modal-contact-row">
+                          <span className="modal-label">Phone & Code:</span>
+                          <div className="modal-val modal-phone-group">
+                            <span className={`admin-country-code-badge ${modalPhone.isInternational ? "international" : ""}`}>
+                              <span className="badge-flag">{modalPhone.flag}</span>
+                              <span className="badge-dial">{modalPhone.dialCode}</span>
+                            </span>
+                            <span className="admin-phone-number">{modalPhone.subscriberNumber}</span>
+                            {modalPhone.whatsappUrl && (
+                              <a
+                                href={modalPhone.whatsappUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="admin-wa-btn"
+                              >
+                                <span>💬</span> WA ↗
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
 
                 <div>
-                  <h4>Shipping Destination</h4>
+                  <h4>Shipping & Parcel Details</h4>
                   <p>
-                    {selectedOrder.shipping_address}<br />
-                    {selectedOrder.city}, {selectedOrder.state} - {selectedOrder.pincode}
+                    <strong>Carrier:</strong> {selectedOrder.shipping_carrier || "India Post"}<br />
+                    {selectedOrder.total_weight && (
+                      <>
+                        <strong>Parcel Weight:</strong> {selectedOrder.total_weight}<br />
+                      </>
+                    )}
+                    <strong>Shipping Fee:</strong> ₹{Number(selectedOrder.shipping_fee || 0).toLocaleString("en-IN")}<br />
+                    <strong>Destination:</strong> {selectedOrder.city}, {selectedOrder.state} - {selectedOrder.pincode} ({selectedOrder.country || "India"})
+                  </p>
+                  <p style={{ marginTop: "6px", fontSize: "11px", color: "rgba(93, 30, 52, 0.85)" }}>
+                    {selectedOrder.shipping_address}
                   </p>
                   {selectedOrder.order_notes && (
                     <p style={{ marginTop: "6px" }}>
@@ -278,6 +374,12 @@ function AdminOrders() {
                     </div>
                   ))}
                 </div>
+                {Number(selectedOrder.shipping_fee) > 0 && (
+                  <div className="modal-total-row" style={{ borderTop: "none", paddingTop: "6px", fontSize: "12px", color: "rgba(93, 30, 52, 0.8)" }}>
+                    <span>Shipping ({selectedOrder.shipping_carrier || "India Post"}):</span>
+                    <span>₹{Number(selectedOrder.shipping_fee).toLocaleString("en-IN")}</span>
+                  </div>
+                )}
                 <div className="modal-total-row">
                   <span>Grand Total:</span>
                   <span>₹{Number(selectedOrder.total_amount).toLocaleString("en-IN")}</span>

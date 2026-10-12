@@ -11,6 +11,9 @@ function CartItem({
     quantity,
   } = item;
 
+  const maxStock = product.maxStock !== undefined ? product.maxStock : 99;
+  const isMaxReached = quantity >= maxStock;
+
   return (
     <article className="cart-item">
       <div className="cart-item-image-wrapper">
@@ -30,6 +33,8 @@ function CartItem({
       <div className="cart-item-details">
         <p className="cart-item-category">
           {product.category}
+          {product.size ? ` · Size: ${product.size}` : ""}
+          {product.weight ? ` · ${product.weight}` : ""}
         </p>
 
         <h3 className="cart-item-name">
@@ -44,7 +49,23 @@ function CartItem({
           quantity={quantity}
           onDecrease={() => onDecrease(item)}
           onIncrease={() => onIncrease(item)}
+          disabledIncrease={isMaxReached}
         />
+
+        {isMaxReached && (
+          <span
+            style={{
+              fontSize: "10px",
+              color: "var(--maroon)",
+              opacity: 0.85,
+              display: "block",
+              marginTop: "5px",
+              fontFamily: "DM Mono, monospace",
+            }}
+          >
+            Max available stock in cart ({maxStock} pcs)
+          </span>
+        )}
       </div>
 
       <button

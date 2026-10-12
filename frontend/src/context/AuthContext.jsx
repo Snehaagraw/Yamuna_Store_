@@ -1,5 +1,5 @@
-import { createContext, useContext, useState } from "react";
-import axios from "axios";
+import { createContext, useContext, useState, useEffect } from "react";
+import api from "../api/client";
 
 const AuthContext = createContext(null);
 
@@ -23,10 +23,50 @@ export function AuthProvider({ children }) {
 
   const isCustomerLoggedIn = Boolean(customerToken);
 
+  const customerLogout = () => {
+    localStorage.removeItem(CUSTOMER_TOKEN_KEY);
+    localStorage.removeItem(CUSTOMER_REFRESH_KEY);
+    localStorage.removeItem(CUSTOMER_USER_KEY);
+
+    setCustomerToken(null);
+    setCustomerUser(null);
+  };
+
+  // Sync latest customer profile and saved address on mount or token change
+  useEffect(() => {
+    if (!customerToken) return;
+
+    let isMounted = true;
+    const fetchLatestProfile = async () => {
+      try {
+        const response = await api.get("/api/auth/profile/", {
+          headers: {
+            Authorization: `Bearer ${customerToken}`,
+          },
+        });
+        if (isMounted && response.data) {
+          setCustomerUser(response.data);
+          localStorage.setItem(CUSTOMER_USER_KEY, JSON.stringify(response.data));
+        }
+      } catch (err) {
+        // If token expired, clear session
+        if (err.response?.status === 401) {
+          customerLogout();
+        }
+      }
+    };
+
+    fetchLatestProfile();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [customerToken]);
+
   const customerLogin = async (username, password) => {
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/customer-login/",
+      const response = await api.post(
+        "/api/auth/customer-login/",
         { username, password }
       );
 
@@ -51,8 +91,8 @@ export function AuthProvider({ children }) {
 
   const customerRegister = async ({ name, username, email, password }) => {
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/register/",
+      const response = await api.post(
+        "/api/auth/register/",
         { name, username, email, password }
       );
 
@@ -75,14 +115,56 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const customerLogout = () => {
-    localStorage.removeItem(CUSTOMER_TOKEN_KEY);
-    localStorage.removeItem(CUSTOMER_REFRESH_KEY);
-    localStorage.removeItem(CUSTOMER_USER_KEY);
+  const updateCustomerAddress = async (addressData) => {
+    if (!customerToken) {
+      return { success: false, error: "Please log in to update your address." };
+    }
 
-    setCustomerToken(null);
-    setCustomerUser(null);
+    try {
+      const response = await api.put(
+        "/api/auth/profile/",
+        { saved_address: addressData },
+        {
+          headers: {
+            Authorization: `Bearer ${customerToken}`,
+          },
+        }
+      );
+
+      const updatedUser = response.data;
+      localStorage.setItem(CUSTOMER_USER_KEY, JSON.stringify(updatedUser));
+      setCustomerUser(updatedUser);
+
+      return { success: true, user: updatedUser };
+    } catch (err) {
+      console.error("Failed to update saved address:", err);
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.detail ||
+        "Unable to save delivery address.";
+      return { success: false, error: errorMessage };
+    }
   };
+
+  const refreshCustomerProfile = async () => {
+    if (!customerToken) return null;
+    try {
+      const response = await api.get("/api/auth/profile/", {
+        headers: {
+          Authorization: `Bearer ${customerToken}`,
+        },
+      });
+      if (response.data) {
+        setCustomerUser(response.data);
+        localStorage.setItem(CUSTOMER_USER_KEY, JSON.stringify(response.data));
+        return response.data;
+      }
+    } catch (err) {
+      console.error("Failed to refresh profile:", err);
+    }
+    return null;
+  };
+
 
   return (
     <AuthContext.Provider
@@ -93,6 +175,8 @@ export function AuthProvider({ children }) {
         customerLogin,
         customerRegister,
         customerLogout,
+        updateCustomerAddress,
+        refreshCustomerProfile,
       }}
     >
       {children}

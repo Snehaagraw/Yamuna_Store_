@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/client";
 import { useAuth } from "../../context/AuthContext";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -21,7 +21,7 @@ function OrderSuccess() {
     const fetchOrder = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://127.0.0.1:8000/api/orders/", {
+        const response = await api.get("/api/orders/", {
           headers: customerToken ? { Authorization: `Bearer ${customerToken}` } : {},
         });
         const found = response.data.find((o) => o.order_number === orderNumber);
@@ -84,12 +84,26 @@ function OrderSuccess() {
                 </div>
 
                 <div className="order-summary-col">
-                  <h4>Payment & Summary</h4>
+                  <h4>Payment & Shipping Summary</h4>
                   <p>
                     <strong>Method:</strong> {order.payment_method}
                     <br />
                     <strong>Status:</strong> {order.order_status}
                     <br />
+                    <strong>Carrier:</strong> {order.shipping_carrier || "India Post"}
+                    <br />
+                    {order.total_weight && (
+                      <>
+                        <strong>Parcel Weight:</strong> {order.total_weight}
+                        <br />
+                      </>
+                    )}
+                    {Number(order.shipping_fee) > 0 && (
+                      <>
+                        <strong>Shipping Charges:</strong> ₹{Number(order.shipping_fee).toLocaleString("en-IN")}
+                        <br />
+                      </>
+                    )}
                     <strong>Total Amount:</strong> ₹{Number(order.total_amount).toLocaleString("en-IN")}
                   </p>
                 </div>

@@ -24,12 +24,28 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!$+v9*!+1i!!wjfj)lq)iz&b&ik2fll9s-(y8)%^h^sr9a6vw^'
+SECRET_KEY = os.getenv(
+    'SECRET_KEY',
+    'django-insecure-!$+v9*!+1i!!wjfj)lq)iz&b&ik2fll9s-(y8)%^h^sr9a6vw^'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = []
+allowed_hosts_raw = os.getenv('ALLOWED_HOSTS', '')
+if allowed_hosts_raw:
+    ALLOWED_HOSTS = [h.strip() for h in allowed_hosts_raw.split(',') if h.strip()]
+else:
+    ALLOWED_HOSTS = [
+        'localhost',
+        '127.0.0.1',
+        'yamunastore.com',
+        'www.yamunastore.com',
+        'api.yamunastore.com',
+        '.onrender.com',
+        '.railway.app',
+        '*',
+    ]
 
 
 # Application definition
@@ -95,6 +111,7 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
+        'CONN_MAX_AGE': 60,
     }
 }
 
@@ -164,13 +181,46 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "120/minute",
+        "user": "1000/minute",
+        "auth": "5/minute",
+    },
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "ROTATE_REFRESH_TOKENS": True,
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
+cors_origins_raw = os.getenv("CORS_ALLOWED_ORIGINS", "")
+if cors_origins_raw:
+    CORS_ALLOWED_ORIGINS = [o.strip() for o in cors_origins_raw.split(",") if o.strip()]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://yamunastore.com",
+        "https://www.yamunastore.com",
+    ]
+
+csrf_origins_raw = os.getenv("CSRF_TRUSTED_ORIGINS", "")
+if csrf_origins_raw:
+    CSRF_TRUSTED_ORIGINS = [c.strip() for c in csrf_origins_raw.split(",") if c.strip()]
+else:
+    CSRF_TRUSTED_ORIGINS = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://yamunastore.com",
+        "https://www.yamunastore.com",
+    ]
+
+# Security Headers
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_CONTENT_TYPE_NOSNIFF = True

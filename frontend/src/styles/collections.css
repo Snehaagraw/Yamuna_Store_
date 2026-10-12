@@ -86,16 +86,19 @@
   max-width: 1250px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 .collection-card {
   position: relative;
-  min-height: 430px;
+  min-height: 440px;
   overflow: hidden;
   background: var(--maroon);
   cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 }
 
 .collection-card::after {
@@ -104,10 +107,16 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(40, 8, 20, 0.72),
-    rgba(40, 8, 20, 0.02) 65%
+    rgba(38, 8, 20, 0.85) 0%,
+    rgba(38, 8, 20, 0.4) 40%,
+    rgba(40, 8, 20, 0.05) 75%
   );
   pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.collection-card:hover::after {
+  opacity: 0.95;
 }
 
 .collection-card-image {
@@ -128,36 +137,106 @@
   z-index: 3;
   left: 22px;
   right: 22px;
-  bottom: 23px;
+  bottom: 24px;
   color: var(--cream);
 }
 
 .collection-card-number {
   display: block;
-  margin-bottom: 9px;
+  margin-bottom: 8px;
   font-family: "DM Mono", monospace;
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.18em;
   color: var(--gold);
+  font-weight: 500;
 }
 
 .collection-card-title {
-  margin: 0;
+  margin: 0 0 10px;
   font-family: "Cormorant Garamond", serif;
   font-size: 28px;
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.05;
+  color: var(--cream);
 }
 
 .collection-card-arrow {
-  display: inline-block;
-  margin-top: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--gold);
-  font-size: 18px;
   transform: translateX(0);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .collection-card:hover .collection-card-arrow {
-  transform: translateX(7px);
+  transform: translateX(6px);
+  color: #fff;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN (MAINTAINS STRICT 1-LINE LAYOUT)
+   ========================================================= */
+
+@media (max-width: 1080px) {
+  .collection-grid {
+    gap: 14px;
+  }
+
+  .collection-card {
+    min-height: 390px;
+  }
+
+  .collection-card-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .collections-section {
+    padding: 50px 5vw 80px;
+  }
+
+  .collections-section-header {
+    margin-bottom: 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  /* Single horizontal swipe line on mobile */
+  .collection-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 14px;
+    padding-bottom: 16px;
+    margin: 0 -5vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .collection-grid::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  .collection-grid::-webkit-scrollbar-thumb {
+    background: rgba(114, 38, 63, 0.25);
+    border-radius: 3px;
+  }
+
+  .collection-card {
+    flex: 0 0 74vw;
+    max-width: 290px;
+    min-height: 380px;
+    scroll-snap-align: start;
+  }
 }

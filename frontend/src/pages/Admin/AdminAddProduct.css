@@ -195,6 +195,67 @@
   font-size: 11px;
 }
 
+.admin-field-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.admin-field-header-row label {
+  margin-bottom: 0;
+}
+
+.admin-field-tag-optional {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9d7431;
+  background: rgba(157, 116, 49, 0.12);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.admin-size-presets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.admin-presets-label {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: #72263f;
+  margin-right: 4px;
+}
+
+.admin-size-preset-btn {
+  background: rgba(247, 233, 201, 0.6);
+  border: 1px solid rgba(114, 38, 63, 0.25);
+  color: #5d1e34;
+  padding: 5px 12px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-size-preset-btn:hover {
+  background: rgba(114, 38, 63, 0.1);
+  border-color: #72263f;
+}
+
+.admin-size-preset-btn.selected {
+  background: #72263f;
+  border-color: #72263f;
+  color: #f7e9c9;
+  font-weight: 600;
+}
+
 /* =========================================================
    CHECKBOXES
    ========================================================= */
@@ -476,6 +537,12 @@
 
   .admin-form-section-heading h3 {
     font-size: 26px;
+  }
+
+  .admin-form-group input,
+  .admin-form-group select,
+  .admin-form-group textarea {
+    font-size: 16px; /* Prevents iOS Safari auto-zoom on focus */
   }
 
   .admin-form-checkboxes {

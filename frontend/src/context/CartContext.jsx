@@ -43,18 +43,58 @@ function CartProvider({ children }) {
     }
   }, [cartItems]);
 
-  const addToCart = (product) => {
+  const addToCart = (product, selectedSize = "", quantityToAdd = 1) => {
+    let maxStock = 99;
+    if (
+      product.size_inventory &&
+      selectedSize &&
+      product.size_inventory[selectedSize] !== undefined
+    ) {
+      maxStock = Number(product.size_inventory[selectedSize]);
+    } else if (
+      product.size_inventory &&
+      !selectedSize &&
+      Object.keys(product.size_inventory).length > 0
+    ) {
+      const vals = Object.values(product.size_inventory);
+      if (vals.length > 0) maxStock = Number(vals[0]);
+    }
+
+    if (maxStock <= 0) {
+      return false;
+    }
+
+    const qty = Math.max(1, Number(quantityToAdd) || 1);
+
+    const itemPrice =
+      product.size_prices &&
+      selectedSize &&
+      product.size_prices[selectedSize] !== undefined &&
+      product.size_prices[selectedSize] !== "" &&
+      !isNaN(Number(product.size_prices[selectedSize]))
+        ? Number(product.size_prices[selectedSize])
+        : Number(product.price);
+
     setCartItems((previousItems) => {
       const existingItem = previousItems.find(
-        (item) => item.id === product.id
+        (item) =>
+          item.id === product.id &&
+          (item.size || "") === (selectedSize || "")
       );
 
       if (existingItem) {
+        if (existingItem.quantity >= maxStock) {
+          return previousItems;
+        }
+
         return previousItems.map((item) =>
-          item.id === product.id
+          item.id === product.id &&
+          (item.size || "") === (selectedSize || "")
             ? {
                 ...item,
-                quantity: item.quantity + 1,
+                price: itemPrice,
+                maxStock,
+                quantity: Math.min(maxStock, item.quantity + qty),
               }
             : item
         );
@@ -66,42 +106,63 @@ function CartProvider({ children }) {
           id: product.id,
           name: product.name,
           category: product.category,
-          price: product.price,
+          size: selectedSize || "",
+          price: itemPrice,
           fabric: product.fabric,
+          weight: product.weight || "",
           image:
             product.images?.[0]?.image || null,
-          quantity: 1,
+          quantity: Math.min(maxStock, qty),
+          maxStock,
         },
       ];
     });
+
+    return true;
   };
 
-  const removeFromCart = (productId) => {
+  const removeFromCart = (productId, size = null) => {
     setCartItems((previousItems) =>
       previousItems.filter(
-        (item) => item.id !== productId
+        (item) =>
+          !(
+            item.id === productId &&
+            (size === null || (item.size || "") === (size || ""))
+          )
       )
     );
   };
 
-  const increaseQuantity = (productId) => {
+  const increaseQuantity = (productId, size = null) => {
     setCartItems((previousItems) =>
-      previousItems.map((item) =>
-        item.id === productId
-          ? {
-              ...item,
-              quantity: item.quantity + 1,
-            }
-          : item
-      )
+      previousItems.map((item) => {
+        if (
+          item.id === productId &&
+          (size === null || (item.size || "") === (size || ""))
+        ) {
+          const maxAllowed =
+            item.maxStock !== undefined ? item.maxStock : 99;
+
+          if (item.quantity >= maxAllowed) {
+            return item;
+          }
+
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      })
     );
   };
 
-  const decreaseQuantity = (productId) => {
+  const decreaseQuantity = (productId, size = null) => {
     setCartItems((previousItems) =>
       previousItems
         .map((item) =>
-          item.id === productId
+          item.id === productId &&
+          (size === null || (item.size || "") === (size || ""))
             ? {
                 ...item,
                 quantity: item.quantity - 1,

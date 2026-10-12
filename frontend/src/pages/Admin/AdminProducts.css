@@ -169,7 +169,8 @@
 }
 
 .admin-product-fabric strong,
-.admin-product-colors strong {
+.admin-product-colors strong,
+.admin-product-sizes strong {
   color: #5d1e34;
   font-weight: 600;
 }
@@ -196,6 +197,38 @@
   border: 1px solid rgba(114, 38, 63, 0.2);
   color: #72263f;
   font-size: 10px;
+}
+
+/* =========================================================
+   SIZES
+   ========================================================= */
+
+.admin-product-sizes {
+  margin-top: 13px;
+  color: #7d2d49;
+  font-size: 12px;
+}
+
+.admin-product-size-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 7px;
+}
+
+.admin-product-size-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  min-width: 26px;
+  border: 1px solid rgba(157, 116, 49, 0.35);
+  background: rgba(247, 233, 201, 0.45);
+  color: #5d1e34;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  border-radius: 3px;
 }
 
 /* =========================================================
@@ -527,4 +560,67 @@
   .admin-product-image-carousel {
     aspect-ratio: 1 / 1.05;
   }
+}
+
+/* Sub-Section Filter Tabs in Products */
+.admin-products-section .admin-cat-section-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.admin-products-section .admin-cat-section-tab {
+  background: #fff;
+  border: 1px solid rgba(114, 38, 63, 0.2);
+  color: #72263f;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-products-section .admin-cat-section-tab:hover {
+  background: rgba(114, 38, 63, 0.05);
+  border-color: #72263f;
+}
+
+.admin-products-section .admin-cat-section-tab.active {
+  background: #72263f;
+  color: #f7e9c9;
+  border-color: #72263f;
+  box-shadow: 0 2px 8px rgba(114, 38, 63, 0.2);
+}
+
+.cat-section-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.cat-section-pill.section-women {
+  background: rgba(230, 81, 0, 0.08);
+  color: #b71c1c;
+  border: 1px solid rgba(183, 28, 28, 0.2);
+}
+
+.cat-section-pill.section-men {
+  background: rgba(30, 136, 229, 0.08);
+  color: #0d47a1;
+  border: 1px solid rgba(13, 71, 161, 0.2);
+}
+
+.cat-section-pill.section-kids {
+  background: rgba(142, 36, 170, 0.08);
+  color: #4a148c;
+  border: 1px solid rgba(74, 20, 140, 0.2);
 }
