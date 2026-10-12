@@ -60,7 +60,8 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
                 related_name='products',
-                to='products.category'
+                to='products.category',
+                db_constraint=False
             ),
         ),
         migrations.RunPython(
