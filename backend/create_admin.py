@@ -1,28 +1,43 @@
 import os
 import django
-from django.core.management import call_command
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
 from django.contrib.auth.models import User
 
-def load_local_store_data():
+def create_or_update_admin():
     """
-    Restores the exact admin account (yamunastore) with your real password,
-    plus all categories and initial products from your local MySQL database.
+    Creates or updates the admin superuser securely using private
+    environment variables set in Render's dashboard.
+    No passwords or secrets are hardcoded in code files or Git.
     """
-    seed_file = os.path.join(os.path.dirname(__file__), "seed_data.json")
+    username = os.getenv('ADMIN_USERNAME', 'yamunastore')
+    email = os.getenv('ADMIN_EMAIL', 'agrawaljii31415@gmail.com')
+    password = os.getenv('ADMIN_PASSWORD')
 
-    if os.path.exists(seed_file):
-        try:
-            print("Importing your exact admin credentials and catalog from seed_data.json...")
-            call_command("loaddata", seed_file)
-            print("Local store data and 'yamunastore' admin account restored successfully!")
-        except Exception as e:
-            print(f"Note during loaddata: {e}")
-    else:
-        print("seed_data.json not found, skipping initial import.")
+    if not password:
+        print("ADMIN_PASSWORD is not set in environment variables. Skipping.")
+        return
+
+    try:
+        user = User.objects.filter(username=username).first()
+        if not user:
+            User.objects.create_superuser(
+                username=username,
+                email=email,
+                password=password
+            )
+            print(f"Superuser '{username}' successfully created!")
+        else:
+            user.set_password(password)
+            user.email = email
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
+            print(f"Superuser '{username}' successfully updated!")
+    except Exception as e:
+        print(f"Note during admin check: {e}")
 
 if __name__ == "__main__":
-    load_local_store_data()
+    create_or_update_admin()
