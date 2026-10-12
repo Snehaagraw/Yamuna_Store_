@@ -103,6 +103,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+db_options = {}
+# Automatically enable SSL when connecting to TiDB Cloud or when DB_SSL is requested
+db_host = os.getenv("DB_HOST", "")
+if os.getenv("DB_SSL", "False").lower() in ("true", "1", "yes") or "tidbcloud.com" in db_host:
+    try:
+        import certifi
+        db_options["ssl"] = {"ca": certifi.where()}
+    except Exception:
+        if os.path.exists("/etc/ssl/certs/ca-certificates.crt"):
+            db_options["ssl"] = {"ca": "/etc/ssl/certs/ca-certificates.crt"}
+        else:
+            db_options["ssl_mode"] = "REQUIRED"
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -110,8 +123,9 @@ DATABASES = {
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+        'PORT': os.getenv('DB_PORT', '3306'),
         'CONN_MAX_AGE': 60,
+        'OPTIONS': db_options,
     }
 }
 
