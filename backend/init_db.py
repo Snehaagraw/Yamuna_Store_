@@ -7,7 +7,7 @@ def prepare_database():
     Runs during initial deployment if RESET_DB=True to ensure
     all migrations run cleanly without orphaned schema artifacts.
     """
-    reset_enabled = os.getenv("RESET_DB", "True").lower() in ("true", "1", "yes")
+    reset_enabled = os.getenv("RESET_DB", "False").lower() in ("true", "1", "yes")
     db_host = os.getenv("DB_HOST", "")
 
     if not reset_enabled or not db_host:
