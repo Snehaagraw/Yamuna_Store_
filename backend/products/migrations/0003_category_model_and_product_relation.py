@@ -7,7 +7,6 @@ from django.utils.text import slugify
 
 def seed_categories_and_migrate_products(apps, schema_editor):
     Category = apps.get_model('products', 'Category')
-    Product = apps.get_model('products', 'Product')
 
     initial_categories = [
         "Gopi Dress",
@@ -17,27 +16,12 @@ def seed_categories_and_migrate_products(apps, schema_editor):
         "Dhoti Kurta",
     ]
 
-    category_map = {}
     for name in initial_categories:
         slug = slugify(name)
-        cat, _ = Category.objects.get_or_create(
+        Category.objects.get_or_create(
             name=name,
             defaults={"slug": slug, "is_active": True}
         )
-        category_map[name.lower()] = cat
-
-    for product in Product.objects.all():
-        old_cat_name = getattr(product, "category", "")
-        if old_cat_name:
-            matched_cat = category_map.get(str(old_cat_name).strip().lower())
-            if not matched_cat:
-                matched_cat, _ = Category.objects.get_or_create(
-                    name=str(old_cat_name).strip(),
-                    defaults={"slug": slugify(str(old_cat_name).strip()), "is_active": True}
-                )
-                category_map[str(old_cat_name).strip().lower()] = matched_cat
-            product.category_fk = matched_cat
-            product.save(update_fields=["category_fk"])
 
 
 class Migration(migrations.Migration):
@@ -64,9 +48,13 @@ class Migration(migrations.Migration):
                 'ordering': ['name'],
             },
         ),
+        migrations.RemoveField(
+            model_name='product',
+            name='category',
+        ),
         migrations.AddField(
             model_name='product',
-            name='category_fk',
+            name='category',
             field=models.ForeignKey(
                 blank=True,
                 null=True,
@@ -78,14 +66,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(
             seed_categories_and_migrate_products,
             reverse_code=migrations.RunPython.noop
-        ),
-        migrations.RemoveField(
-            model_name='product',
-            name='category',
-        ),
-        migrations.RenameField(
-            model_name='product',
-            old_name='category_fk',
-            new_name='category',
         ),
     ]
