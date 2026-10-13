@@ -14,9 +14,8 @@
   position: relative;
   z-index: 2;
   max-width: 1330px;
-  margin: -20px auto;
-  left: -2px;
-  padding: 50px 5vw 70px;
+  margin: 0 auto;
+  padding: 60px 5vw 70px;
   display: grid;
   grid-template-columns: 1.5fr 0.8fr 0.9fr 1fr;
   gap: 30px;

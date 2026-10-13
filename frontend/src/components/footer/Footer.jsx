@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const INSTAGRAM_URL = "https://www.instagram.com/yamuna_store_vrindavan/";
-const FACEBOOK_URL = "https://www.facebook.com/yamunastores.in/";
+const FACEBOOK_URL = "https://www.facebook.com/share/1H392atmQM/";
 const WHATSAPP_URL = "https://wa.me/918533804168";
 const EMAIL_ADDRESS = "mailto:agrawaljii31415@gmail.com";
 
@@ -117,8 +117,8 @@ function Footer() {
           </p>
 
           <p>
-            <a href="tel:+916397972342" style={{ color: "var(--gold)", textDecoration: "none" }}>
-              📞 +91 6397972342
+            <a href="tel:+918533804168" style={{ color: "var(--gold)", textDecoration: "none" }}>
+              📞 +91 8533804168
             </a>
             <br />
             <a href="mailto:agrawaljii31415@gmail.com" style={{ color: "rgba(247, 233, 201, 0.72)", textDecoration: "none" }}>

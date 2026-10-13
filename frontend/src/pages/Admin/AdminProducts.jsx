@@ -289,21 +289,21 @@ function AdminProducts({
             className={`admin-cat-section-tab ${activeSectionFilter === "women" ? "active" : ""}`}
             onClick={() => setActiveSectionFilter("women")}
           >
-            🌸 Women's ({products.filter((p) => (p.section || "women") === "women").length})
+            Women's ({products.filter((p) => (p.section || "women") === "women").length})
           </button>
           <button
             type="button"
             className={`admin-cat-section-tab ${activeSectionFilter === "men" ? "active" : ""}`}
             onClick={() => setActiveSectionFilter("men")}
           >
-            🪔 Men's ({products.filter((p) => p.section === "men").length})
+            Men's ({products.filter((p) => p.section === "men").length})
           </button>
           <button
             type="button"
             className={`admin-cat-section-tab ${activeSectionFilter === "kids" ? "active" : ""}`}
             onClick={() => setActiveSectionFilter("kids")}
           >
-            ✨ Kids' ({products.filter((p) => p.section === "kids").length})
+            Kids' ({products.filter((p) => p.section === "kids").length})
           </button>
         </div>
       )}
@@ -375,10 +375,10 @@ function AdminProducts({
                           }}
                         >
                           {sec === "men"
-                            ? "🪔 Men"
+                            ? "Men"
                             : sec === "kids"
-                            ? "✨ Kids"
-                            : "🌸 Women"}
+                            ? "Kids"
+                            : "Women"}
                         </span>
                         {product.category}
                       </div>

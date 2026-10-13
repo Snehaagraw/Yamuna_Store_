@@ -290,21 +290,21 @@ function AdminCategories() {
           className={`admin-cat-section-tab ${activeSectionFilter === "women" ? "active" : ""}`}
           onClick={() => setActiveSectionFilter("women")}
         >
-          🌸 Women's ({categories.filter((c) => (c.section || "women") === "women").length})
+          Women's ({categories.filter((c) => (c.section || "women") === "women").length})
         </button>
         <button
           type="button"
           className={`admin-cat-section-tab ${activeSectionFilter === "men" ? "active" : ""}`}
           onClick={() => setActiveSectionFilter("men")}
         >
-          🪔 Men's ({categories.filter((c) => c.section === "men").length})
+          Men's ({categories.filter((c) => c.section === "men").length})
         </button>
         <button
           type="button"
           className={`admin-cat-section-tab ${activeSectionFilter === "kids" ? "active" : ""}`}
           onClick={() => setActiveSectionFilter("kids")}
         >
-          ✨ Kids' ({categories.filter((c) => c.section === "kids").length})
+          Kids' ({categories.filter((c) => c.section === "kids").length})
         </button>
       </div>
 
@@ -350,10 +350,10 @@ function AdminCategories() {
                     <td>
                       <span className={`cat-section-pill section-${sectionKey}`}>
                         {sectionKey === "men"
-                          ? "🪔 Men"
+                          ? "Men"
                           : sectionKey === "kids"
-                          ? "✨ Kids"
-                          : "🌸 Women"}
+                          ? "Kids"
+                          : "Women"}
                       </span>
                     </td>
 
@@ -469,9 +469,9 @@ function AdminCategories() {
                     onChange={(e) => setFormSection(e.target.value)}
                     required
                   >
-                    <option value="women">🌸 Women's Section</option>
-                    <option value="men">🪔 Men's Section</option>
-                    <option value="kids">✨ Kids' Section</option>
+                    <option value="women">Women's Section</option>
+                    <option value="men">Men's Section</option>
+                    <option value="kids">Kids' Section</option>
                   </select>
                   <small className="category-field-hint">
                     Select which department (Women's, Men's, or Kids') this category belongs to.
@@ -593,9 +593,9 @@ function AdminCategories() {
                     onChange={(e) => setFormSection(e.target.value)}
                     required
                   >
-                    <option value="women">🌸 Women's Section</option>
-                    <option value="men">🪔 Men's Section</option>
-                    <option value="kids">✨ Kids' Section</option>
+                    <option value="women">Women's Section</option>
+                    <option value="men">Men's Section</option>
+                    <option value="kids">Kids' Section</option>
                   </select>
                   <small className="category-field-hint">
                     Change the department this category belongs to.

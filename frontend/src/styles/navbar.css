@@ -292,7 +292,9 @@
 }
 
 .mega-all-collections-btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: "DM Mono", monospace !important;
   font-size: 11px !important;
   letter-spacing: 0.12em !important;

@@ -3,6 +3,12 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../api/client";
+import {
+  IconLotus,
+  IconWomensAttire,
+  IconMensAttire,
+  IconKidsAttire,
+} from "../common/SacredIcons";
 
 
 function ProfileIcon() {
@@ -134,7 +140,7 @@ function Navbar() {
                 {/* Column 1: Women */}
                 <div className="mega-column">
                   <div className="mega-column-header">
-                    <span className="mega-icon">🌸</span>
+                    <span className="mega-icon"><IconWomensAttire size={18} /></span>
                     <Link
                       to="/collections?section=women"
                       className="mega-title-link"
@@ -207,7 +213,7 @@ function Navbar() {
                 {/* Column 2: Men */}
                 <div className="mega-column">
                   <div className="mega-column-header">
-                    <span className="mega-icon">🪔</span>
+                    <span className="mega-icon"><IconMensAttire size={18} /></span>
                     <Link
                       to="/collections?section=men"
                       className="mega-title-link"
@@ -256,7 +262,7 @@ function Navbar() {
                 {/* Column 3: Kids */}
                 <div className="mega-column">
                   <div className="mega-column-header">
-                    <span className="mega-icon">✨</span>
+                    <span className="mega-icon"><IconKidsAttire size={18} /></span>
                     <Link
                       to="/collections?section=kids"
                       className="mega-title-link"
@@ -318,7 +324,8 @@ function Navbar() {
                   className="mega-all-collections-btn"
                   onClick={() => setIsDropdownHovered(false)}
                 >
-                  🌸 View Complete Vrindavan Catalog (All Collections) →
+                  <IconLotus size={16} />
+                  <span>View Complete Vrindavan Catalog (All Collections) →</span>
                 </Link>
               </div>
             </div>
@@ -419,19 +426,25 @@ function Navbar() {
                 to="/collections?section=women"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <span>🌸 Women's Attire</span>
+                <span>
+                  <IconWomensAttire size={16} /> Women's Attire
+                </span>
               </Link>
               <Link
                 to="/collections?section=men"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <span>🪔 Men's Attire</span>
+                <span>
+                  <IconMensAttire size={16} /> Men's Attire
+                </span>
               </Link>
               <Link
                 to="/collections?section=kids"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <span>✨ Kids' Attire</span>
+                <span>
+                  <IconKidsAttire size={16} /> Kids' Attire
+                </span>
               </Link>
             </div>
           </div>

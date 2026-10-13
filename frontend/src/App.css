@@ -423,9 +423,21 @@
   }
 
   .featured-products-arrow {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
+    width: 44px;
+    height: 44px;
+    z-index: 25;
+    background: #340c1b;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    box-shadow: 0 6px 20px rgba(20, 4, 10, 0.55);
+  }
+
+  .featured-products-arrow-left {
+    left: 8px;
+  }
+
+  .featured-products-arrow-right {
+    right: 8px;
   }
 
   .featured-products-pagination {

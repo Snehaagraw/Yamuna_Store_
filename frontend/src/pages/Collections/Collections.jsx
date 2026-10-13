@@ -1,18 +1,24 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../../api/client";
 
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import ProductGrid from "../../components/product/ProductGrid";
+import {
+  IconLotus,
+  IconWomensAttire,
+  IconMensAttire,
+  IconKidsAttire,
+} from "../../components/common/SacredIcons";
 
 import "./Collections.css";
 
 const SUBSECTIONS = [
-  { key: "all", label: "All Creations", icon: "✨", tag: "Complete Catalog" },
-  { key: "women", label: "Women's Attire", icon: "🌸", tag: "Gopi Dresses, Sarees, Kurtis" },
-  { key: "men", label: "Men's Attire", icon: "🪔", tag: "Dhoti Kurtas & Vedic Sets" },
-  { key: "kids", label: "Kids' Attire", icon: "🌟", tag: "Little Devotees" },
+  { key: "all", label: "All Creations", icon: <IconLotus size={22} />, tag: "Complete Catalog" },
+  { key: "women", label: "Women's Attire", icon: <IconWomensAttire size={22} />, tag: "Gopi Dresses, Sarees, Kurtis" },
+  { key: "men", label: "Men's Attire", icon: <IconMensAttire size={22} />, tag: "Dhoti Kurtas & Vedic Sets" },
+  { key: "kids", label: "Kids' Attire", icon: <IconKidsAttire size={22} />, tag: "Little Devotees" },
 ];
 
 const HERO_CONTENT = {
@@ -135,6 +141,41 @@ function Collections() {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [gridColumns, setGridColumns] = useState(3);
 
+  // Price Filter States
+  const PRICE_PRESETS = [
+    { id: "all", label: "All Prices", min: "", max: "" },
+    { id: "under-1500", label: "Under ₹1,500", min: "", max: "1500" },
+    { id: "1500-3000", label: "₹1,500 – ₹3,000", min: "1500", max: "3000" },
+    { id: "3000-5000", label: "₹3,000 – ₹5,000", min: "3000", max: "5000" },
+    { id: "above-5000", label: "Above ₹5,000", min: "5000", max: "" },
+  ];
+
+  const [priceRangePreset, setPriceRangePreset] = useState("all");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [customMinInput, setCustomMinInput] = useState("");
+  const [customMaxInput, setCustomMaxInput] = useState("");
+  const [isPriceFilterOpen, setIsPriceFilterOpen] = useState(false);
+  const priceDropdownRef = useRef(null);
+
+  // Close price popover on outside click
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (
+        priceDropdownRef.current &&
+        !priceDropdownRef.current.contains(e.target)
+      ) {
+        setIsPriceFilterOpen(false);
+      }
+    };
+    if (isPriceFilterOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isPriceFilterOpen]);
+
   // Sync state if URL search params change externally (e.g. Navbar click)
   useEffect(() => {
     const secParam = searchParams.get("section")?.toLowerCase();
@@ -155,7 +196,7 @@ function Collections() {
   // Reset pagination when any filter changes
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [activeSection, activeCategory, searchTerm, sortBy, onlyInStock]);
+  }, [activeSection, activeCategory, searchTerm, sortBy, onlyInStock, minPrice, maxPrice]);
 
   // Fetch dynamic categories from backend
   useEffect(() => {
@@ -289,12 +330,63 @@ function Collections() {
     setSearchParams(newParams, { replace: true });
   };
 
+  // Price filter helpers
+  const hasActivePriceFilter =
+    priceRangePreset !== "all" || minPrice !== "" || maxPrice !== "";
+
+  const activePriceLabel = useMemo(() => {
+    const matchedPreset = PRICE_PRESETS.find((p) => p.id === priceRangePreset);
+    if (matchedPreset && matchedPreset.id !== "all") {
+      return matchedPreset.label;
+    }
+    if (minPrice !== "" && maxPrice !== "") {
+      return `₹${Number(minPrice).toLocaleString("en-IN")} – ₹${Number(maxPrice).toLocaleString("en-IN")}`;
+    }
+    if (minPrice !== "") {
+      return `Above ₹${Number(minPrice).toLocaleString("en-IN")}`;
+    }
+    if (maxPrice !== "") {
+      return `Under ₹${Number(maxPrice).toLocaleString("en-IN")}`;
+    }
+    return "Price Range";
+  }, [priceRangePreset, minPrice, maxPrice]);
+
+  const handleSelectPricePreset = (preset) => {
+    setPriceRangePreset(preset.id);
+    setMinPrice(preset.min);
+    setMaxPrice(preset.max);
+    setCustomMinInput(preset.min);
+    setCustomMaxInput(preset.max);
+    setIsPriceFilterOpen(false);
+  };
+
+  const handleApplyCustomPrice = (e) => {
+    e?.preventDefault();
+    const cleanMin = customMinInput.trim();
+    const cleanMax = customMaxInput.trim();
+
+    setMinPrice(cleanMin);
+    setMaxPrice(cleanMax);
+    setPriceRangePreset(cleanMin || cleanMax ? "custom" : "all");
+    setIsPriceFilterOpen(false);
+  };
+
+  const handleClearPriceFilter = () => {
+    setPriceRangePreset("all");
+    setMinPrice("");
+    setMaxPrice("");
+    setCustomMinInput("");
+    setCustomMaxInput("");
+  };
+
   // Clear all filters
   const clearAllFilters = () => {
     setActiveSection("all");
     setActiveCategory("All");
     setSearchTerm("");
     setOnlyInStock(false);
+    handleClearPriceFilter();
+    setIsPriceFilterOpen(false);
     const newParams = new URLSearchParams(searchParams);
     newParams.delete("section");
     newParams.delete("category");
@@ -331,7 +423,19 @@ function Collections() {
       );
     }
 
-    // 4. Search Filter
+    // 4. Price Filter
+    if (minPrice !== "" && !isNaN(Number(minPrice))) {
+      result = result.filter(
+        (product) => Number(product.price || 0) >= Number(minPrice)
+      );
+    }
+    if (maxPrice !== "" && !isNaN(Number(maxPrice))) {
+      result = result.filter(
+        (product) => Number(product.price || 0) <= Number(maxPrice)
+      );
+    }
+
+    // 5. Search Filter
     if (searchTerm.trim()) {
       const search = searchTerm.toLowerCase().trim();
       result = result.filter((product) => {
@@ -353,7 +457,7 @@ function Collections() {
       });
     }
 
-    // 5. Sorting
+    // 6. Sorting
     if (sortBy === "Featured") {
       result.sort((a, b) => {
         const aFeatured =
@@ -380,7 +484,7 @@ function Collections() {
     }
 
     return result;
-  }, [products, activeSection, activeCategory, displayedCategories, onlyInStock, searchTerm, sortBy]);
+  }, [products, activeSection, activeCategory, displayedCategories, onlyInStock, minPrice, maxPrice, searchTerm, sortBy]);
 
   const paginatedProducts = useMemo(() => {
     return filteredProducts.slice(0, visibleCount);
@@ -393,7 +497,8 @@ function Collections() {
     activeSection !== "all" ||
     !isFirstPillActive ||
     onlyInStock ||
-    Boolean(searchTerm.trim());
+    Boolean(searchTerm.trim()) ||
+    hasActivePriceFilter;
 
   const currentHero = HERO_CONTENT[activeSection] || HERO_CONTENT.all;
 
@@ -490,7 +595,7 @@ function Collections() {
 
             {/* Lower Rail: Quick Filters, Live Search & Sort */}
             <div className="deck-controls-rail">
-              {/* Left group: Quick In-Stock Toggle */}
+              {/* Left group: Quick In-Stock Toggle & Price Range Filter */}
               <div className="deck-left-controls">
                 <button
                   type="button"
@@ -501,6 +606,91 @@ function Collections() {
                   <span className="toggle-dot" />
                   <span>In Stock Only</span>
                 </button>
+
+                {/* Price Range Filter Dropdown */}
+                <div className="deck-price-dropdown-wrapper" ref={priceDropdownRef}>
+                  <button
+                    type="button"
+                    className={`deck-price-toggle-btn ${hasActivePriceFilter ? "active" : ""}`}
+                    onClick={() => setIsPriceFilterOpen(!isPriceFilterOpen)}
+                    aria-expanded={isPriceFilterOpen}
+                    title="Filter by price range"
+                  >
+                    <span className="price-toggle-icon">₹</span>
+                    <span>{hasActivePriceFilter ? activePriceLabel : "Price Range"}</span>
+                    <span className="deck-chevron">{isPriceFilterOpen ? "▴" : "▾"}</span>
+                  </button>
+
+                  {isPriceFilterOpen && (
+                    <div className="deck-price-popover">
+                      <div className="deck-price-popover-header">
+                        <span className="popover-title">Price Range</span>
+                        {hasActivePriceFilter && (
+                          <button
+                            type="button"
+                            className="popover-reset-btn"
+                            onClick={handleClearPriceFilter}
+                          >
+                            Reset
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Quick Bracket Pills */}
+                      <div className="price-presets-list">
+                        {PRICE_PRESETS.map((preset) => (
+                          <button
+                            key={preset.id}
+                            type="button"
+                            className={`price-preset-pill ${
+                              priceRangePreset === preset.id ? "active" : ""
+                            }`}
+                            onClick={() => handleSelectPricePreset(preset)}
+                          >
+                            {preset.label}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Custom Range Inputs */}
+                      <div className="custom-price-deck">
+                        <span className="custom-price-label">Custom Range (₹)</span>
+                        <div className="custom-price-inputs-row">
+                          <div className="price-input-wrap">
+                            <span className="currency-prefix">₹</span>
+                            <input
+                              type="number"
+                              placeholder="Min"
+                              value={customMinInput}
+                              onChange={(e) => setCustomMinInput(e.target.value)}
+                              min="0"
+                              aria-label="Minimum price"
+                            />
+                          </div>
+                          <span className="price-range-dash">–</span>
+                          <div className="price-input-wrap">
+                            <span className="currency-prefix">₹</span>
+                            <input
+                              type="number"
+                              placeholder="Max"
+                              value={customMaxInput}
+                              onChange={(e) => setCustomMaxInput(e.target.value)}
+                              min="0"
+                              aria-label="Maximum price"
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            className="price-apply-btn"
+                            onClick={handleApplyCustomPrice}
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Center group: Live Search Bar */}
@@ -618,6 +808,19 @@ function Collections() {
                 </span>
               )}
 
+              {hasActivePriceFilter && (
+                <span className="active-filter-chip">
+                  Price: <strong>{activePriceLabel}</strong>
+                  <button
+                    type="button"
+                    onClick={handleClearPriceFilter}
+                    aria-label="Remove price filter"
+                  >
+                    ✕
+                  </button>
+                </span>
+              )}
+
               {searchTerm.trim() && (
                 <span className="active-filter-chip">
                   Search: <strong>"{searchTerm}"</strong>
@@ -683,7 +886,9 @@ function Collections() {
           {/* Empty State */}
           {!loading && !error && filteredProducts.length === 0 && (
             <div className="collections-empty-state">
-              <div className="collections-empty-icon">🌸</div>
+              <div className="collections-empty-icon">
+                <IconLotus size={38} />
+              </div>
               <h3>
                 {!isFirstPillActive
                   ? `No pieces found in "${activeCategory}"`

@@ -620,9 +620,9 @@ function AdminAddProduct({
                 value={formData.section || "women"}
                 onChange={handleSectionChange}
               >
-                <option value="women">🌸 Women's Collection</option>
-                <option value="men">🪔 Men's Collection</option>
-                <option value="kids">✨ Kids' Collection</option>
+                <option value="women">Women's Collection</option>
+                <option value="men">Men's Collection</option>
+                <option value="kids">Kids' Collection</option>
               </select>
             </div>
 

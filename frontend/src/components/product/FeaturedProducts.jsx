@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/client";
 import { useCurrency } from "../../context/CurrencyContext";
@@ -157,6 +157,61 @@ function FeaturedProducts() {
     );
   }, [products.length]);
 
+  // Touch Swipe Gesture Handling (Finger swiping on mobile phones)
+  const touchStartX = useRef(null);
+  const touchStartY = useRef(null);
+
+  const handleTouchStart = (e) => {
+    setIsPaused(true);
+    if (e.touches && e.touches[0]) {
+      touchStartX.current = e.touches[0].clientX;
+      touchStartY.current = e.touches[0].clientY;
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    setIsPaused(false);
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchStartX.current - touchEndX;
+    const deltaY = touchStartY.current - touchEndY;
+
+    // Minimum swipe threshold: 38px, horizontal movement must dominate vertical scrolling
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 38) {
+      if (deltaX > 0) {
+        // Swiped left -> advance forward
+        nextProduct();
+      } else {
+        // Swiped right -> go backward
+        previousProduct();
+      }
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
+  // Keyboard Arrow Key Navigation (Left / Right Arrow)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (
+        ["INPUT", "TEXTAREA", "SELECT"].includes(
+          document.activeElement?.tagName
+        )
+      ) {
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        previousProduct();
+      } else if (e.key === "ArrowRight") {
+        nextProduct();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [previousProduct, nextProduct]);
+
   useEffect(() => {
     if (products.length <= 1 || isPaused) return;
 
@@ -228,14 +283,32 @@ function FeaturedProducts() {
         className="featured-products-showcase"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        tabIndex={0}
+        role="region"
+        aria-label="Featured collection carousel. Swipe with finger or use arrow keys."
       >
         <button
           type="button"
           className="featured-products-arrow featured-products-arrow-left"
           onClick={previousProduct}
           aria-label="Previous featured creation"
+          title="Previous (Left Arrow)"
         >
-          ←
+          <svg
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
         </button>
 
         {previous && (
@@ -319,8 +392,21 @@ function FeaturedProducts() {
           className="featured-products-arrow featured-products-arrow-right"
           onClick={nextProduct}
           aria-label="Next featured creation"
+          title="Next (Right Arrow)"
         >
-          →
+          <svg
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
         </button>
 
         <div className="featured-products-pagination">
