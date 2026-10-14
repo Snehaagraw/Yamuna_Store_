@@ -61,16 +61,8 @@ def get_user_saved_address(user):
 
 class AdminLoginSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
-        identifier = attrs.get("username", "").strip()
-
-        # Support flexible login by username or email (case-insensitive)
-        matched_user = (
-            User.objects.filter(username__iexact=identifier).first()
-            or User.objects.filter(email__iexact=identifier, is_staff=True).first()
-            or User.objects.filter(email__iexact=identifier).first()
-        )
-        if matched_user:
-            attrs["username"] = matched_user.username
+        if "username" in attrs and isinstance(attrs["username"], str):
+            attrs["username"] = attrs["username"].strip()
 
         data = super().validate(attrs)
 
