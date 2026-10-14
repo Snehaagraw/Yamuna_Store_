@@ -62,7 +62,12 @@ def get_user_saved_address(user):
 class AdminLoginSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         if "username" in attrs and isinstance(attrs["username"], str):
-            attrs["username"] = attrs["username"].strip()
+            raw_uname = attrs["username"].strip()
+            matched_staff = User.objects.filter(username__iexact=raw_uname, is_staff=True).first()
+            if matched_staff:
+                attrs["username"] = matched_staff.username
+            else:
+                attrs["username"] = raw_uname
 
         data = super().validate(attrs)
 

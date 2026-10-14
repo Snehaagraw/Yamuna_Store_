@@ -6,53 +6,57 @@ django.setup()
 
 from django.contrib.auth.models import User
 
+def _get_env_insensitive(*keys):
+    env_lower = {k.lower(): v for k, v in os.environ.items()}
+    for key in keys:
+        if key.lower() in env_lower and env_lower[key.lower()].strip():
+            return env_lower[key.lower()].strip()
+    return ''
+
 def create_or_update_admin():
     """
-    Synchronizes the single, specific admin superuser using private
-    environment variables configured in Render's dashboard.
-    Supports ADMIN_USERNAME or ADMIN_NAME, and ADMIN_PASSWORD.
+    Synchronizes the admin superuser using private environment variables
+    configured in Render's dashboard.
+    Case-insensitive key lookup: ADMIN_USERNAME, ADMIN_NAME, ADMIN_PASSWORD, etc.
     """
-    raw_username = (
-        os.getenv('ADMIN_USERNAME')
-        or os.getenv('ADMIN_NAME')
-        or os.getenv('ADMIN_USER')
-        or 'yamunastore'
-    )
-    raw_password = (
-        os.getenv('ADMIN_PASSWORD')
-        or os.getenv('ADMIN_PASS')
-        or ''
-    )
-    email = (os.getenv('ADMIN_EMAIL') or 'agrawaljii31415@gmail.com').strip()
-
-    username = raw_username.strip()
-    password = raw_password.strip()
+    custom_username = _get_env_insensitive('ADMIN_USERNAME', 'ADMIN_NAME', 'ADMIN_USER', 'ADMIN')
+    password = _get_env_insensitive('ADMIN_PASSWORD', 'ADMIN_PASS', 'ADMIN_SECRET')
+    email = _get_env_insensitive('ADMIN_EMAIL') or 'agrawaljii31415@gmail.com'
 
     if not password:
-        print("ADMIN_PASSWORD is not set in Render environment variables. Skipping admin sync.")
+        print("[AdminSync] ADMIN_PASSWORD is not set in Render environment variables. Skipping.")
         return
 
-    try:
-        user = User.objects.filter(username=username).first()
-        if not user:
-            user = User.objects.create_superuser(
-                username=username,
-                email=email,
-                password=password
-            )
-            print(f"Superuser '{username}' successfully created!")
-        else:
-            if not user.check_password(password) or not user.is_staff or not user.is_superuser or not user.is_active:
+    # Usernames to ensure have superuser access with this password
+    usernames = []
+    if custom_username:
+        usernames.append(custom_username)
+    # Always also ensure 'yamunastore' (the original store admin ID 1) is synced
+    usernames.append('yamunastore')
+
+    # Remove duplicates preserving order
+    seen = set()
+    target_usernames = [u for u in usernames if not (u.lower() in seen or seen.add(u.lower()))]
+
+    for uname in target_usernames:
+        try:
+            user = User.objects.filter(username__iexact=uname).first()
+            if not user:
+                user = User.objects.create_superuser(
+                    username=uname,
+                    email=email,
+                    password=password
+                )
+                print(f"[AdminSync] Superuser '{uname}' successfully created!")
+            else:
                 user.set_password(password)
                 user.is_staff = True
                 user.is_superuser = True
                 user.is_active = True
                 user.save()
-                print(f"Superuser '{username}' successfully synced with Render credentials!")
-            else:
-                print(f"Superuser '{username}' is already up-to-date.")
-    except Exception as e:
-        print(f"Note during admin sync for '{username}': {e}")
+                print(f"[AdminSync] Superuser '{user.username}' successfully updated with Render password!")
+        except Exception as e:
+            print(f"[AdminSync] Note during sync for '{uname}': {e}")
 
 if __name__ == "__main__":
     create_or_update_admin()
