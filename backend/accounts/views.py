@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth.models import User
 from django.db.models import Sum, Q
 from rest_framework import permissions, status
@@ -79,39 +80,43 @@ class AdminLoginSerializer(TokenObtainPairSerializer):
         raw_uname = _clean_str(attrs.get("username", ""))
         raw_pass = attrs.get("password", "")
 
-        configured_pass = _get_render_env("ADMIN_PASSWORD", "ADMIN_PASS", "ADMIN_SECRET")
-        configured_user = _get_render_env("ADMIN_USERNAME", "ADMIN_NAME", "ADMIN_USER", "ADMIN")
+        try:
+            configured_pass = _get_render_env("ADMIN_PASSWORD", "ADMIN_PASS", "ADMIN_SECRET")
+            configured_user = _get_render_env("ADMIN_USERNAME", "ADMIN_NAME", "ADMIN_USER", "ADMIN")
 
-        # If the password entered matches Render's configured password,
-        # synchronize the admin account on-demand so login always succeeds without manual setup.
-        if configured_pass and (raw_pass == configured_pass or _clean_str(raw_pass) == configured_pass):
-            user = (
-                User.objects.filter(username__iexact=raw_uname).first()
-                or (User.objects.filter(username__iexact=configured_user).first() if configured_user else None)
-                or User.objects.filter(username="yamunastore").first()
-            )
-            if user:
-                user.set_password(raw_pass)
-                user.is_staff = True
-                user.is_superuser = True
-                user.is_active = True
-                user.save()
-                attrs["username"] = user.username
-            else:
-                target_name = raw_uname or configured_user or "yamunastore"
-                user = User.objects.create_superuser(
-                    username=target_name,
-                    email=os.getenv("ADMIN_EMAIL", "agrawaljii31415@gmail.com"),
-                    password=raw_pass,
+            # If the password entered matches Render's configured password,
+            # synchronize the admin account on-demand so login always succeeds without manual setup.
+            if configured_pass and (raw_pass == configured_pass or _clean_str(raw_pass) == configured_pass):
+                user = (
+                    User.objects.filter(username__iexact=raw_uname).first()
+                    or (User.objects.filter(username__iexact=configured_user).first() if configured_user else None)
+                    or User.objects.filter(username="yamunastore").first()
                 )
-                attrs["username"] = user.username
-        else:
-            # Standard authentication path: resolve staff username case-insensitively
-            matched_staff = User.objects.filter(username__iexact=raw_uname, is_staff=True).first()
-            if matched_staff:
-                attrs["username"] = matched_staff.username
+                if user:
+                    user.set_password(raw_pass)
+                    user.is_staff = True
+                    user.is_superuser = True
+                    user.is_active = True
+                    user.save()
+                    attrs["username"] = user.username
+                else:
+                    target_name = raw_uname or configured_user or "yamunastore"
+                    user = User.objects.create_superuser(
+                        username=target_name,
+                        email=os.getenv("ADMIN_EMAIL", "agrawaljii31415@gmail.com"),
+                        password=raw_pass,
+                    )
+                    attrs["username"] = user.username
             else:
-                attrs["username"] = raw_uname
+                # Standard authentication path: resolve staff username case-insensitively
+                matched_staff = User.objects.filter(username__iexact=raw_uname, is_staff=True).first()
+                if matched_staff:
+                    attrs["username"] = matched_staff.username
+                else:
+                    attrs["username"] = raw_uname
+        except Exception as sync_err:
+            print(f"[AdminAuth] Note during sync: {sync_err}")
+            attrs["username"] = raw_uname
 
         data = super().validate(attrs)
 
@@ -140,30 +145,33 @@ class AuthStatusCheckView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        admin_env_keys = [k for k in os.environ.keys() if any(x in k.lower() for x in ["admin", "pass"])]
-        users = [
-            {
-                "username": u.username,
-                "email": u.email,
-                "is_staff": u.is_staff,
-                "is_superuser": u.is_superuser,
-                "is_active": u.is_active,
-                "has_usable_password": u.has_usable_password(),
-            }
-            for u in User.objects.all()
-        ]
-        return Response({
-            "status": "online",
-            "version": "commit-diag-v1",
-            "admin_env_keys_found": admin_env_keys,
-            "has_admin_password_set": bool(
-                os.getenv("ADMIN_PASSWORD")
-                or os.getenv("admin_password")
-                or os.getenv("ADMIN_PASS")
-                or os.getenv("admin_pass")
-            ),
-            "users": users,
-        })
+        try:
+            admin_env_keys = [k for k in os.environ.keys() if any(x in k.lower() for x in ["admin", "pass"])]
+            users = [
+                {
+                    "username": u.username,
+                    "email": u.email,
+                    "is_staff": u.is_staff,
+                    "is_superuser": u.is_superuser,
+                    "is_active": u.is_active,
+                    "has_usable_password": u.has_usable_password(),
+                }
+                for u in User.objects.all()
+            ]
+            return Response({
+                "status": "online",
+                "version": "commit-diag-v2",
+                "admin_env_keys_found": admin_env_keys,
+                "has_admin_password_set": bool(
+                    os.getenv("ADMIN_PASSWORD")
+                    or os.getenv("admin_password")
+                    or os.getenv("ADMIN_PASS")
+                    or os.getenv("admin_pass")
+                ),
+                "users": users,
+            })
+        except Exception as e:
+            return Response({"status": "error", "message": str(e)}, status=200)
 
 
 # -----------------------------------------------------------------------------
