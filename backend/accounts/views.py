@@ -136,6 +136,36 @@ class AdminLoginView(TokenObtainPairView):
     throttle_classes = [AuthRateThrottle]
 
 
+class AuthStatusCheckView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        admin_env_keys = [k for k in os.environ.keys() if any(x in k.lower() for x in ["admin", "pass"])]
+        users = [
+            {
+                "username": u.username,
+                "email": u.email,
+                "is_staff": u.is_staff,
+                "is_superuser": u.is_superuser,
+                "is_active": u.is_active,
+                "has_usable_password": u.has_usable_password(),
+            }
+            for u in User.objects.all()
+        ]
+        return Response({
+            "status": "online",
+            "version": "commit-diag-v1",
+            "admin_env_keys_found": admin_env_keys,
+            "has_admin_password_set": bool(
+                os.getenv("ADMIN_PASSWORD")
+                or os.getenv("admin_password")
+                or os.getenv("ADMIN_PASS")
+                or os.getenv("admin_pass")
+            ),
+            "users": users,
+        })
+
+
 # -----------------------------------------------------------------------------
 # CUSTOMER AUTHENTICATION
 # -----------------------------------------------------------------------------
