@@ -16,6 +16,7 @@ def custom_500(request):
 handler500 = custom_500
 
 urlpatterns = [
+    path("api/ping/", lambda r: JsonResponse({"status": "ok", "version": "latest-live"})),
     path("admin/", admin.site.urls),
     path("api/", include("products.urls")),
     path("api/", include("orders.urls")),
