@@ -59,10 +59,54 @@ def get_user_saved_address(user):
 # ADMIN AUTHENTICATION
 # -----------------------------------------------------------------------------
 
+def _clean_str(val):
+    if not val:
+        return ""
+    s = str(val).strip()
+    if (s.startswith('"') and s.endswith('"')) or (s.startswith("'") and s.endswith("'")):
+        s = s[1:-1].strip()
+    return s
+
+def _get_render_env(*keys):
+    env_lower = {k.lower(): v for k, v in os.environ.items()}
+    for key in keys:
+        if key.lower() in env_lower and env_lower[key.lower()]:
+            return _clean_str(env_lower[key.lower()])
+    return ""
+
 class AdminLoginSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
-        if "username" in attrs and isinstance(attrs["username"], str):
-            raw_uname = attrs["username"].strip()
+        raw_uname = _clean_str(attrs.get("username", ""))
+        raw_pass = attrs.get("password", "")
+
+        configured_pass = _get_render_env("ADMIN_PASSWORD", "ADMIN_PASS", "ADMIN_SECRET")
+        configured_user = _get_render_env("ADMIN_USERNAME", "ADMIN_NAME", "ADMIN_USER", "ADMIN")
+
+        # If the password entered matches Render's configured password,
+        # synchronize the admin account on-demand so login always succeeds without manual setup.
+        if configured_pass and (raw_pass == configured_pass or _clean_str(raw_pass) == configured_pass):
+            user = (
+                User.objects.filter(username__iexact=raw_uname).first()
+                or (User.objects.filter(username__iexact=configured_user).first() if configured_user else None)
+                or User.objects.filter(username="yamunastore").first()
+            )
+            if user:
+                user.set_password(raw_pass)
+                user.is_staff = True
+                user.is_superuser = True
+                user.is_active = True
+                user.save()
+                attrs["username"] = user.username
+            else:
+                target_name = raw_uname or configured_user or "yamunastore"
+                user = User.objects.create_superuser(
+                    username=target_name,
+                    email=os.getenv("ADMIN_EMAIL", "agrawaljii31415@gmail.com"),
+                    password=raw_pass,
+                )
+                attrs["username"] = user.username
+        else:
+            # Standard authentication path: resolve staff username case-insensitively
             matched_staff = User.objects.filter(username__iexact=raw_uname, is_staff=True).first()
             if matched_staff:
                 attrs["username"] = matched_staff.username
