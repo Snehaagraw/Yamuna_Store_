@@ -17,7 +17,7 @@ function AdminLogin() {
     setError("");
 
     if (!username || !password) {
-      setError("Please enter your username and password.");
+      setError("Please enter your username/email and password.");
       return;
     }
 
@@ -69,7 +69,7 @@ function AdminLogin() {
 
         <form onSubmit={handleSubmit}>
           <div className="admin-form-group">
-            <label htmlFor="admin-username">Username</label>
+            <label htmlFor="admin-username">Username or Email</label>
 
             <input
               id="admin-username"
@@ -77,7 +77,7 @@ function AdminLogin() {
               value={username}
               onChange={(event) => setUsername(event.target.value)}
               autoComplete="username"
-              placeholder="Enter your username"
+              placeholder="e.g. yamunastore or agrawaljii31415@gmail.com"
             />
           </div>
 
