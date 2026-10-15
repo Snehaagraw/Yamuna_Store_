@@ -35,7 +35,10 @@ export const loadRazorpayScript = () => {
  */
 export const openRazorpayModal = async ({
   key,
+  orderId,
   amountInRupees,
+  amountInPaise,
+  currency = "INR",
   name = "Yamuna Store",
   description = "Devotional Attire Fulfillment",
   orderNumber = "",
@@ -49,15 +52,16 @@ export const openRazorpayModal = async ({
   }
 
   // Convert Rupees to Paise for Razorpay
-  const amountInPaise = Math.round(Number(amountInRupees) * 100);
+  const finalPaise = amountInPaise || Math.round(Number(amountInRupees) * 100);
 
   const razorpayOptions = {
-    key: key || import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_yamunastore",
-    amount: amountInPaise,
-    currency: "INR",
+    key: key || import.meta.env.VITE_RAZORPAY_KEY_ID || "",
+    amount: finalPaise,
+    currency: currency,
     name: name,
     description: description,
     image: "/yamunaStoreFront.jpg",
+    order_id: orderId || undefined,
     prefill: {
       name: prefill.name || "",
       email: prefill.email || "",

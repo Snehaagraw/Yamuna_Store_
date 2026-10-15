@@ -305,24 +305,31 @@ function Checkout() {
           ? "Razorpay (Debit / Credit Card)"
           : "Razorpay (Net Banking)";
 
-      // Check for Razorpay Key ID
-      const rzpKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
-
-      if (!rzpKey || rzpKey.includes("test_yamunastore")) {
-        // Friendly Development / Test Mode Mock:
-        // Allows testing full checkout without getting blocked when user hasn't added live keys yet
-        const simulatedPaymentId = `pay_mock_${Date.now().toString(36)}`;
-        await submitOrderToBackend({
-          paymentMethodName: chosenMethodLabel,
-          paymentStatus: "Paid (Test Sandbox)",
-          transactionId: simulatedPaymentId,
+      // Step 1: Call Backend to Create Razorpay Order
+      let rzpOrderData = null;
+      try {
+        const orderRes = await api.post("/api/create-order/", {
+          amount: finalPayableAmount,
+          currency: "INR",
+          customer_name: formData.name,
         });
+        rzpOrderData = orderRes.data;
+      } catch (orderErr) {
+        console.error("Backend Razorpay order creation failed:", orderErr);
+        setError("Unable to initiate secure payment session. Please try again.");
+        setLoading(false);
         return;
       }
 
-      // Production / Configured Razorpay Flow
+      const rzpKey = rzpOrderData?.key_id || import.meta.env.VITE_RAZORPAY_KEY_ID || "";
+      const rzpOrderId = rzpOrderData?.order_id;
+      const rzpAmountPaise = rzpOrderData?.amount;
+
+      // Step 2: Open Razorpay Standard Checkout Modal with order_id
       await openRazorpayModal({
         key: rzpKey,
+        orderId: rzpOrderId,
+        amountInPaise: rzpAmountPaise,
         amountInRupees: finalPayableAmount,
         name: "Yamuna Store Vrindavan",
         description: `Order Fulfillment (${shippingInfo.carrier})`,
@@ -333,13 +340,26 @@ function Checkout() {
         },
         onSuccess: async (rzpResponse) => {
           try {
-            await submitOrderToBackend({
-              paymentMethodName: chosenMethodLabel,
-              paymentStatus: "Paid",
-              transactionId: rzpResponse.razorpay_payment_id || "",
+            // Step 3: Call Backend to Cryptographically Verify Payment Signature
+            const verifyRes = await api.post("/api/verify-payment/", {
+              order_id: rzpResponse.razorpay_order_id,
+              payment_id: rzpResponse.razorpay_payment_id,
+              signature: rzpResponse.razorpay_signature,
             });
+
+            if (verifyRes.data?.status === "success") {
+              // Signature verified! Save completed order to database
+              await submitOrderToBackend({
+                paymentMethodName: chosenMethodLabel,
+                paymentStatus: "Paid",
+                transactionId: rzpResponse.razorpay_payment_id || "",
+              });
+            } else {
+              setError("Payment verification signature mismatch. Please contact Yamuna Store support.");
+            }
           } catch (err) {
-            setError("Payment processed, but order recording failed. Please contact Yamuna Store support.");
+            console.error("Payment verification failed:", err);
+            setError("Payment processed, but signature verification failed. Please contact Yamuna Store support.");
           } finally {
             setLoading(false);
           }
