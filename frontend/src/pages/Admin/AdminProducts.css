@@ -22,7 +22,7 @@
   display: block;
   margin-bottom: 12px;
   color: #9d7431;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.18em;
 }
@@ -30,7 +30,7 @@
 .admin-products-heading h2 {
   margin: 0;
   color: #5d1e34;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(46px, 5vw, 68px);
   font-weight: 500;
   line-height: 0.9;
@@ -51,7 +51,7 @@
 .admin-primary-button,
 .admin-secondary-button {
   border: none;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -129,7 +129,7 @@
 .admin-product-category {
   margin-bottom: 8px;
   color: #9d7431;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -138,7 +138,7 @@
 .admin-product-info h3 {
   margin: 0;
   color: #5d1e34;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 28px;
   font-weight: 500;
   line-height: 1;
@@ -147,7 +147,7 @@
 .admin-product-price {
   margin: 10px 0 0;
   color: #72263f;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 13px;
 }
 
@@ -225,7 +225,7 @@
   border: 1px solid rgba(157, 116, 49, 0.35);
   background: rgba(247, 233, 201, 0.45);
   color: #5d1e34;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   font-weight: 500;
   border-radius: 3px;
@@ -250,7 +250,7 @@
   align-items: center;
   min-height: 24px;
   padding: 4px 8px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 8px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -288,7 +288,7 @@
   border: 1px solid rgba(114, 38, 63, 0.28);
   background: transparent;
   color: #72263f;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -375,7 +375,7 @@
 
 .admin-product-no-image {
   color: #9d7431;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -481,7 +481,7 @@
 .admin-products-message {
   padding: 35px 0;
   color: #7d2d49;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
 }
 
@@ -511,7 +511,7 @@
 .admin-products-empty h3 {
   margin: 0;
   color: #5d1e34;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 34px;
   font-weight: 500;
 }
@@ -576,7 +576,7 @@
   color: #72263f;
   padding: 8px 18px;
   border-radius: 20px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -602,7 +602,7 @@
   gap: 4px;
   padding: 4px 10px;
   border-radius: 12px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   font-weight: 600;
 }

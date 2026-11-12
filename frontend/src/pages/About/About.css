@@ -4,7 +4,7 @@
 
 .about-page {
   min-height: 100vh;
-  background: var(--cream);
+  background: #ffffff;
   color: var(--maroon-dark);
 }
 
@@ -14,7 +14,7 @@
 
 .about-eyebrow {
   margin: 0 0 20px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.22em;
@@ -43,8 +43,8 @@
 
 .about-story-content h1 {
   margin: 0 0 24px;
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(60px, 6.5vw, 92px);
+  font-family: inherit;
+  font-size: clamp(34px, 4vw, 48px);
   font-weight: 500;
   line-height: 0.88;
   letter-spacing: -0.04em;
@@ -71,7 +71,7 @@
   gap: 6px;
   padding: 10px 18px;
   border-radius: 25px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -123,7 +123,7 @@
 
 .about-story-text p {
   margin: 0 0 18px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12.5px;
   line-height: 1.9;
   color: rgba(93, 30, 52, 0.78);
@@ -171,7 +171,7 @@
 }
 
 .top-tag-om {
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -179,7 +179,7 @@
 }
 
 .top-tag-text {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.18em;
@@ -224,7 +224,7 @@
 
 .caption-text strong {
   display: block;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 16px;
   font-weight: 600;
   color: var(--maroon-dark);
@@ -233,7 +233,7 @@
 
 .caption-text small {
   display: block;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10.5px;
   color: rgba(93, 30, 52, 0.65);
   margin-top: 2px;
@@ -260,7 +260,7 @@
 }
 
 .placeholder-om {
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 20px;
   color: var(--gold-dark);
   margin-bottom: 12px;
@@ -268,7 +268,7 @@
 }
 
 .placeholder-title {
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 34px;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -277,7 +277,7 @@
 
 .placeholder-sub {
   margin-top: 10px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -289,7 +289,10 @@
    ========================================================= */
 
 .about-wholesale-strip {
-  background: #1e4542;
+  background: #fdfaf9;
+  border-top: 1px solid #f0e6e8;
+  border-bottom: 1px solid #f0e6e8;
+  color: var(--text-primary);
   color: var(--cream);
   padding: 45px 5vw;
   border-top: 1px solid rgba(228, 182, 94, 0.2);
@@ -316,7 +319,7 @@
   background: rgba(228, 182, 94, 0.15);
   border: 1px solid rgba(228, 182, 94, 0.4);
   border-radius: 14px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.16em;
   color: var(--gold);
@@ -326,7 +329,7 @@
 
 .wholesale-strip-info h3 {
   margin: 0 0 8px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(26px, 3vw, 34px);
   font-weight: 600;
   color: var(--cream);
@@ -334,7 +337,7 @@
 
 .wholesale-strip-info p {
   margin: 0;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11.5px;
   line-height: 1.8;
   color: rgba(247, 233, 201, 0.8);
@@ -347,7 +350,7 @@
   background: var(--gold);
   color: var(--maroon-dark);
   border-radius: 25px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -369,7 +372,9 @@
 
 .about-contact {
   position: relative;
-  background: #2d5c59;
+  background: var(--maroon-dark);
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--cream);
   padding: 95px 6vw;
   display: grid;
@@ -380,7 +385,7 @@
 
 .about-contact-heading h2 {
   margin: 0 0 16px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(55px, 5.5vw, 82px);
   font-weight: 500;
   line-height: 0.88;
@@ -395,10 +400,10 @@
 
 .contact-heading-sub {
   margin: 0;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   line-height: 1.85;
-  color: rgba(247, 233, 201, 0.75);
+  color: rgba(255, 255, 255, 0.8);
   max-width: 440px;
 }
 
@@ -416,7 +421,7 @@
 
 .about-contact-label {
   margin-bottom: 18px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.18em;
   color: var(--gold);
@@ -426,10 +431,10 @@
 
 .contact-address-text {
   margin: 0 0 16px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   line-height: 1.85;
-  color: rgba(247, 233, 201, 0.85);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .contact-address-text strong {
@@ -445,7 +450,7 @@
   border: 1px solid rgba(228, 182, 94, 0.35);
   border-radius: 14px;
   color: var(--gold);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -472,7 +477,7 @@
 }
 
 .person-name {
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 18px;
   font-weight: 600;
   color: #ffffff;
@@ -486,7 +491,7 @@
 }
 
 .person-phone {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11.5px;
   color: rgba(247, 233, 201, 0.8);
   text-decoration: none;
@@ -504,7 +509,7 @@
   background: rgba(37, 211, 102, 0.18);
   border: 1px solid rgba(37, 211, 102, 0.4);
   border-radius: 12px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9.5px;
   color: #55ef88;
   text-decoration: none;
@@ -517,9 +522,9 @@
 }
 
 .contact-email-link {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
-  color: rgba(247, 233, 201, 0.7);
+  color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -531,10 +536,10 @@
 /* Hours Block */
 .contact-hours-text {
   margin: 0 0 14px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   line-height: 1.85;
-  color: rgba(247, 233, 201, 0.85);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .contact-hours-text strong {
@@ -551,7 +556,7 @@
 
 .hours-darshan-tip span {
   display: block;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   font-weight: 600;
   color: var(--gold);
@@ -560,10 +565,10 @@
 
 .hours-darshan-tip small {
   display: block;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9.5px;
   line-height: 1.5;
-  color: rgba(247, 233, 201, 0.7);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 /* =========================================================
@@ -584,7 +589,7 @@
 
 .pilgrim-guide-header h2 {
   margin: 0 0 12px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(38px, 4.5vw, 54px);
   font-weight: 600;
   color: var(--maroon-dark);
@@ -592,7 +597,7 @@
 
 .pilgrim-guide-header p {
   margin: 0;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   line-height: 1.8;
   color: rgba(93, 30, 52, 0.72);
@@ -630,7 +635,7 @@
 
 .pilgrim-card h3 {
   margin: 0 0 10px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 22px;
   font-weight: 600;
   color: var(--maroon-dark);
@@ -638,7 +643,7 @@
 
 .pilgrim-card p {
   margin: 0 0 18px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   line-height: 1.8;
   color: rgba(93, 30, 52, 0.78);
@@ -652,7 +657,7 @@
   background: rgba(228, 182, 94, 0.15);
   border: 1px solid rgba(228, 182, 94, 0.35);
   border-radius: 12px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   font-weight: 600;
   color: var(--dark-gold);
@@ -678,7 +683,7 @@
 
 .pilgrim-local-tip p {
   margin: 0;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   line-height: 1.75;
   color: #204c49;
@@ -704,7 +709,7 @@
 
 .about-location-heading h2 {
   margin: 0;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(52px, 5.5vw, 76px);
   font-weight: 500;
   line-height: 0.9;
@@ -721,7 +726,7 @@
 .about-location-heading > p {
   max-width: 400px;
   margin: 0 0 7px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11.5px;
   line-height: 1.85;
   color: rgba(93, 30, 52, 0.72);
@@ -764,7 +769,7 @@
   color: var(--cream);
   border: 1px solid var(--maroon);
   border-radius: 25px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -780,7 +785,7 @@
 }
 
 .about-map-wa-link {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11.5px;
   color: #128c46;
   font-weight: 600;

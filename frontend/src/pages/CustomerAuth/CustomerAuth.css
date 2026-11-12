@@ -40,7 +40,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 26px;
   font-weight: 800;
   box-shadow: 2px 4px 0 rgba(233, 161, 45, 0.25);
@@ -48,7 +48,7 @@
 
 .customer-auth-brand-text h2 {
   margin: 0;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 24px;
   font-weight: 600;
   line-height: 1;
@@ -56,7 +56,7 @@
 }
 
 .customer-auth-brand-text small {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.16em;
   color: var(--gold-dark);
@@ -69,7 +69,7 @@
 .customer-auth-eyebrow {
   display: block;
   margin-bottom: 8px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.22em;
   color: var(--gold-dark);
@@ -78,7 +78,7 @@
 
 .customer-auth-header h1 {
   margin: 0 0 10px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(32px, 4vw, 42px);
   font-weight: 500;
   line-height: 1.05;
@@ -87,7 +87,7 @@
 
 .customer-auth-header p {
   margin: 0;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   line-height: 1.7;
   color: rgba(93, 30, 52, 0.72);
@@ -108,7 +108,7 @@
   border: none;
   background: transparent;
   color: var(--maroon-dark);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -135,7 +135,7 @@
 }
 
 .auth-field label {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -149,7 +149,7 @@
   border: 1px solid rgba(114, 38, 63, 0.22);
   background: transparent;
   color: var(--maroon-dark);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   outline: none;
   transition: border-color 0.25s ease;
@@ -164,7 +164,7 @@
   background: rgba(155, 75, 75, 0.1);
   border-left: 3px solid #9b4b4b;
   color: #9b4b4b;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
 }
 
@@ -174,7 +174,7 @@
   border: 1px solid var(--maroon);
   background: var(--maroon);
   color: var(--gold);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -203,7 +203,7 @@
 
 .customer-auth-footer p {
   margin: 0 0 12px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   color: rgba(93, 30, 52, 0.7);
 }
@@ -213,7 +213,7 @@
   border: none;
   padding: 0;
   color: var(--maroon);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   font-weight: 700;
   text-decoration: underline;
@@ -225,7 +225,7 @@
 }
 
 .auth-footer-help a {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.08em;
   color: var(--gold-dark);
@@ -243,7 +243,7 @@
   border: 1px solid #86efac;
   border-radius: 4px;
   color: #166534;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   line-height: 1.5;
 }
@@ -253,7 +253,7 @@
   border: none;
   padding: 0;
   color: var(--gold-dark);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.05em;
   text-decoration: underline;

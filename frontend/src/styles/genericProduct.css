@@ -1,36 +1,49 @@
 /* =========================================================
-   GENERIC PRODUCT COMPONENTS
+   GENERIC PRODUCT COMPONENTS & SECTION HEADINGS
    ========================================================= */
 
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
+  gap: 24px;
 }
 
 .product-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid #f0e6e8;
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(114, 38, 63, 0.1);
+  border-color: rgba(114, 38, 63, 0.2);
 }
 
 .product-image-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 0.78;
+  aspect-ratio: 0.82;
   overflow: hidden;
-  background: var(--cream-soft);
+  background: #faf8f6;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 0.4s ease;
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.045);
+  transform: scale(1.04);
 }
 
 .product-image-placeholder {
@@ -39,16 +52,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--cream-soft);
-  color: var(--maroon-dark);
-  font-family: "DM Mono", monospace;
-  font-size: 9px;
+  background: #faf8f6;
+  color: var(--maroon);
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .product-badges {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: 10px;
+  left: 10px;
   z-index: 3;
   display: flex;
   flex-direction: column;
@@ -58,108 +71,139 @@
 .product-badge {
   display: inline-flex;
   width: fit-content;
-  padding: 6px 8px;
+  padding: 4px 10px;
   background: var(--maroon);
-  color: var(--gold);
-  font-family: "DM Mono", monospace;
-  font-size: 7px;
-  letter-spacing: 0.1em;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .product-info {
-  padding: 15px 2px;
+  padding: 14px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .product-category {
-  margin: 0 0 5px;
-  font-family: "DM Mono", monospace;
-  font-size: 7px;
-  letter-spacing: 0.15em;
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--gold-dark);
+  color: var(--maroon);
 }
 
 .product-name {
   margin: 0 0 6px;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 22px;
+  font-size: 15px;
   font-weight: 600;
-  line-height: 1.05;
-  color: var(--maroon-dark);
-}
-
-.product-price {
-  margin: 0;
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  color: var(--maroon-dark);
+  line-height: 1.35;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .product-card-rating {
   display: flex;
   align-items: center;
   gap: 5px;
-  margin: 4px 0 6px;
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
+  margin: 4px 0 8px;
+  font-size: 12px;
 }
 
 .product-card-rating .card-stars {
-  color: #df9e2c;
-  font-size: 10px;
+  color: #f59e0b;
+  font-size: 12px;
   letter-spacing: 1px;
 }
 
 .product-card-rating .card-rating-num {
   font-weight: 700;
-  color: var(--maroon-dark);
+  color: var(--text-primary);
 }
 
 .product-card-rating .card-reviews-count {
-  color: rgba(93, 30, 52, 0.6);
-  font-size: 9.5px;
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.product-price {
+  margin-top: auto;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--maroon-dark);
 }
 
 .product-grid-empty {
   padding: 70px 20px;
   text-align: center;
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
-  color: var(--maroon-dark);
+  font-size: 14px;
+  color: var(--text-secondary);
 }
-
 
 /* =========================================================
    COMMON SECTION HEADING
    ========================================================= */
 
 .section-heading {
-  margin-bottom: 40px;
+  margin-bottom: 35px;
 }
 
 .section-eyebrow {
-  margin: 0 0 12px;
-  font-family: "DM Mono", monospace;
-  font-size: 8px;
-  letter-spacing: 0.2em;
-  color: var(--gold-dark);
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--maroon);
 }
 
 .section-heading h2 {
   margin: 0;
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(48px, 5vw, 72px);
-  font-weight: 500;
-  line-height: 0.95;
+  font-size: clamp(30px, 3.5vw, 42px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--maroon-dark);
 }
 
 .section-description {
-  max-width: 560px;
-  margin: 18px 0 0;
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
-  line-height: 1.8;
-  color: rgba(93, 30, 52, 0.7);
+  max-width: 580px;
+  margin: 14px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .product-name {
+    font-size: 14px;
+  }
+
+  .product-price {
+    font-size: 14px;
+  }
 }

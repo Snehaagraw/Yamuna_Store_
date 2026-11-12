@@ -1,54 +1,50 @@
 /* =========================================================
-   FOOTER
-   Added without changing the existing color palette
+   FOOTER (CLEAN DEEP MAROON & REFINED WHITE/GOLD TEXT)
    ========================================================= */
 
 .footer {
   position: relative;
   overflow: hidden;
-  background: var(--maroon);
-  color: var(--cream);
+  background: var(--maroon-dark);
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-main {
   position: relative;
   z-index: 2;
-  max-width: 1330px;
+  max-width: 1250px;
   margin: 0 auto;
-  padding: 60px 5vw 70px;
+  padding: 65px 6vw 55px;
   display: grid;
-  grid-template-columns: 1.5fr 0.8fr 0.9fr 1fr;
-  gap: 30px;
+  grid-template-columns: 1.5fr 0.9fr 0.9fr 1.1fr;
+  gap: 40px;
 }
 
 .footer-brand {
-  max-width: 390px;
+  max-width: 380px;
 }
 
 .footer-logo {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  text-decoration: none;
 }
 
 .footer-logo-mark {
-  width: 43px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border: none;
   border-radius: 50%;
-  background: var(--gold);
+  background: #fef08a;
   color: var(--maroon-dark);
-  font-family: "Cormorant Garamond", serif;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 800;
-  line-height: 3;
-  padding-bottom: 0;
-  padding-top: 3px;
-  box-shadow: 3px 6px 0 rgba(233, 161, 45, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .footer-logo-text {
@@ -58,58 +54,59 @@
 }
 
 .footer-logo-text strong {
-  font-family: "Cormorant Garamond", serif;
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 1;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ffffff;
 }
 
 .footer-logo-text small {
-  font-family: "DM Mono", monospace;
-  font-size: 8px;
-  letter-spacing: 0.19em;
-  color: var(--gold);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: #fef08a;
+  text-transform: uppercase;
 }
 
 .footer-tagline {
-  margin: 28px 0 0;
-  max-width: 300px;
-  font-family: "DM Mono", monospace;
-  font-size: 12px;
-  line-height: 1.9;
-  color: rgba(247, 233, 201, 0.65);
+  margin: 18px 0 0;
+  max-width: 320px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .footer-social-icons {
   display: flex;
   align-items: center;
-  gap: 18px;
-  margin-top: 27px;
+  gap: 16px;
+  margin-top: 22px;
 }
 
 .footer-social-icons a {
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gold);
-  transition:
-    color 0.3s ease,
-    transform 0.3s ease;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  transition: all 0.25s ease;
 }
 
 .footer-social-icons a:hover {
-  color: var(--cream);
+  background: var(--maroon);
+  color: #fef08a;
   transform: translateY(-2px);
 }
 
 .footer-social-icons svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.5;
+  stroke-width: 1.75;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -119,65 +116,55 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-
-/* Footer columns alignment */
-.footer-column {
   min-width: 0;
 }
 
 .footer-column h3 {
-  margin: 3px 0 24px;
-  font-family: "DM Mono", monospace;
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  margin: 0 0 18px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: #fef08a;
 }
 
 .footer-column a {
   position: relative;
-  margin-bottom: 13px;
-  font-family: "DM Mono", monospace;
-  font-size: 14px;
-  color: rgba(247, 233, 201, 0.72);
-  transition:
-    color 0.3s ease,
-    transform 0.3s ease;
+  margin-bottom: 11px;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .footer-column a:hover {
-  color: var(--gold);
-  transform: translateX(4px);
+  color: #ffffff;
+  transform: translateX(3px);
 }
 
 .footer-contact p {
-  margin: 0 0 17px;
-  font-family: "DM Mono", monospace;
-  font-size: 14px;
-  line-height: 1.9;
-  color: rgba(247, 233, 201, 0.72);
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.75);
 }
-
 
 .footer-bottom {
   position: relative;
   z-index: 2;
   max-width: 1250px;
   margin: 0 auto;
-  padding: 21px 5vw 23px;
-  border-top: 1px solid rgba(228, 182, 94, 0.18);
+  padding: 22px 6vw;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 24px;
 }
 
 .footer-bottom p {
   margin: 0;
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: rgba(247, 233, 201, 0.43);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.6);
 }

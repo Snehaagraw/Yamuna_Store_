@@ -1,113 +1,131 @@
 /* =========================================================
-   ABOUT / OUR STORY SECTION
+   ABOUT / OUR STORY HOMEPAGE SECTION
    ========================================================= */
 
 .about-section {
   position: relative;
-  margin-top: -15px;
-  min-height: 400px;
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding: 50px 4vw;
-  background: #2d5c59;
-  color: #f5e7c7;
+  padding: 85px 6vw;
+  background: #ffffff;
+  color: var(--text-primary);
+  border-bottom: 1px solid #f0e6e8;
 }
-
 
 .about-section-content {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1260px;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 100px;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 70px;
   align-items: center;
 }
 
-
 .about-section-heading h2 {
-  margin: -2px;
-  margin-top: -15px;
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(60px, 7vw, 90px);
-  font-weight: 500;
-  line-height: 0.9;
-  letter-spacing: -0.035em;
-  color: #f7e9c9;
+  margin: 0;
+  font-size: clamp(34px, 4.2vw, 52px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: var(--maroon-dark);
 }
 
 .about-section-heading h2 span {
-  color: #f7e9c9;
+  color: var(--maroon);
 }
 
 .about-section-heading h2 em {
-  color: #e4b65e;
-  font-weight: 500;
+  color: var(--maroon-light);
+  font-style: normal;
 }
 
 .about-section-copy {
-  max-width: 500px;
-  padding-top: 35px;
+  max-width: 540px;
 }
 
 .about-section-description {
-  margin: 0 0 34px;
-  font-family: "DM Mono", monospace;
+  margin: 0 0 28px;
   font-size: 15px;
-  line-height: 1.95;
-  color: rgba(247, 233, 201, 0.78);
+  line-height: 1.75;
+  color: var(--text-secondary);
 }
 
 .about-section-link {
-  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 18px;
-  padding-bottom: 10px;
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  color: #e4b65e;
-  transition:
-    gap 0.3s ease,
-    color 0.3s ease;
-}
-
-.about-section-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: #e4b65e;
-  transform-origin: left;
-  transition: transform 0.3s ease;
-}
-
-.about-section-link span {
-  font-size: 17px;
-  line-height: 1;
-  letter-spacing: 0;
+  gap: 10px;
+  padding: 12px 26px;
+  background: var(--maroon);
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.2);
 }
 
 .about-section-link:hover {
-  gap: 25px;
-  color: #f7e9c9;
+  background: var(--maroon-dark);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(114, 38, 63, 0.3);
 }
 
-.about-section-link:hover::after {
-  transform: scaleX(0.72);
+.about-section-link span {
+  font-size: 15px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.about-section-link:hover span {
+  transform: translateX(4px);
 }
 
 .about-section-detail {
-  margin: 35px 0 0;
-  font-family: "DM Mono", monospace;
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  color: rgba(228, 182, 94, 0.72);
+  margin: 28px 0 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .about-section {
+    padding: 65px 6vw;
+  }
+
+  .about-section-content {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .about-section-copy {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-section {
+    padding: 50px 5vw;
+  }
+
+  .about-section-heading h2 {
+    font-size: 28px;
+  }
+
+  .about-section-description {
+    font-size: 14px;
+    margin-bottom: 22px;
+  }
 }

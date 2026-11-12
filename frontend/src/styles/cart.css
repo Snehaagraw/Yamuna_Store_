@@ -1,5 +1,5 @@
 /* =========================================================
-   CART COMPONENTS
+   CART COMPONENTS & CART PAGE
    ========================================================= */
 
 .icon-button {
@@ -11,8 +11,8 @@
 
 .account-button,
 .cart-button {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,20 +25,19 @@
 
 .cart-count {
   position: absolute;
-  top: -2px;
-  right: -2px;
-  min-width: 16px;
-  height: 16px;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
   padding: 0 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--gold);
-  color: var(--maroon-dark);
-  font-family: "DM Mono", monospace;
-  font-size: 7px;
-  font-weight: 500;
+  background: var(--maroon);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
 }
 
 /* =========================================================
@@ -47,9 +46,9 @@
 
 .cart-page {
   min-height: 70vh;
-  padding: 145px 0 100px;
-  background: var(--cream);
-  color: var(--maroon-dark);
+  padding: 130px 0 90px;
+  background: #ffffff;
+  color: var(--text-primary);
 }
 
 .cart-container {
@@ -62,36 +61,35 @@
    ========================================================= */
 
 .cart-page-header {
-  max-width: 650px;
-  margin-bottom: 55px;
+  max-width: 600px;
+  margin-bottom: 45px;
 }
 
 .cart-page-eyebrow {
   display: block;
-  margin-bottom: 14px;
-  color: var(--gold-dark);
-  font-family: "DM Mono", monospace;
-  font-size: 8px;
-  letter-spacing: 0.2em;
+  margin-bottom: 10px;
+  color: var(--maroon);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .cart-page-header h1 {
   margin: 0;
   color: var(--maroon-dark);
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(48px, 6vw, 78px);
-  font-weight: 500;
-  line-height: 0.95;
+  font-size: clamp(34px, 4vw, 46px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .cart-page-header p {
   max-width: 480px;
-  margin: 20px 0 0;
-  color: rgba(93, 30, 52, 0.72);
-  font-family: "DM Mono", monospace;
-  font-size: 12px;
-  line-height: 1.8;
+  margin: 14px 0 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 /* =========================================================
@@ -100,8 +98,8 @@
 
 .cart-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 350px;
-  gap: 60px;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 50px;
   align-items: start;
 }
 
@@ -116,21 +114,23 @@
 .cart-item {
   position: relative;
   display: grid;
-  grid-template-columns: 130px minmax(0, 1fr) 40px;
-  gap: 24px;
-  padding: 24px 0;
-  border-top: 1px solid rgba(93, 30, 52, 0.14);
+  grid-template-columns: 120px minmax(0, 1fr) 40px;
+  gap: 20px;
+  padding: 22px 0;
+  border-top: 1px solid #f0e6e8;
 }
 
 .cart-item:first-child {
-  border-top: 1px solid rgba(93, 30, 52, 0.2);
+  border-top: 1px solid #e5e7eb;
 }
 
 .cart-item-image-wrapper {
-  width: 130px;
-  height: 165px;
+  width: 120px;
+  height: 150px;
   overflow: hidden;
-  background: var(--cream-soft);
+  border-radius: 10px;
+  border: 1px solid #f0e6e8;
+  background: #faf8f6;
 }
 
 .cart-item-image {
@@ -138,11 +138,11 @@
   height: 100%;
   display: block;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
 .cart-item:hover .cart-item-image {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 .cart-item-image-placeholder {
@@ -151,12 +151,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--cream-soft);
-  color: var(--gold-dark);
-  font-family: "DM Mono", monospace;
-  font-size: 8px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  background: #faf8f6;
+  color: var(--maroon);
+  font-size: 11px;
 }
 
 .cart-item-details {
@@ -165,30 +162,27 @@
 }
 
 .cart-item-category {
-  margin: 0 0 8px;
-  color: var(--gold-dark);
-  font-family: "DM Mono", monospace;
-  font-size: 7px;
-  letter-spacing: 0.15em;
-  line-height: 1.4;
+  margin: 0 0 6px;
+  color: var(--maroon);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .cart-item-name {
-  margin: 0 0 9px;
-  color: var(--maroon-dark);
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(24px, 3vw, 31px);
-  font-weight: 600;
-  line-height: 1.05;
+  margin: 0 0 8px;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
 }
 
 .cart-item-price {
-  margin: 0 0 20px;
+  margin: 0 0 16px;
   color: var(--maroon-dark);
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.02em;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 /* =========================================================
@@ -198,38 +192,36 @@
 .quantity-control {
   display: inline-flex;
   align-items: center;
-  border: 1px solid rgba(93, 30, 52, 0.25);
-  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
 }
 
 .quantity-button {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   border: 0;
   background: transparent;
   color: var(--maroon-dark);
-  font-family: Arial, sans-serif;
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1;
   cursor: pointer;
-  transition:
-    background 0.25s ease,
-    color 0.25s ease;
+  transition: all 0.2s ease;
 }
 
 .quantity-button:hover {
   background: var(--maroon);
-  color: var(--gold);
+  color: #ffffff;
 }
 
 .quantity-value {
   min-width: 36px;
   padding: 0 4px;
-  color: var(--maroon-dark);
+  color: var(--text-primary);
   text-align: center;
-  font-family: "DM Mono", monospace;
-  font-size: 9px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 /* =========================================================
@@ -240,30 +232,24 @@
   width: 36px;
   height: 36px;
   padding: 0;
-  border: 1px solid rgba(93, 30, 52, 0.25);
+  border: 1px solid #e5e7eb;
   border-radius: 50%;
-  background: var(--cream);
-  color: var(--maroon-dark);
+  background: #ffffff;
+  color: #6b7280;
   display: flex;
   align-items: center;
   justify-content: center;
   align-self: start;
-  font-family: Arial, sans-serif;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1;
   cursor: pointer;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease,
-    transform 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .cart-item-remove:hover {
-  background: var(--maroon);
-  color: var(--gold);
-  border-color: var(--maroon);
-  transform: rotate(90deg);
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
 }
 
 /* =========================================================
@@ -271,18 +257,19 @@
    ========================================================= */
 
 .cart-summary {
-  padding: 32px;
-  background: var(--cream-soft);
-  border: 1px solid rgba(93, 30, 52, 0.1);
+  padding: 28px;
+  background: #faf8f6;
+  border: 1px solid #f0e6e8;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
 }
 
 .cart-summary-header h2 {
-  margin: 0 0 28px;
+  margin: 0 0 22px;
   color: var(--maroon-dark);
-  font-family: "Cormorant Garamond", serif;
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 1;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .cart-summary-row,
@@ -290,48 +277,42 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 13px 0;
-  color: var(--maroon-dark);
-  font-family: "DM Mono", monospace;
-  font-size: 9px;
-  line-height: 1.5;
-}
-
-.cart-summary-row span:last-child {
-  text-align: right;
+  gap: 16px;
+  padding: 11px 0;
+  color: var(--text-secondary);
+  font-size: 14px;
 }
 
 .cart-summary-total {
-  margin-top: 14px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(93, 30, 52, 0.2);
-  font-size: 11px;
-  font-weight: 500;
+  margin-top: 12px;
+  padding-top: 18px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--maroon-dark);
 }
 
 .checkout-button {
   width: 100%;
-  margin-top: 24px;
-  padding: 16px 18px;
+  margin-top: 22px;
+  padding: 14px 20px;
   border: 1px solid var(--maroon);
   background: var(--maroon);
-  color: var(--gold);
-  font-family: "DM Mono", monospace;
-  font-size: 8px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease;
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.25);
+  transition: all 0.25s ease;
 }
 
 .checkout-button:hover {
   background: var(--maroon-dark);
-  color: var(--cream);
-  border-color: var(--maroon-dark);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(114, 38, 63, 0.35);
 }
 
 /* =========================================================
@@ -339,62 +320,60 @@
    ========================================================= */
 
 .cart-empty {
-  max-width: 650px;
-  margin: 30px auto 0;
-  padding: 70px 30px;
-  border-top: 1px solid rgba(93, 30, 52, 0.18);
-  border-bottom: 1px solid rgba(93, 30, 52, 0.18);
+  max-width: 580px;
+  margin: 20px auto 0;
+  padding: 60px 30px;
+  border: 1.5px dashed #e5e7eb;
+  border-radius: 16px;
   text-align: center;
+  background: #faf8f6;
 }
 
 .cart-empty-symbol {
-  width: 58px;
-  height: 58px;
-  margin: 0 auto 24px;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--gold-dark);
+  border: 1.5px solid var(--maroon);
   border-radius: 50%;
-  color: var(--gold-dark);
-  font-family: "Cormorant Garamond", serif;
-  font-size: 30px;
+  color: var(--maroon);
+  font-size: 24px;
 }
 
 .cart-empty h2 {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   color: var(--maroon-dark);
-  font-family: "Cormorant Garamond", serif;
-  font-size: 38px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 700;
 }
 
 .cart-empty p {
-  margin: 0 auto 28px;
-  color: rgba(93, 30, 52, 0.68);
-  font-family: "DM Mono", monospace;
-  font-size: 9px;
-  line-height: 1.8;
+  margin: 0 auto 24px;
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  line-height: 1.6;
 }
 
 .cart-continue-button {
-  padding: 14px 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
   border: 1px solid var(--maroon);
-  background: transparent;
-  color: var(--maroon);
-  font-family: "DM Mono", monospace;
-  font-size: 8px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  background: var(--maroon);
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .cart-continue-button:hover {
-  background: var(--maroon);
-  color: var(--gold);
+  background: var(--maroon-dark);
 }
 
 /* =========================================================
@@ -404,7 +383,7 @@
 @media (max-width: 900px) {
   .cart-layout {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 36px;
   }
 
   .cart-summary {
@@ -414,79 +393,34 @@
 
 @media (max-width: 600px) {
   .cart-page {
-    padding: 135px 0 70px;
+    padding: 110px 0 60px;
   }
 
   .cart-container {
-    width: min(100% - 30px, 1180px);
-  }
-
-  .cart-page-header {
-    margin-bottom: 38px;
-  }
-
-  .cart-page-header h1 {
-    font-size: 52px;
-  }
-
-  .cart-layout {
-    gap: 32px;
+    width: min(100% - 32px, 1180px);
   }
 
   .cart-item {
-    grid-template-columns: 92px minmax(0, 1fr) 34px;
+    grid-template-columns: 90px minmax(0, 1fr) 34px;
     gap: 14px;
-    padding: 18px 0;
+    padding: 16px 0;
   }
 
   .cart-item-image-wrapper {
-    width: 92px;
-    height: 120px;
+    width: 90px;
+    height: 115px;
   }
 
   .cart-item-name {
-    font-size: 23px;
-  }
-
-  .cart-item-price {
-    margin-bottom: 15px;
-  }
-
-  .quantity-button {
-    width: 36px;
-    height: 36px;
-    font-size: 19px;
-  }
-
-  .quantity-value {
-    min-width: 34px;
-    font-size: 11px;
-  }
-
-  .cart-item-remove {
-    width: 36px;
-    height: 36px;
-    font-size: 22px;
+    font-size: 16px;
   }
 
   .checkout-button {
-    min-height: 48px;
-    font-size: 11px;
+    min-height: 46px;
+    font-size: 13px;
   }
 
   .cart-summary {
-    padding: 24px;
-  }
-
-  .cart-summary-header h2 {
-    font-size: 28px;
-  }
-
-  .cart-empty {
-    padding: 55px 20px;
-  }
-
-  .cart-empty h2 {
-    font-size: 32px;
+    padding: 20px;
   }
 }

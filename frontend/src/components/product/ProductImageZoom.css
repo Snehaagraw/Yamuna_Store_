@@ -52,7 +52,7 @@
     rgba(201, 154, 69, 0.12)
   );
   color: rgba(93, 30, 52, 0.55);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -121,7 +121,7 @@
   color: var(--gold-light);
   border: 1px solid rgba(228, 182, 94, 0.35);
   border-radius: 20px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -145,7 +145,7 @@
   color: var(--cream);
   border: 1px solid rgba(201, 154, 69, 0.35);
   border-radius: 24px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -234,7 +234,7 @@
 
 .product-lightbox-brand {
   display: block;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 8px;
   letter-spacing: 0.16em;
   color: var(--gold);
@@ -243,7 +243,7 @@
 
 .product-lightbox-title {
   margin: 2px 0 0;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 19px;
   font-weight: 500;
   color: var(--cream);
@@ -257,7 +257,7 @@
   background: rgba(201, 154, 69, 0.15);
   border: 1px solid rgba(201, 154, 69, 0.35);
   color: var(--gold);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.08em;
   border-radius: 14px;
@@ -334,7 +334,7 @@
   border: 1px solid rgba(201, 154, 69, 0.35);
   border-radius: 4px;
   color: var(--cream);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -361,7 +361,7 @@
 
 .product-lightbox-gesture-hint {
   margin: 0;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   color: rgba(246, 239, 227, 0.65);
   letter-spacing: 0.05em;

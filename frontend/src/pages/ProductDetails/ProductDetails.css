@@ -5,7 +5,7 @@
 .product-details-page {
   min-height: 100vh;
   padding: 120px 5vw 90px;
-  background: var(--cream);
+  background: #ffffff;
   color: var(--maroon-dark);
   overflow-x: hidden;
 }
@@ -25,7 +25,7 @@
   flex-wrap: wrap;
   gap: 8px;
   margin: 0 0 28px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -91,7 +91,7 @@
   padding: 6px 12px;
   background: var(--maroon);
   color: var(--cream);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.12em;
   line-height: 1;
@@ -147,7 +147,7 @@
 .thumbnails-counter {
   display: block;
   margin-top: 8px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.08em;
   color: rgba(93, 30, 52, 0.6);
@@ -170,7 +170,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.04em;
   color: var(--maroon);
@@ -201,7 +201,7 @@
 }
 
 .product-category-eyebrow {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.18em;
@@ -215,7 +215,7 @@
   gap: 6px;
   padding: 5px 12px;
   border-radius: 14px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -244,8 +244,8 @@
 .product-main-title {
   margin: 0 0 16px;
   color: var(--maroon-dark);
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(38px, 4.2vw, 54px);
+  font-family: inherit;
+  font-size: clamp(26px, 3vw, 36px);
   font-weight: 500;
   line-height: 1.05;
   letter-spacing: -0.025em;
@@ -260,14 +260,14 @@
 }
 
 .product-currency-symbol {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 22px;
   color: var(--maroon);
   font-weight: 500;
 }
 
 .product-price-amount {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 32px;
   font-weight: 500;
   color: var(--maroon);
@@ -276,7 +276,7 @@
 
 .product-tax-text {
   margin-left: 8px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   color: rgba(93, 30, 52, 0.65);
 }
@@ -302,7 +302,7 @@
   border-radius: 12px;
   background: rgba(196, 154, 69, 0.15);
   border: 1px solid rgba(196, 154, 69, 0.35);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10.5px;
   font-weight: 600;
   color: var(--maroon-dark);
@@ -313,7 +313,7 @@
   display: flex;
   align-items: baseline;
   gap: 6px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   color: rgba(93, 30, 52, 0.7);
 }
@@ -335,7 +335,7 @@
   background: rgba(114, 38, 63, 0.08);
   border: 1px solid rgba(114, 38, 63, 0.16);
   border-radius: 12px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   font-weight: 500;
   color: var(--maroon);
@@ -359,7 +359,7 @@
 
 .spec-label {
   display: block;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   color: var(--gold-dark);
   text-transform: uppercase;
@@ -369,7 +369,7 @@
 
 .spec-value {
   display: block;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   color: var(--maroon-dark);
   font-weight: 500;
@@ -395,7 +395,7 @@
 }
 
 .option-title {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -417,7 +417,7 @@
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(114, 38, 63, 0.16);
   border-radius: 16px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   font-weight: 500;
   color: var(--maroon-dark);
@@ -428,7 +428,7 @@
 
 /* Sizes */
 .size-stock-hint {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10.5px;
   color: rgba(93, 30, 52, 0.7);
 }
@@ -451,7 +451,7 @@
   border: 1px solid rgba(114, 38, 63, 0.25);
   background: transparent;
   color: var(--maroon-dark);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   font-weight: 500;
   border-radius: 4px;
@@ -548,7 +548,7 @@
 .stepper-value {
   min-width: 32px;
   text-align: center;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 13px;
   font-weight: 500;
   color: var(--maroon-dark);
@@ -561,7 +561,7 @@
   color: var(--cream);
   border: 1px solid var(--maroon);
   border-radius: 4px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -615,7 +615,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   color: #1b6820;
 }
@@ -626,7 +626,7 @@
   color: var(--cream);
   border: none;
   border-radius: 3px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -667,7 +667,7 @@
 
 .trust-info strong {
   display: block;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10.5px;
   color: var(--maroon-dark);
   text-transform: uppercase;
@@ -677,7 +677,7 @@
 
 .trust-info p {
   margin: 0;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 15px;
   line-height: 1.35;
   color: rgba(67, 38, 51, 0.85);
@@ -702,7 +702,7 @@
   padding: 10px 18px;
   border: none;
   background: transparent;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -724,7 +724,7 @@
 }
 
 .tab-pane-content p {
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 19px;
   line-height: 1.55;
   color: rgba(67, 38, 51, 0.88);
@@ -742,7 +742,7 @@
   align-items: baseline;
   padding: 10px 0;
   border-bottom: 1px solid rgba(114, 38, 63, 0.08);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   gap: 20px;
 }
@@ -798,7 +798,7 @@
 .product-details-message h2 {
   margin: 0 0 12px;
   color: var(--maroon-dark);
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 48px;
   font-weight: 500;
 }
@@ -807,7 +807,7 @@
   max-width: 440px;
   margin: 0 0 24px;
   color: rgba(67, 38, 51, 0.75);
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 21px;
 }
 
@@ -816,7 +816,7 @@
   border: 1px solid var(--maroon);
   background: var(--maroon);
   color: var(--cream);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;

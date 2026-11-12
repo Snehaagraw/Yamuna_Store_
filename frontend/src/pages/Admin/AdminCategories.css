@@ -30,7 +30,7 @@
 .admin-categories-heading span {
   display: block;
   color: #9d7431;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.12em;
   margin-bottom: 8px;
@@ -38,7 +38,7 @@
 
 .admin-categories-heading h2 {
   margin: 0 0 6px 0;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(28px, 4vw, 38px);
   color: #5d1e34;
   font-weight: 600;
@@ -66,7 +66,7 @@
   color: #f7e9c9;
   border: 1px solid #72263f;
   padding: 10px 22px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.08em;
   cursor: pointer;
@@ -86,7 +86,7 @@
   background: transparent;
   color: #5d1e34;
   padding: 10px 18px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.08em;
   cursor: pointer;
@@ -120,7 +120,7 @@
 .admin-categories-table th {
   background: #fdf5e6;
   color: #5d1e34;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -166,7 +166,7 @@
   color: #72263f;
   font-weight: 700;
   font-size: 14px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   border: 1px solid rgba(114, 38, 63, 0.12);
 }
 
@@ -177,7 +177,7 @@
 }
 
 .category-slug {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   color: #9d7431;
   background: rgba(157, 116, 49, 0.1);
@@ -194,7 +194,7 @@
   gap: 6px;
   padding: 4px 10px;
   border-radius: 12px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -211,7 +211,7 @@
 }
 
 .category-product-count {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   color: #72263f;
 }
@@ -230,7 +230,7 @@
   color: #72263f;
   padding: 6px 14px;
   border-radius: 4px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -247,7 +247,7 @@
   color: #c53030;
   padding: 6px 14px;
   border-radius: 4px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -279,7 +279,7 @@
   color: #f7e9c9;
   border: none;
   padding: 14px 32px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   letter-spacing: 0.1em;
   font-weight: 600;
@@ -352,7 +352,7 @@
 
 .category-modal-header h3 {
   margin: 0;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 24px;
   color: #5d1e34;
   font-weight: 600;
@@ -378,7 +378,7 @@
 
 .category-form-group label {
   display: block;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -449,7 +449,7 @@
   border: 1px solid rgba(114, 38, 63, 0.3);
   color: #72263f;
   padding: 10px 18px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   border-radius: 4px;
   cursor: pointer;
@@ -465,7 +465,7 @@
   color: #f7e9c9;
   border: none;
   padding: 10px 22px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.08em;
   border-radius: 4px;
@@ -539,7 +539,7 @@
   color: #72263f;
   padding: 8px 18px;
   border-radius: 20px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -566,7 +566,7 @@
   gap: 4px;
   padding: 4px 10px;
   border-radius: 12px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   font-weight: 600;
 }
@@ -599,6 +599,6 @@
   color: #72263f;
   opacity: 0.75;
   margin-top: 4px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
 }
 

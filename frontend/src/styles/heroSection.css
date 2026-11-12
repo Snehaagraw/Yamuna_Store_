@@ -1,324 +1,377 @@
 /* =========================================================
-   HERO SECTION
+   HERO SECTION - CLEAN WHITE & MAROON CLOTHING BOUTIQUE
    ========================================================= */
 
 .hero-section {
   position: relative;
-  min-height: calc(100vh - 122px);
+  min-height: calc(88vh - 106px);
   display: grid;
-  grid-template-columns: 40% 56%;
+  grid-template-columns: 53% 47%;
+  gap: 30px;
   align-items: center;
+  padding: 130px 6vw 75px;
+  background: #ffffff;
+  color: var(--text-primary);
   overflow: hidden;
-  padding: 190px 4vw 65px;
-  background: var(--maroon);
-  color: var(--cream);
+  border-bottom: 1px solid #f0e6e8;
 }
 
 .hero-content {
   position: relative;
-  z-index: 60;
-  padding-left: 1.5vw;
-  padding-top: 15px;
+  z-index: 10;
+  max-width: 600px;
 }
 
-.hero-eyebrow {
-  margin: 0 0 25px;
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.23em;
-  color: var(--gold);
+.hero-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(114, 38, 63, 0.08);
+  border: 1px solid rgba(114, 38, 63, 0.2);
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--maroon);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--maroon);
 }
 
 .hero-content h1 {
-  margin: 0;
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(65px, 7.1vw, 108px);
-  font-weight: 500;
-  line-height: 0.84;
-  letter-spacing: -0.045em;
-  color: var(--cream);
+  margin: 0 0 16px;
+  font-size: clamp(34px, 4.2vw, 50px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
 }
 
-.hero-content h1 span {
-  color: var(--gold);
-}
-
-.hero-content h1 em {
-  color: var(--gold);
-  font-weight: 500;
+.hero-highlight {
+  color: var(--maroon);
+  display: inline;
 }
 
 .hero-description {
-  max-width: 400px;
-  margin: 34px 0 30px;
-  font-family: "DM Mono", monospace;
-  font-size: 14px;
-  line-height: 1.8;
-  color: rgba(247, 233, 201, 0.72);
+  margin: 0 0 22px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 530px;
 }
+
+/* =========================================================
+   INTERACTIVE CLOTHING CATEGORY PILLS
+   ========================================================= */
+
+.hero-category-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 26px;
+}
+
+.hero-cat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 15px;
+  background: #faf8f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.hero-cat-pill .pill-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.hero-cat-pill:hover {
+  background: #ffffff;
+  border-color: var(--maroon);
+  color: var(--maroon);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.15);
+}
+
+/* =========================================================
+   HERO ACTIONS
+   ========================================================= */
 
 .hero-actions {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
 }
 
 .hero-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
-  font-family: "DM Mono", monospace;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease,
-    border-color 0.3s ease;
+  min-height: 46px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.25s ease;
 }
 
 .hero-button-primary {
-  padding: 0 22px;
-  background: var(--gold);
-  color: var(--maroon-dark);
+  padding: 0 28px;
+  background: var(--maroon);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.25);
 }
 
 .hero-button-primary span {
-  margin-left: 10px;
-  font-size: 16px;
-  line-height: 1;
+  margin-left: 8px;
+  font-size: 15px;
+  transition: transform 0.2s ease;
 }
 
 .hero-button-primary:hover {
-  background: var(--cream);
-  transform: translateY(-3px);
+  background: var(--maroon-dark);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(114, 38, 63, 0.35);
+}
+
+.hero-button-primary:hover span {
+  transform: translateX(4px);
 }
 
 .hero-button-secondary {
-  position: relative;
-  padding: 0 0 7px;
-  color: var(--cream);
-}
-
-.hero-button-secondary::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--gold);
-  transition: width 0.3s ease;
+  padding: 0 24px;
+  background: #ffffff;
+  color: var(--maroon);
+  border: 1.5px solid var(--maroon);
 }
 
 .hero-button-secondary:hover {
-  color: var(--gold);
+  background: #fdf7f9;
+  color: var(--maroon-dark);
+  transform: translateY(-2px);
 }
-
-.hero-button-secondary:hover::after {
-  width: 65%;
-}
-
 
 /* =========================================================
-   HERO VISUAL
+   HERO GUARANTEES STRIP
+   ========================================================= */
+
+.hero-guarantees {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.guarantee-item {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.guarantee-dot {
+  color: #d1d5db;
+}
+
+/* =========================================================
+   HERO VISUAL (ATTRACTIVE, BASIC, CLEAN)
    ========================================================= */
 
 .hero-visual {
   position: relative;
-  width: min(650px, 100%);
-  height: min(650px, 70vh);
-  min-height: 500px;
-  justify-self: center;
+  width: 100%;
+  max-width: 500px;
+  height: 500px;
+  margin: 0 auto;
+}
+
+.hero-image-card {
+  overflow: hidden;
+  border-radius: 16px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.hero-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .hero-image-main {
   position: absolute;
-  z-index: 3;
-  width: 50%;
-  height: 82%;
-  right: 24%;
-  top: 2%;
-  overflow: hidden;
-
-  border: 7px solid rgba(161, 117, 35, 0.87);
- border-radius: 55% 55% 10% 10% / 50% 50% 7% 7%;
-
-  transform-origin: 100% 10%;
-  animation: hangingImage 5s ease-in-out infinite;
-
-  box-shadow: 20px 20px 0 rgba(35, 18, 27, 0.18);
+  z-index: 2;
+  width: 76%;
+  height: 86%;
+  right: 0;
+  top: 0;
+  border: 1.5px solid #f0e6e8;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  background: #faf8f6;
 }
 
-.hero-image-main img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-
-
+.hero-image-main:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 50px rgba(114, 38, 63, 0.12);
 }
 
+.hero-image-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 16px 14px;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.88) 0%, transparent 100%);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 4;
+}
 
-@keyframes hangingImage {
-  0%,
-  100% {
-    transform: rotate(-5deg);
-  }
+.hero-image-caption strong {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+}
 
-  25% {
-    transform: rotate(-2.5deg);
-  }
-
-  50% {
-    transform: rotate(-5deg);
-  }
-
-  75% {
-    transform: rotate(-7deg);
-  }
+.hero-image-caption small {
+  font-size: 11px;
+  color: #fef08a;
+  font-weight: 500;
 }
 
 .hero-image-secondary {
   position: absolute;
-  z-index: 2;
-
-  width: 50%;
-  height: 82%;
-
-  left: 50%;
-  bottom: -4%;
-
-  overflow: hidden;
-
-  border: 7px solid rgba(243, 176, 51, 0.788);
-
-  border-radius: 10% 10% 58% 58% / 7% 7% 45% 45%;
-
-  transform: rotate(10deg);
-
-  opacity: 0.92;
-  filter: brightness(0.75) saturate(0.8);
+  z-index: 3;
+  width: 48%;
+  height: 56%;
+  left: 0;
+  bottom: 2%;
+  border: 3.5px solid #ffffff;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
 }
 
-.hero-image-secondary img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
+.hero-image-secondary:hover {
+  transform: scale(1.02);
 }
 
-
-
-/* =========================================================
-   HERO DECORATIONS
-   ========================================================= */
-
-.hero-decoration {
+.hero-floating-tag {
   position: absolute;
-  z-index: 1;
-  border: 1px solid rgba(228, 182, 94, 0.2);
-  border-radius: 100%;
-  pointer-events: none;
-}
-
-.hero-decoration-top {
-  width: 400px;
-  height: 400px;
-  right: -100px;
-  top: -100px;
-}
-
-.hero-decoration-bottom {
-  width: 470px;
-  height: 500px;
-  right: 28%;
-  bottom: -150px;
-}
-
-
-/* =========================================================
-   Radhe BADGE
-   ========================================================= */
-
-.radhe-badge {
-  position: absolute;
-  z-index: 1100;
-  width: 116px;
-  height: 116px;
-  left: 22%;
-  bottom: 5%;
-  animation: badgeFloat 4s ease-in-out infinite;
-}
-.radhe-badge-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  z-index: 5;
+  left: 30%;
+  bottom: 6%;
+  background: #ffffff;
+  border: 1px solid #f0e6e8;
+  border-radius: 12px;
+  padding: 10px 18px;
+  box-shadow: 0 10px 28px rgba(114, 38, 63, 0.15);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 50%;
-  background: var(--gold);
-  color: var(--maroon-dark);
-  box-shadow: 0 15px 35px rgba(20, 4, 10, 0.22);
-  transform: rotate(-8deg);
+  text-align: center;
+  gap: 2px;
 }
 
-.badge-made,
-.badge-slowly {
-  display: block;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 25px;
+.floating-tag-om {
+  font-size: 11px;
   font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: -0.02em;
+  color: var(--maroon);
 }
 
-.badge-slowly {
-  margin-top: 2px;
+.floating-tag-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--maroon-dark);
 }
 
-@keyframes badgeFloat {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-8deg);
-  }
-
-  50% {
-    transform: translateY(-7px) rotate(-5deg);
-  }
+.floating-tag-sub {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 500;
 }
 
 /* =========================================================
-   HERO PAGINATION
+   RESPONSIVE DESIGN
    ========================================================= */
 
-.hero-pagination {
-  position: absolute;
-  z-index: 12;
-  left: 7vw;
-  bottom: 32px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
+@media (max-width: 950px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    padding: 110px 6vw 60px;
+    gap: 40px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-visual {
+    max-width: 440px;
+    height: 420px;
+  }
 }
 
-.pagination-dot {
-  width: 5px;
-  height: 5px;
-  padding: 0;
-  border: 1px solid rgba(228, 182, 94, 0.65);
-  border-radius: 50%;
-  background: transparent;
-}
+@media (max-width: 600px) {
+  .hero-section {
+    padding: 100px 5vw 50px;
+  }
 
-.pagination-dot.active {
-  background: var(--gold);
+  .hero-content h1 {
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .hero-description {
+    font-size: 14px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .hero-button {
+    width: 100%;
+  }
+
+  .hero-category-pills {
+    gap: 6px;
+  }
+
+  .hero-cat-pill {
+    font-size: 11.5px;
+    padding: 6px 12px;
+  }
+
+  .hero-visual {
+    max-width: 340px;
+    height: 350px;
+  }
+
+  .hero-floating-tag {
+    left: 20%;
+    bottom: 2%;
+    padding: 8px 14px;
+  }
 }

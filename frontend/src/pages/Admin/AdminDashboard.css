@@ -43,7 +43,7 @@
   border-radius: 50%;
   background: var(--gold);
   color: var(--maroon-dark);
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 25px;
   font-weight: 800;
   line-height: 3;
@@ -55,7 +55,7 @@
 .admin-dashboard-brand h1 {
   margin: 0;
 
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 25px;
   font-weight: 500;
 }
@@ -67,7 +67,7 @@
 
   color: #e4b65e;
 
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 8px;
   letter-spacing: 0.16em;
 }
@@ -79,7 +79,7 @@
 
   padding: 10px 20px;
 
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.08em;
 
@@ -111,7 +111,7 @@
 
   color: #9d7431;
 
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.18em;
 }
@@ -121,7 +121,7 @@
 
   color: #5d1e34;
 
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(48px, 6vw, 76px);
   font-weight: 500;
   line-height: 0.9;
@@ -159,7 +159,7 @@
   background: transparent;
   color: #9d7431;
 
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -209,7 +209,7 @@
 
   color: #5d1e34;
 
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(42px, 5vw, 64px);
   font-weight: 500;
   line-height: 0.95;
@@ -241,7 +241,7 @@
 
   color: #5d1e34;
 
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 30px;
   font-weight: 500;
 }

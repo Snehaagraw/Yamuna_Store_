@@ -104,8 +104,8 @@ function Navbar() {
           <span className="brand-mark">य</span>
 
           <span className="brand-text">
-            <strong>Yamuna</strong>
-            <small>STORE · VRINDAVAN</small>
+            <strong>Yamuna Store</strong>
+            <small>VRINDAVAN CLOTHING</small>
           </span>
         </Link>
 
@@ -374,7 +374,7 @@ function Navbar() {
       </header>
 
       <div className="announcement-bar">
-        DEVOTIONAL CLOTHING · INSPIRED BY VRINDAVAN
+        TRADITIONAL DEVOTIONAL CLOTHING · DIRECT FROM VRINDAVAN · WORLDWIDE DELIVERY
       </div>
 
       {/* Mobile Drawer Backdrop */}
@@ -393,8 +393,8 @@ function Navbar() {
           <div className="mobile-drawer-brand">
             <span className="brand-mark">य</span>
             <span className="brand-text">
-              <strong>Yamuna</strong>
-              <small>VRINDAVAN</small>
+              <strong>Yamuna Store</strong>
+              <small>VRINDAVAN CLOTHING</small>
             </span>
           </div>
 

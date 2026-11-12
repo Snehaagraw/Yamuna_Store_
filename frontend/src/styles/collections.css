@@ -1,83 +1,73 @@
 /* =========================================================
-   COLLECTIONS SECTION
+   COLLECTIONS SECTION (HOMEPAGE)
    ========================================================= */
 
 .collections-section {
   position: relative;
   z-index: 2;
-  padding: 60px 5vw 120px;
-  background: var(--cream);
-  color: var(--maroon-dark);
+  padding: 80px 6vw 95px;
+  background: #ffffff;
+  color: var(--text-primary);
   overflow: hidden;
+  border-bottom: 1px solid #f0e6e8;
 }
-
-/* .collections-section::before {
-  content: "";
-  position: absolute;
-  width: 400px;
-  height: 500px;
-  right: -190px;
-  top: -190px;
-  pointer-events: none;
-} */
 
 .collections-section-header {
   position: relative;
   z-index: 2;
   max-width: 1250px;
-  margin: 0 auto 60px;
+  margin: 0 auto 50px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 40px;
+  gap: 30px;
 }
 
 .collections-section-eyebrow {
-  margin: 0 0 18px;
-  font-family: "DM Mono", monospace;
-  font-size: 13px;
-  letter-spacing: 0.22em;
-  color: var(--gold-dark);
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--maroon);
 }
 
 .collections-section-header h2 {
   margin: 0;
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(52px, 6vw, 82px);
-  font-weight: 500;
-  line-height: 0.9;
-  letter-spacing: -0.04em;
+  font-size: clamp(32px, 3.8vw, 46px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--maroon-dark);
 }
 
 .collections-section-header h2 em {
-  color: var(--gold-dark);
-  font-weight: 500;
+  color: var(--maroon);
+  font-style: normal;
 }
 
 .collections-section-link {
-  position: relative;
-  flex-shrink: 0;
-  padding-bottom: 9px;
-  font-family: "DM Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 0.17em;
-  color: var(--maroon-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: #ffffff;
+  color: var(--maroon);
+  border: 1.5px solid var(--maroon);
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
 }
 
-.collections-section-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--gold-dark);
-  transition: width 0.3s ease;
-}
-
-.collections-section-link:hover::after {
-  width: 65%;
+.collections-section-link:hover {
+  background: var(--maroon);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.2);
 }
 
 .collection-grid {
@@ -87,18 +77,24 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
 
 .collection-card {
   position: relative;
-  min-height: 440px;
+  min-height: 420px;
   overflow: hidden;
-  background: var(--maroon);
+  background: var(--maroon-dark);
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 14px;
+  border: 1px solid #f0e6e8;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
 }
 
 .collection-card::after {
@@ -107,12 +103,18 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(38, 8, 20, 0.85) 0%,
-    rgba(38, 8, 20, 0.4) 40%,
-    rgba(40, 8, 20, 0.05) 75%
+    rgba(15, 23, 42, 0.88) 0%,
+    rgba(15, 23, 42, 0.35) 45%,
+    rgba(15, 23, 42, 0.05) 80%
   );
   pointer-events: none;
   transition: opacity 0.3s ease;
+}
+
+.collection-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(114, 38, 63, 0.14);
+  border-color: rgba(114, 38, 63, 0.2);
 }
 
 .collection-card:hover::after {
@@ -123,82 +125,79 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition:
-    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
-    filter 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .collection-card:hover .collection-card-image {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 .collection-card-content {
   position: absolute;
   z-index: 3;
-  left: 22px;
-  right: 22px;
-  bottom: 24px;
-  color: var(--cream);
+  left: 20px;
+  right: 20px;
+  bottom: 22px;
+  color: #ffffff;
 }
 
 .collection-card-number {
   display: block;
-  margin-bottom: 8px;
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--gold);
-  font-weight: 500;
+  margin-bottom: 6px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: #fef08a;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .collection-card-title {
-  margin: 0 0 10px;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 28px;
-  font-weight: 500;
-  line-height: 1.05;
-  color: var(--cream);
+  margin: 0 0 8px;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
 }
 
 .collection-card-arrow {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: "DM Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: #fef08a;
   transform: translateX(0);
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition: transform 0.25s ease, color 0.25s ease;
 }
 
 .collection-card:hover .collection-card-arrow {
-  transform: translateX(6px);
-  color: #fff;
+  transform: translateX(4px);
+  color: #ffffff;
 }
 
 /* =========================================================
-   RESPONSIVE DESIGN (MAINTAINS STRICT 1-LINE LAYOUT)
+   RESPONSIVE DESIGN (MAINTAINS STRICT 1-LINE HORIZONTAL SCROLL ON MOBILE)
    ========================================================= */
 
 @media (max-width: 1080px) {
   .collection-grid {
-    gap: 14px;
+    gap: 16px;
   }
 
   .collection-card {
-    min-height: 390px;
+    min-height: 380px;
   }
 
   .collection-card-title {
-    font-size: 24px;
+    font-size: 19px;
   }
 }
 
 @media (max-width: 768px) {
   .collections-section {
-    padding: 50px 5vw 80px;
+    padding: 60px 5vw 75px;
   }
 
   .collections-section-header {
@@ -225,18 +224,18 @@
   }
 
   .collection-grid::-webkit-scrollbar {
-    height: 3px;
+    height: 4px;
   }
 
   .collection-grid::-webkit-scrollbar-thumb {
     background: rgba(114, 38, 63, 0.25);
-    border-radius: 3px;
+    border-radius: 4px;
   }
 
   .collection-card {
     flex: 0 0 74vw;
-    max-width: 290px;
-    min-height: 380px;
+    max-width: 280px;
+    min-height: 360px;
     scroll-snap-align: start;
   }
 }

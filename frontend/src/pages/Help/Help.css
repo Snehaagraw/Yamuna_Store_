@@ -22,7 +22,7 @@
 .help-eyebrow {
   display: inline-block;
   margin-bottom: 12px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -32,7 +32,7 @@
 
 .help-header h1 {
   margin: 0 0 14px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(40px, 5.5vw, 64px);
   font-weight: 500;
   line-height: 0.96;
@@ -41,7 +41,7 @@
 
 .help-header p {
   margin: 0;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   line-height: 1.8;
   color: rgba(93, 30, 52, 0.78);
@@ -89,7 +89,7 @@
 
 .contact-card-body h4 {
   margin: 0 0 8px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 20px;
   font-weight: 700;
   color: var(--maroon-dark);
@@ -97,7 +97,7 @@
 
 .contact-card-body p {
   margin: 0 0 4px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   color: rgba(93, 30, 52, 0.85);
 }
@@ -111,7 +111,7 @@
 .contact-card-body small {
   display: block;
   margin-top: 6px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9.5px;
   color: rgba(93, 30, 52, 0.55);
 }
@@ -124,7 +124,7 @@
   padding: 8px 16px;
   background: #25d366;
   color: #ffffff !important;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -167,7 +167,7 @@
   border: 1.5px solid rgba(114, 38, 63, 0.18);
   border-radius: 24px;
   color: var(--maroon-dark);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 12px;
   outline: none;
   box-shadow: 0 2px 10px rgba(93, 30, 52, 0.03);
@@ -231,7 +231,7 @@
   border: 1.5px solid rgba(114, 38, 63, 0.16);
   border-radius: 18px;
   color: var(--maroon-dark);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10.5px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -269,7 +269,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10.5px;
   color: rgba(93, 30, 52, 0.5);
 }
@@ -278,7 +278,7 @@
   background: none;
   border: none;
   color: var(--maroon);
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10.5px;
   text-decoration: underline;
   cursor: pointer;
@@ -319,7 +319,7 @@
 
 .category-title-row h2 {
   margin: 0;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 26px;
   font-weight: 700;
   color: var(--maroon-dark);
@@ -361,7 +361,7 @@
 
 .faq-question h3 {
   margin: 0;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 19px;
   font-weight: 600;
   color: var(--maroon-dark);
@@ -369,7 +369,7 @@
 }
 
 .faq-toggle-icon {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 18px;
   font-weight: 700;
   color: var(--gold-dark);
@@ -385,7 +385,7 @@
 
 .faq-answer p {
   margin: 12px 0 0;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11.5px;
   line-height: 1.85;
   color: rgba(93, 30, 52, 0.85);
@@ -407,14 +407,14 @@
 }
 
 .help-empty-search h3 {
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 24px;
   color: var(--maroon-dark);
   margin: 0 0 8px;
 }
 
 .help-empty-search p {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   color: rgba(93, 30, 52, 0.7);
   max-width: 440px;
@@ -427,7 +427,7 @@
   color: var(--cream);
   border: none;
   border-radius: 20px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -451,7 +451,7 @@
 }
 
 .help-policies-strip h4 {
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 18px;
   font-weight: 600;
   color: var(--maroon-dark);
@@ -465,7 +465,7 @@
 }
 
 .help-policies-links a {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11.5px;
   color: var(--maroon);
   text-decoration: none;
@@ -495,7 +495,7 @@
 
 .footer-banner-inner .footer-om {
   display: block;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 20px;
   color: var(--gold);
   margin-bottom: 8px;
@@ -503,21 +503,21 @@
 
 .footer-banner-inner h3 {
   margin: 0 0 8px;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 26px;
   color: var(--cream);
 }
 
 .footer-banner-inner p {
   margin: 0 0 6px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11.5px;
   color: rgba(247, 233, 201, 0.85);
 }
 
 .footer-banner-inner small {
   display: block;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9.5px;
   color: var(--gold);
 }

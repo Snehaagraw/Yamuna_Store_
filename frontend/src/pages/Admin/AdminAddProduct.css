@@ -22,7 +22,7 @@
   display: block;
   margin-bottom: 12px;
   color: #9d7431;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.18em;
 }
@@ -30,7 +30,7 @@
 .admin-add-product-heading h2 {
   margin: 0;
   color: #5d1e34;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: clamp(46px, 5vw, 68px);
   font-weight: 500;
   line-height: 0.9;
@@ -85,14 +85,14 @@
 
   color: #9d7431;
 
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
 }
 
 .admin-form-section-heading h3 {
   margin: 0;
   color: #5d1e34;
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 30px;
   font-weight: 500;
   line-height: 1;
@@ -132,7 +132,7 @@
 .admin-form-group label {
   margin-bottom: 8px;
   color: #5d1e34;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -207,7 +207,7 @@
 }
 
 .admin-field-tag-optional {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -226,7 +226,7 @@
 }
 
 .admin-presets-label {
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   color: #72263f;
   margin-right: 4px;
@@ -237,7 +237,7 @@
   border: 1px solid rgba(114, 38, 63, 0.25);
   color: #5d1e34;
   padding: 5px 12px;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 11px;
   border-radius: 4px;
   cursor: pointer;
@@ -351,7 +351,7 @@
 }
 
 .admin-image-upload-box strong {
-  font-family: "Cormorant Garamond", serif;
+  font-family: inherit;
   font-size: 23px;
   font-weight: 500;
 }
@@ -359,7 +359,7 @@
 .admin-image-upload-box small {
   margin-top: 7px;
   color: #9d7431;
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.04em;
 }
@@ -415,7 +415,7 @@
 
   color: #72263f;
 
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
 }
 
@@ -465,7 +465,7 @@
 
   color: #9d7431;
 
-  font-family: "DM Mono", monospace;
+  font-family: inherit;
   font-size: 9px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
