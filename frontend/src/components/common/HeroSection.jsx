@@ -5,9 +5,6 @@ import secondaryImage from "../../assets/images/secondHero.png";
 function HeroSection() {  
   return (
     <section className="hero-section" aria-label="Yamuna Store - Traditional Clothing from Vrindavan">
-      <div className="hero-decoration hero-decoration-top" />
-      <div className="hero-decoration hero-decoration-bottom" />
-
       <div className="hero-content">
         <p className="hero-eyebrow">
           RADHE RADHE · TRADITIONAL CLOTHING · SINCE 2014
@@ -70,13 +67,6 @@ function HeroSection() {
             </span>
           </div>
         </div>
-      </div>
-
-      <div className="hero-pagination">
-        <span className="pagination-dot active" />
-        <span className="pagination-dot" />
-        <span className="pagination-dot" />
-        <span className="pagination-dot" />
       </div>
     </section>
   );

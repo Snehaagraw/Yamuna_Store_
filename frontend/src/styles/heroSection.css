@@ -213,31 +213,7 @@
   display: block;
 }
 
-/* =========================================================
-   HERO DECORATIONS
-   ========================================================= */
 
-.hero-decoration {
-  position: absolute;
-  z-index: 1;
-  border: 1px solid rgba(114, 38, 63, 0.08);
-  border-radius: 100%;
-  pointer-events: none;
-}
-
-.hero-decoration-top {
-  width: 400px;
-  height: 400px;
-  right: -100px;
-  top: -100px;
-}
-
-.hero-decoration-bottom {
-  width: 470px;
-  height: 500px;
-  right: 28%;
-  bottom: -150px;
-}
 
 /* =========================================================
    RADHE BADGE (ORIGINAL FLOATING MOTION)
@@ -295,32 +271,7 @@
   }
 }
 
-/* =========================================================
-   HERO PAGINATION
-   ========================================================= */
 
-.hero-pagination {
-  position: absolute;
-  z-index: 12;
-  left: 6vw;
-  bottom: 25px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.pagination-dot {
-  width: 6px;
-  height: 6px;
-  padding: 0;
-  border: 1px solid rgba(114, 38, 63, 0.35);
-  border-radius: 50%;
-  background: transparent;
-}
-
-.pagination-dot.active {
-  background: var(--maroon);
-}
 
 /* =========================================================
    RESPONSIVE DESIGN
