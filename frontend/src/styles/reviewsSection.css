@@ -25,7 +25,7 @@
 .reviews-eyebrow {
   display: block;
   margin-bottom: 12px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.16em;
   color: var(--maroon);
@@ -34,11 +34,11 @@
 
 .reviews-header h2 {
   margin: 0 0 14px;
-  font-size: clamp(32px, 3.8vw, 44px);
+  font-size: clamp(26px, 3.5vw, 36px);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  color: var(--maroon-dark);
+  color: #111827;
 }
 
 .reviews-header h2 em {
@@ -50,7 +50,7 @@
   margin: 0;
   font-size: 15px;
   line-height: 1.65;
-  color: var(--text-secondary);
+  color: #4b5563;
 }
 
 .reviews-grid {
@@ -90,22 +90,22 @@
 }
 
 .review-verified-pill {
-  font-size: 11px;
+  font-size: 11.5px;
   letter-spacing: 0.04em;
-  padding: 3px 9px;
+  padding: 4px 10px;
   border-radius: 9999px;
   background: #ecfdf5;
   color: #047857;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .review-category-tag {
   display: inline-block;
-  font-size: 10.5px;
+  font-size: 11.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--maroon);
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 8px;
 }
 
@@ -114,14 +114,14 @@
   font-size: 17px;
   font-weight: 700;
   line-height: 1.3;
-  color: var(--maroon-dark);
+  color: #111827;
 }
 
 .review-body {
   margin: 0 0 22px;
-  font-size: 14px;
+  font-size: 14.5px;
   line-height: 1.65;
-  color: var(--text-secondary);
+  color: #374151;
   flex-grow: 1;
 }
 
@@ -148,15 +148,15 @@
 
 .author-info strong {
   display: block;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 14.5px;
+  font-weight: 700;
   line-height: 1.2;
-  color: var(--maroon-dark);
+  color: #111827;
 }
 
 .author-info small {
   display: block;
-  font-size: 11.5px;
+  font-size: 12px;
   color: #6b7280;
   margin-top: 2px;
 }
@@ -175,13 +175,13 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 26px;
+  padding: 13px 26px;
   background: var(--maroon);
   color: #ffffff;
   border: 1px solid var(--maroon);
   border-radius: 9999px;
-  font-size: 12.5px;
-  font-weight: 600;
+  font-size: 13.5px;
+  font-weight: 700;
   letter-spacing: 0.04em;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(114, 38, 63, 0.2);
@@ -215,16 +215,16 @@
 
 .reviews-empty-title {
   margin: 0 0 8px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  color: var(--maroon-dark);
+  color: #111827;
 }
 
 .reviews-empty-text {
   margin: 0 0 24px;
-  font-size: 14px;
+  font-size: 14.5px;
   line-height: 1.6;
-  color: var(--text-secondary);
+  color: #4b5563;
 }
 
 .write-first-btn {
@@ -316,9 +316,9 @@
 .rating-select-group label,
 .review-form-field label {
   display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #374151;
   margin-bottom: 6px;
 }
 
@@ -348,9 +348,9 @@
 }
 
 .star-rating-label {
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--maroon);
-  font-weight: 600;
+  font-weight: 700;
   margin-left: 8px;
 }
 
@@ -363,11 +363,12 @@
 .review-form-field input,
 .review-form-field textarea {
   width: 100%;
-  padding: 10px 14px;
-  border: 1.5px solid #e5e7eb;
+  padding: 11px 14px;
+  border: 1.5px solid #d1d5db;
   border-radius: 8px;
   font-family: inherit;
-  font-size: 13.5px;
+  font-size: 14px;
+  color: #111827;
   outline: none;
   transition: border-color 0.2s ease;
 }
@@ -386,12 +387,13 @@
 }
 
 .modal-cancel-btn {
-  padding: 10px 20px;
+  padding: 10px 22px;
   background: transparent;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #d1d5db;
   border-radius: 9999px;
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: 13px;
+  font-weight: 600;
   color: #4b5563;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -399,17 +401,18 @@
 
 .modal-cancel-btn:hover {
   background: #f9fafb;
+  color: #111827;
 }
 
 .modal-submit-btn {
-  padding: 10px 24px;
+  padding: 11px 26px;
   background: var(--maroon);
   color: #ffffff;
   border: 1px solid var(--maroon);
   border-radius: 9999px;
   font-family: inherit;
-  font-size: 12.5px;
-  font-weight: 600;
+  font-size: 13.5px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
 }

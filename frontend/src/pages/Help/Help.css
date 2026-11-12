@@ -23,28 +23,28 @@
   display: inline-block;
   margin-bottom: 12px;
   font-family: inherit;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  color: var(--gold-dark);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--maroon);
   text-transform: uppercase;
 }
 
 .help-header h1 {
   margin: 0 0 14px;
   font-family: inherit;
-  font-size: clamp(40px, 5.5vw, 64px);
-  font-weight: 500;
-  line-height: 0.96;
-  color: var(--maroon-dark);
+  font-size: clamp(28px, 3.8vw, 40px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #111827;
 }
 
 .help-header p {
   margin: 0;
   font-family: inherit;
-  font-size: 12px;
-  line-height: 1.8;
-  color: rgba(93, 30, 52, 0.78);
+  font-size: 15px;
+  line-height: 1.6;
+  color: #4b5563;
 }
 
 /* =========================================================
@@ -73,12 +73,12 @@
 .contact-banner-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(93, 30, 52, 0.08);
-  border-color: var(--gold-dark);
+  border-color: var(--maroon);
 }
 
 .contact-banner-card.highlight-card {
-  background: linear-gradient(135deg, #ffffff 0%, rgba(247, 233, 201, 0.3) 100%);
-  border-color: rgba(228, 182, 94, 0.5);
+  background: #ffffff;
+  border-color: rgba(114, 38, 63, 0.22);
 }
 
 .contact-card-icon {
@@ -90,16 +90,17 @@
 .contact-card-body h4 {
   margin: 0 0 8px;
   font-family: inherit;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  color: var(--maroon-dark);
+  color: #111827;
 }
 
 .contact-card-body p {
-  margin: 0 0 4px;
+  margin: 0 0 6px;
   font-family: inherit;
-  font-size: 11px;
-  color: rgba(93, 30, 52, 0.85);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #374151;
 }
 
 .contact-card-body a {
@@ -112,32 +113,32 @@
   display: block;
   margin-top: 6px;
   font-family: inherit;
-  font-size: 9.5px;
-  color: rgba(93, 30, 52, 0.55);
+  font-size: 12px;
+  color: #6b7280;
 }
 
 .whatsapp-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   margin-top: 10px;
-  padding: 8px 16px;
-  background: #25d366;
+  padding: 9px 18px;
+  background: #16a34a;
   color: #ffffff !important;
   font-family: inherit;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
   text-decoration: none !important;
-  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
   transition: all 0.2s ease;
 }
 
 .whatsapp-btn:hover {
-  background: #1eb956;
+  background: #15803d;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
 }
 
 /* =========================================================
@@ -161,26 +162,26 @@
 
 .help-search-input {
   width: 100%;
-  height: 48px;
-  padding: 0 42px 0 46px;
+  height: 50px;
+  padding: 0 44px 0 48px;
   background: #ffffff;
   border: 1.5px solid rgba(114, 38, 63, 0.18);
-  border-radius: 24px;
-  color: var(--maroon-dark);
+  border-radius: 999px;
+  color: #111827;
   font-family: inherit;
-  font-size: 12px;
+  font-size: 14px;
   outline: none;
   box-shadow: 0 2px 10px rgba(93, 30, 52, 0.03);
   transition: all 0.25s ease;
 }
 
 .help-search-input:focus {
-  border-color: var(--gold-dark);
-  box-shadow: 0 0 0 3px rgba(196, 154, 69, 0.18);
+  border-color: var(--maroon);
+  box-shadow: 0 0 0 3px rgba(114, 38, 63, 0.12);
 }
 
 .help-search-input::placeholder {
-  color: rgba(93, 30, 52, 0.45);
+  color: #9ca3af;
 }
 
 .help-search-clear {
@@ -188,15 +189,16 @@
   right: 14px;
   background: none;
   border: none;
-  color: var(--maroon);
-  font-size: 12px;
+  color: #6b7280;
+  font-size: 13px;
   padding: 6px;
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .help-search-clear:hover {
   opacity: 1;
+  color: #111827;
 }
 
 /* =========================================================
@@ -224,36 +226,36 @@
 .help-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 34px;
-  padding: 0 14px;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 16px;
   background: #ffffff;
-  border: 1.5px solid rgba(114, 38, 63, 0.16);
-  border-radius: 18px;
-  color: var(--maroon-dark);
+  border: 1.5px solid rgba(114, 38, 63, 0.18);
+  border-radius: 999px;
+  color: #1f2937;
   font-family: inherit;
-  font-size: 10.5px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .help-pill:hover {
-  border-color: var(--gold-dark);
+  border-color: var(--maroon);
   transform: translateY(-1px);
 }
 
 .help-pill.active {
   background: var(--maroon);
-  color: var(--cream);
-  border-color: var(--gold-dark);
+  color: #ffffff;
+  border-color: var(--maroon);
   box-shadow: 0 2px 10px rgba(114, 38, 63, 0.22);
 }
 
 .pill-badge {
-  font-size: 9px;
-  padding: 2px 6px;
+  font-size: 11px;
+  padding: 2px 7px;
   border-radius: 10px;
   background: rgba(114, 38, 63, 0.09);
   color: var(--maroon);
@@ -261,8 +263,8 @@
 }
 
 .help-pill.active .pill-badge {
-  background: rgba(228, 182, 94, 0.28);
-  color: var(--cream);
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
 }
 
 .help-toggle-all {
@@ -270,8 +272,8 @@
   align-items: center;
   gap: 8px;
   font-family: inherit;
-  font-size: 10.5px;
-  color: rgba(93, 30, 52, 0.5);
+  font-size: 12.5px;
+  color: #6b7280;
 }
 
 .toggle-all-btn {
@@ -279,14 +281,15 @@
   border: none;
   color: var(--maroon);
   font-family: inherit;
-  font-size: 10.5px;
+  font-size: 12.5px;
+  font-weight: 600;
   text-decoration: underline;
   cursor: pointer;
   padding: 0;
 }
 
 .toggle-all-btn:hover {
-  color: var(--gold-dark);
+  color: var(--maroon-dark);
 }
 
 /* =========================================================
@@ -320,9 +323,9 @@
 .category-title-row h2 {
   margin: 0;
   font-family: inherit;
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 700;
-  color: var(--maroon-dark);
+  color: #111827;
 }
 
 .faq-items-list {
@@ -341,7 +344,7 @@
 }
 
 .faq-item:hover {
-  border-color: var(--gold-dark);
+  border-color: var(--maroon);
   box-shadow: 0 4px 14px rgba(93, 30, 52, 0.05);
 }
 
@@ -352,7 +355,7 @@
 }
 
 .faq-question {
-  padding: 16px 20px;
+  padding: 18px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -362,33 +365,33 @@
 .faq-question h3 {
   margin: 0;
   font-family: inherit;
-  font-size: 19px;
-  font-weight: 600;
-  color: var(--maroon-dark);
-  line-height: 1.25;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.35;
 }
 
 .faq-toggle-icon {
   font-family: inherit;
   font-size: 18px;
   font-weight: 700;
-  color: var(--gold-dark);
+  color: var(--maroon);
   line-height: 1;
   flex-shrink: 0;
 }
 
 .faq-answer {
-  padding: 0 20px 18px;
+  padding: 0 22px 20px;
   border-top: 1px solid rgba(114, 38, 63, 0.08);
-  background: rgba(254, 250, 246, 0.5);
+  background: #fbf9f8;
 }
 
 .faq-answer p {
-  margin: 12px 0 0;
+  margin: 14px 0 0;
   font-family: inherit;
-  font-size: 11.5px;
-  line-height: 1.85;
-  color: rgba(93, 30, 52, 0.85);
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #374151;
 }
 
 /* Empty search state */
@@ -408,27 +411,29 @@
 
 .help-empty-search h3 {
   font-family: inherit;
-  font-size: 24px;
-  color: var(--maroon-dark);
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
   margin: 0 0 8px;
 }
 
 .help-empty-search p {
   font-family: inherit;
-  font-size: 11px;
-  color: rgba(93, 30, 52, 0.7);
+  font-size: 14px;
+  color: #4b5563;
   max-width: 440px;
   margin: 0 auto 16px;
 }
 
 .empty-reset-btn {
-  padding: 9px 20px;
+  padding: 10px 24px;
   background: var(--maroon);
-  color: var(--cream);
+  color: #ffffff;
   border: none;
-  border-radius: 20px;
+  border-radius: 999px;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -445,16 +450,16 @@
   margin-top: 40px;
   padding: 24px 28px;
   background: #ffffff;
-  border: 1px solid rgba(157, 116, 49, 0.22);
+  border: 1px solid rgba(114, 38, 63, 0.16);
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(114, 38, 63, 0.04);
 }
 
 .help-policies-strip h4 {
   font-family: inherit;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--maroon-dark);
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
   margin: 0 0 14px;
 }
 
@@ -466,7 +471,8 @@
 
 .help-policies-links a {
   font-family: inherit;
-  font-size: 11.5px;
+  font-size: 13.5px;
+  font-weight: 600;
   color: var(--maroon);
   text-decoration: none;
   border-bottom: 1px solid rgba(114, 38, 63, 0.3);
@@ -475,8 +481,8 @@
 }
 
 .help-policies-links a:hover {
-  color: var(--gold-dark);
-  border-color: var(--gold-dark);
+  color: var(--maroon-dark);
+  border-color: var(--maroon-dark);
 }
 
 /* =========================================================
@@ -504,21 +510,23 @@
 .footer-banner-inner h3 {
   margin: 0 0 8px;
   font-family: inherit;
-  font-size: 26px;
-  color: var(--cream);
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
 }
 
 .footer-banner-inner p {
   margin: 0 0 6px;
   font-family: inherit;
-  font-size: 11.5px;
-  color: rgba(247, 233, 201, 0.85);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .footer-banner-inner small {
   display: block;
   font-family: inherit;
-  font-size: 9.5px;
+  font-size: 12px;
+  font-weight: 600;
   color: var(--gold);
 }
 

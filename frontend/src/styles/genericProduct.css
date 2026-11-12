@@ -71,12 +71,12 @@
 .product-badge {
   display: inline-flex;
   width: fit-content;
-  padding: 4px 10px;
+  padding: 5px 11px;
   background: var(--maroon);
   color: #ffffff;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   border-radius: 9999px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -91,8 +91,8 @@
 
 .product-category {
   margin: 0 0 4px;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--maroon);
@@ -101,9 +101,9 @@
 .product-name {
   margin: 0 0 6px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.35;
-  color: var(--text-primary);
+  color: #111827;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -126,17 +126,17 @@
 
 .product-card-rating .card-rating-num {
   font-weight: 700;
-  color: var(--text-primary);
+  color: #111827;
 }
 
 .product-card-rating .card-reviews-count {
   color: #6b7280;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .product-price {
   margin-top: auto;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--maroon-dark);
 }
@@ -144,8 +144,8 @@
 .product-grid-empty {
   padding: 70px 20px;
   text-align: center;
-  font-size: 14px;
-  color: var(--text-secondary);
+  font-size: 14.5px;
+  color: #4b5563;
 }
 
 /* =========================================================
@@ -158,7 +158,7 @@
 
 .section-eyebrow {
   margin: 0 0 10px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -167,11 +167,11 @@
 
 .section-heading h2 {
   margin: 0;
-  font-size: clamp(30px, 3.5vw, 42px);
+  font-size: clamp(24px, 3.2vw, 34px);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  color: var(--maroon-dark);
+  color: #111827;
 }
 
 .section-description {
@@ -179,7 +179,7 @@
   margin: 14px 0 0;
   font-size: 15px;
   line-height: 1.6;
-  color: var(--text-secondary);
+  color: #4b5563;
 }
 
 /* =========================================================

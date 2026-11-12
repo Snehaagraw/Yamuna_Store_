@@ -34,28 +34,28 @@
 .legal-eyebrow {
   display: inline-block;
   font-family: inherit;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold-dark);
-  margin-bottom: 16px;
+  color: var(--maroon);
+  margin-bottom: 12px;
 }
 
 .legal-hero h1 {
   font-family: inherit;
-  font-size: clamp(34px, 4.5vw, 52px);
-  font-weight: 500;
-  line-height: 1.1;
-  color: var(--maroon-dark);
-  margin: 0 0 16px;
+  font-size: clamp(28px, 3.8vw, 38px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #111827;
+  margin: 0 0 14px;
 }
 
 .legal-hero p {
   font-family: inherit;
-  font-size: 13px;
-  line-height: 1.8;
-  color: rgba(93, 30, 52, 0.8);
+  font-size: 15px;
+  line-height: 1.6;
+  color: #4b5563;
   margin: 0;
 }
 
@@ -76,7 +76,7 @@
   background: #ffffff;
   padding: 10px;
   border-radius: 50px;
-  border: 1px solid rgba(157, 116, 49, 0.25);
+  border: 1px solid rgba(114, 38, 63, 0.16);
   box-shadow: 0 10px 30px rgba(114, 38, 63, 0.08);
 }
 
@@ -89,18 +89,18 @@
   border: none;
   border-radius: 30px;
   font-family: inherit;
-  font-size: 11.5px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: rgba(93, 30, 52, 0.75);
+  color: #374151;
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .legal-tab-btn:hover {
-  background: rgba(228, 182, 94, 0.12);
-  color: var(--maroon-dark);
+  background: rgba(114, 38, 63, 0.06);
+  color: var(--maroon);
 }
 
 .legal-tab-btn.active {
@@ -136,13 +136,14 @@
 
 .policy-badge {
   display: inline-block;
-  background: rgba(228, 182, 94, 0.15);
-  color: var(--gold-dark);
-  border: 1px solid rgba(157, 116, 49, 0.3);
+  background: rgba(114, 38, 63, 0.08);
+  color: var(--maroon);
+  border: 1px solid rgba(114, 38, 63, 0.2);
   padding: 4px 12px;
-  border-radius: 12px;
+  border-radius: 999px;
   font-family: inherit;
-  font-size: 10px;
+  font-size: 11.5px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 12px;
@@ -150,23 +151,23 @@
 
 .policy-card-header h2 {
   font-family: inherit;
-  font-size: clamp(26px, 3.2vw, 36px);
-  font-weight: 600;
-  color: var(--maroon-dark);
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  color: #111827;
   margin: 0 0 8px;
 }
 
 .policy-card-sub {
   font-family: inherit;
-  font-size: 12.5px;
-  line-height: 1.7;
-  color: rgba(93, 30, 52, 0.7);
+  font-size: 14px;
+  line-height: 1.6;
+  color: #4b5563;
   margin: 0;
 }
 
 /* Sections inside Policy Card */
 .policy-section {
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
 
 .policy-section:last-child {
@@ -175,19 +176,19 @@
 
 .policy-section h3 {
   font-family: inherit;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--maroon-dark);
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
   margin: 0 0 12px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
 .policy-section p {
   font-family: inherit;
-  font-size: 12px;
-  line-height: 1.9;
-  color: rgba(93, 30, 52, 0.85);
-  margin: 0 0 12px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #374151;
+  margin: 0 0 14px;
 }
 
 .policy-section p:last-child {
@@ -195,22 +196,22 @@
 }
 
 .policy-section ul {
-  margin: 10px 0 14px 20px;
+  margin: 10px 0 16px 20px;
   padding: 0;
 }
 
 .policy-section li {
   font-family: inherit;
-  font-size: 12px;
-  line-height: 1.85;
-  color: rgba(93, 30, 52, 0.85);
+  font-size: 14px;
+  line-height: 1.65;
+  color: #374151;
   margin-bottom: 8px;
 }
 
 /* Highlight boxes for critical clauses */
 .highlight-box {
-  background: rgba(228, 182, 94, 0.08);
-  border-left: 3px solid var(--gold-dark);
+  background: #fbf9f8;
+  border-left: 3px solid var(--maroon);
   padding: 20px 24px;
   border-radius: 0 12px 12px 0;
 }
@@ -225,23 +226,25 @@
 
 .shipping-col {
   background: rgba(114, 38, 63, 0.03);
-  border: 1px solid rgba(157, 116, 49, 0.15);
-  padding: 16px;
+  border: 1px solid rgba(114, 38, 63, 0.15);
+  padding: 18px;
   border-radius: 10px;
 }
 
 .shipping-col h4 {
   font-family: inherit;
-  font-size: 10.5px;
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--gold-dark);
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--maroon);
   margin: 0 0 6px;
 }
 
 .shipping-col p {
-  font-size: 13px !important;
-  color: var(--maroon-dark) !important;
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+  color: #111827 !important;
   margin: 0 !important;
 }
 
@@ -254,16 +257,16 @@
 }
 
 .contact-info-card {
-  background: rgba(114, 38, 63, 0.02);
-  border: 1px solid rgba(157, 116, 49, 0.2);
+  background: #fbf9f8;
+  border: 1px solid rgba(114, 38, 63, 0.16);
   padding: 24px;
   border-radius: 12px;
 }
 
 .contact-info-card.full-width {
   grid-column: 1 / -1;
-  background: rgba(228, 182, 94, 0.06);
-  border-color: rgba(157, 116, 49, 0.3);
+  background: #ffffff;
+  border-color: rgba(114, 38, 63, 0.22);
 }
 
 .contact-info-icon {
@@ -274,41 +277,41 @@
 
 .contact-info-card h4 {
   font-family: inherit;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--maroon-dark);
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
   margin: 0 0 10px;
 }
 
 .contact-info-card p {
   font-family: inherit;
-  font-size: 12px;
-  line-height: 1.8;
-  color: rgba(93, 30, 52, 0.85);
+  font-size: 14px;
+  line-height: 1.6;
+  color: #374151;
   margin: 0 0 12px;
 }
 
 .contact-info-card a {
   color: var(--maroon);
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: underline;
 }
 
 .contact-info-card small {
   display: block;
   font-family: inherit;
-  font-size: 10.5px;
-  color: rgba(93, 30, 52, 0.6);
+  font-size: 12px;
+  color: #6b7280;
   margin-top: 8px;
 }
 
 .policy-link-btn {
   display: inline-block;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--maroon) !important;
   text-decoration: none !important;
-  font-weight: 500;
+  font-weight: 700;
   border-bottom: 1.5px solid var(--maroon);
   padding-bottom: 2px;
   transition: opacity 0.2s ease;

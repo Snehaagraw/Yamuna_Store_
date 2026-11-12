@@ -21,26 +21,26 @@
 .checkout-eyebrow {
   display: block;
   margin-bottom: 8px;
-  font-family: inherit;
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  color: var(--gold-dark);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--maroon);
+  text-transform: uppercase;
 }
 
 .checkout-header h1 {
   margin: 0 0 10px;
-  font-family: inherit;
-  font-size: clamp(38px, 4.5vw, 56px);
-  font-weight: 500;
-  line-height: 0.95;
+  font-size: clamp(28px, 3.8vw, 38px);
+  font-weight: 700;
+  line-height: 1.15;
   color: var(--maroon-dark);
 }
 
 .checkout-header p {
   margin: 0;
-  font-family: inherit;
-  font-size: 12px;
-  color: rgba(93, 30, 52, 0.75);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
 }
 
 /* 2-Column Responsive Layout */
@@ -155,22 +155,22 @@
 /* Confirmed Address Body */
 .hostinger-confirmed-address-body {
   padding-left: 38px;
-  font-family: inherit;
-  font-size: 12px;
-  line-height: 1.7;
-  color: rgba(30, 10, 20, 0.85);
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #374151;
 }
 
 .confirmed-name {
   margin: 0 0 4px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--maroon-dark);
 }
 
 .confirmed-phone {
   margin: 0 0 4px;
-  color: rgba(93, 30, 52, 0.9);
+  color: var(--maroon);
+  font-weight: 600;
 }
 
 .confirmed-location,
@@ -182,7 +182,7 @@
 .confirmed-notes {
   margin: 6px 0 0;
   color: #6b7280;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 /* Address Form Wrap */
@@ -192,12 +192,12 @@
 
 .saved-address-hint {
   margin: 0 0 18px;
-  padding: 8px 14px;
+  padding: 10px 16px;
   background: #ecfdf5;
   border-left: 3px solid #10b981;
   color: #065f46;
-  font-family: inherit;
-  font-size: 11px;
+  font-size: 12.5px;
+  font-weight: 500;
   border-radius: 0 6px 6px 0;
 }
 
@@ -210,7 +210,7 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .form-group.full-width {
@@ -218,11 +218,10 @@
 }
 
 .form-group label {
-  font-family: inherit;
-  font-size: 10.5px;
-  letter-spacing: 0.08em;
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--maroon-dark);
+  color: #374151;
   font-weight: 600;
 }
 
@@ -233,9 +232,8 @@
   border: 1px solid #d1d5db;
   border-radius: 8px;
   background: #ffffff;
-  color: var(--maroon-dark);
-  font-family: inherit;
-  font-size: 12.5px;
+  color: #111827;
+  font-size: 14px;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -244,7 +242,7 @@
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--maroon);
-  box-shadow: 0 0 0 3px rgba(93, 30, 52, 0.08);
+  box-shadow: 0 0 0 3px rgba(114, 38, 63, 0.12);
 }
 
 .phone-input-group {
@@ -271,18 +269,20 @@
   background: var(--maroon);
   color: #fff;
   border: none;
-  padding: 11px 22px;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 12px;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  font-size: 13.5px;
   font-weight: 600;
+  letter-spacing: 0.02em;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(114, 38, 63, 0.2);
 }
 
 .confirm-address-btn:hover {
   background: var(--maroon-dark);
   transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.3);
 }
 
 /* =========================================================
@@ -445,33 +445,31 @@
 
 .method-instruction {
   margin: 0 0 16px;
-  font-family: inherit;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.6;
-  color: #4b5563;
+  color: #374151;
 }
 
 /* Hostinger Purple/Maroon Submit Payment CTA */
 .hostinger-submit-payment-btn {
   width: 100%;
   padding: 15px 24px;
-  background: #5d1e34; /* Rich Yamuna Maroon (or #673ab7 Hostinger purple) */
+  background: var(--maroon);
   color: #ffffff;
   border: none;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 14px;
+  border-radius: 9999px;
+  font-size: 14.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
   cursor: pointer;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 14px rgba(93, 30, 52, 0.2);
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.25);
 }
 
 .hostinger-submit-payment-btn:hover:not(:disabled) {
-  background: #471325;
+  background: var(--maroon-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(93, 30, 52, 0.28);
+  box-shadow: 0 6px 20px rgba(114, 38, 63, 0.35);
 }
 
 .hostinger-submit-payment-btn:disabled {
@@ -480,13 +478,14 @@
 }
 
 .hostinger-submit-payment-btn.bank-wire-submit {
-  background: var(--maroon-dark); color: #ffffff;
-  box-shadow: 0 4px 14px rgba(30, 69, 66, 0.2);
+  background: var(--maroon-dark);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.25);
 }
 
 .hostinger-submit-payment-btn.bank-wire-submit:hover:not(:disabled) {
-  background: #143230;
-  box-shadow: 0 6px 20px rgba(30, 69, 66, 0.28);
+  background: #3b0c1b;
+  box-shadow: 0 6px 20px rgba(114, 38, 63, 0.35);
 }
 
 /* Security Badge under CTA */
@@ -499,17 +498,16 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: inherit;
-  font-size: 11px;
-  color: #6b7280;
+  font-size: 12px;
+  font-weight: 500;
+  color: #4b5563;
 }
 
 .payment-terms-disclaimer {
   margin: 0;
-  font-family: inherit;
-  font-size: 10.5px;
+  font-size: 11.5px;
   line-height: 1.6;
-  color: #9ca3af;
+  color: #6b7280;
   text-align: center;
 }
 
@@ -537,19 +535,18 @@
 }
 
 .bank-card-header strong {
-  font-family: inherit;
   font-size: 18px;
+  font-weight: 700;
   color: var(--maroon-dark);
 }
 
 .bank-currency-tag {
   background: rgba(228, 182, 94, 0.2);
   color: #8a6213;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 10px;
-  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .bank-card-grid {
@@ -561,9 +558,8 @@
 .bank-info-line {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  font-family: inherit;
-  font-size: 11.5px;
+  gap: 4px;
+  font-size: 12px;
 }
 
 .bank-info-line.full {
@@ -571,11 +567,11 @@
 }
 
 .info-label {
-  font-size: 9.5px;
+  font-size: 11px;
   text-transform: uppercase;
-  color: #855d14;
-  letter-spacing: 0.08em;
-  font-weight: 600;
+  color: var(--maroon);
+  letter-spacing: 0.06em;
+  font-weight: 700;
 }
 
 .info-value-row {
@@ -586,16 +582,18 @@
 }
 
 .info-value-row strong {
-  color: var(--maroon-dark);
-  font-size: 13px;
+  color: #111827;
+  font-size: 13.5px;
+  font-weight: 600;
 }
 
 .code-highlight {
   color: #92400e;
   background: #fef3c7;
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 13.5px;
+  font-weight: 700;
   border: 1px solid #fde68a;
 }
 
@@ -603,10 +601,9 @@
   background: #f3f4f6;
   border: 1px solid #d1d5db;
   color: #374151;
-  font-family: inherit;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
-  padding: 2px 7px;
+  padding: 3px 8px;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -620,18 +617,16 @@
   margin: 14px 0 0;
   padding-top: 10px;
   border-top: 1px dashed rgba(184, 134, 11, 0.25);
-  font-family: inherit;
-  font-size: 11px;
+  font-size: 12px;
   color: #78350f;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* Bank Transfer Form */
 .bank-transfer-form h4 {
   margin: 0 0 14px;
-  font-family: inherit;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--maroon-dark);
 }
 
@@ -724,24 +719,22 @@
 .verification-badge {
   background: #dbeafe;
   color: #1e40af;
-  font-family: inherit;
-  font-size: 9.5px;
+  font-size: 11px;
   font-weight: 700;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 4px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 
 .verification-title-row strong {
-  font-family: inherit;
-  font-size: 12.5px;
-  color: var(--maroon-dark);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111827;
 }
 
 .verification-subtext {
   margin: 0;
-  font-family: inherit;
-  font-size: 11px;
+  font-size: 12.5px;
   line-height: 1.6;
   color: #4b5563;
 }
@@ -752,8 +745,7 @@
   background: #fee2e2;
   color: #991b1b;
   border-radius: 6px;
-  font-family: inherit;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -764,8 +756,8 @@
   border-left: 3px solid #dc2626;
   color: #991b1b;
   border-radius: 0 8px 8px 0;
-  font-family: inherit;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 /* =========================================================
@@ -806,8 +798,7 @@
   align-items: flex-start;
   padding: 9px 0;
   border-bottom: 1px solid #f9fafb;
-  font-family: inherit;
-  font-size: 11.5px;
+  font-size: 13px;
 }
 
 .summary-item-title-group {
@@ -818,20 +809,22 @@
 }
 
 .summary-item-name {
-  color: var(--maroon-dark);
+  color: #111827;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.35;
 }
 
 .summary-item-size,
 .summary-item-qty {
-  font-size: 10px;
-  color: #6b7280;
+  font-size: 12px;
+  color: #4b5563;
 }
 
 .summary-item-subtotal {
-  font-weight: 600;
-  color: var(--maroon-dark);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--maroon);
 }
 
 /* Calculations Table */
@@ -847,9 +840,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: inherit;
-  font-size: 12.5px;
-  color: #4b5563;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #374151;
 }
 
 /* Zepto-Style Delivery Accordion inside Summary */
@@ -868,8 +861,7 @@
   justify-content: space-between;
   cursor: pointer;
   user-select: none;
-  font-family: inherit;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .delivery-trigger-left {
@@ -887,9 +879,9 @@
 .weight-badge-pill {
   background: rgba(228, 182, 94, 0.22);
   color: #855d14;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  padding: 1px 6px;
+  padding: 1px 7px;
   border-radius: 10px;
 }
 
@@ -904,6 +896,7 @@
 }
 
 .delivery-trigger-price {
+  font-size: 13px;
   font-weight: 700;
   color: var(--maroon-dark);
 }
@@ -915,27 +908,26 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-family: inherit;
-  font-size: 11px;
+  font-size: 12.5px;
 }
 
 .tray-line {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #6b7280;
+  color: #4b5563;
 }
 
 .tray-line strong {
-  color: var(--maroon-dark);
+  color: #111827;
 }
 
 .taxes-free-badge {
   background: #ecfdf5;
   color: #065f46;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: 4px;
 }
 
@@ -948,23 +940,23 @@
 }
 
 .total-row strong {
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--maroon-dark);
 }
 
 .total-sub {
   display: block;
-  font-size: 10px;
-  color: #9ca3af;
+  font-size: 11.5px;
+  color: #6b7280;
   font-weight: normal;
   margin-top: 2px;
 }
 
 .total-number {
-  font-family: inherit;
   font-size: 24px;
   font-weight: 800;
-  color: var(--maroon-dark);
+  color: var(--maroon);
 }
 
 /* Hostinger "Have a coupon code?" */
@@ -977,9 +969,8 @@
 .coupon-toggle-link {
   background: none;
   border: none;
-  color: #6366f1; /* Purple/Indigo accent */
-  font-family: inherit;
-  font-size: 12px;
+  color: var(--maroon);
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   padding: 0;
@@ -998,11 +989,10 @@
 
 .coupon-input {
   flex-grow: 1;
-  padding: 8px 12px;
+  padding: 9px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
-  font-family: inherit;
-  font-size: 12px;
+  font-size: 13px;
   outline: none;
 }
 
@@ -1011,38 +1001,36 @@
 }
 
 .coupon-apply-btn {
-  background: #374151;
+  background: var(--maroon);
   color: #ffffff;
   border: none;
   border-radius: 6px;
-  padding: 8px 16px;
-  font-family: inherit;
-  font-size: 12px;
+  padding: 9px 18px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .coupon-apply-btn:hover {
-  background: #111827;
+  background: var(--maroon-dark);
 }
 
 .coupon-success-pill {
   margin: 8px 0 0;
-  font-family: inherit;
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 600;
   color: #059669;
 }
 
 .summary-security-footer {
   margin-top: 24px;
   text-align: center;
-  font-family: inherit;
-  color: #9ca3af;
+  color: #6b7280;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  font-size: 10.5px;
+  gap: 4px;
+  font-size: 12px;
 }
 
 .checkout-back-link {
@@ -1051,15 +1039,14 @@
 }
 
 .checkout-back-link a {
-  color: rgba(93, 30, 52, 0.7);
-  font-family: inherit;
-  font-size: 11.5px;
+  color: var(--maroon);
+  font-size: 13px;
+  font-weight: 600;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .checkout-back-link a:hover {
-  color: var(--maroon);
   text-decoration: underline;
 }
 

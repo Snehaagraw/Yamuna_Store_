@@ -35,8 +35,8 @@
 }
 
 .featured-products-eyebrow {
-  margin: 0 0 16px;
-  font-size: 11px;
+  margin: 0 0 14px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -45,11 +45,11 @@
 
 .featured-products-content h2 {
   margin: 0;
-  font-size: clamp(32px, 3.8vw, 46px);
+  font-size: clamp(26px, 3.5vw, 36px);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  color: var(--maroon-dark);
+  color: #111827;
 }
 
 .featured-products-content h2 span {
@@ -60,19 +60,19 @@
   margin: 18px 0 28px;
   font-size: 14.5px;
   line-height: 1.65;
-  color: var(--text-secondary);
+  color: #4b5563;
 }
 
 .featured-products-button {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 24px;
+  padding: 13px 26px;
   background: var(--maroon);
   color: #ffffff;
   border-radius: 9999px;
-  font-size: 12.5px;
-  font-weight: 600;
+  font-size: 13.5px;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-decoration: none;
   transition: all 0.25s ease;
@@ -218,12 +218,12 @@
   position: absolute;
   top: 14px;
   left: 14px;
-  padding: 5px 12px;
+  padding: 6px 14px;
   background: var(--maroon);
   color: #ffffff;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   border-radius: 9999px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -238,8 +238,8 @@
   padding: 24px 18px 18px;
   background: linear-gradient(
     to top,
-    rgba(15, 23, 42, 0.92) 0%,
-    rgba(15, 23, 42, 0.6) 60%,
+    rgba(15, 23, 42, 0.94) 0%,
+    rgba(15, 23, 42, 0.65) 60%,
     transparent 100%
   );
   color: #ffffff;
@@ -248,8 +248,8 @@
 
 .featured-product-info p {
   margin: 0 0 4px;
-  font-size: 10.5px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 700;
   letter-spacing: 0.1em;
   color: #fef08a;
   text-transform: uppercase;
@@ -274,14 +274,14 @@
 }
 
 .featured-product-price {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: #ffffff;
 }
 
 .featured-product-cta-text {
-  font-size: 11.5px;
-  font-weight: 600;
+  font-size: 12.5px;
+  font-weight: 700;
   color: #fef08a;
   display: inline-flex;
   align-items: center;

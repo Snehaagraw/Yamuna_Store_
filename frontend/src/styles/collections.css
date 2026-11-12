@@ -25,7 +25,7 @@
 
 .collections-section-eyebrow {
   margin: 0 0 12px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -34,11 +34,11 @@
 
 .collections-section-header h2 {
   margin: 0;
-  font-size: clamp(32px, 3.8vw, 46px);
+  font-size: clamp(26px, 3.5vw, 36px);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  color: var(--maroon-dark);
+  color: #111827;
 }
 
 .collections-section-header h2 em {
@@ -50,13 +50,13 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 22px;
+  padding: 11px 24px;
   background: #ffffff;
   color: var(--maroon);
   border: 1.5px solid var(--maroon);
   border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 13.5px;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-decoration: none;
   transition: all 0.25s ease;
@@ -144,7 +144,7 @@
 .collection-card-number {
   display: block;
   margin-bottom: 6px;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.12em;
   color: #fef08a;
   font-weight: 700;
@@ -153,7 +153,7 @@
 
 .collection-card-title {
   margin: 0 0 8px;
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
   color: #ffffff;
@@ -163,9 +163,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #fef08a;
   transform: translateX(0);

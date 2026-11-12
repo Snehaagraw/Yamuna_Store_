@@ -1,11 +1,11 @@
 /* =========================================================
-   ABOUT / VISIT US PAGE
+   ABOUT / VISIT US PAGE - CLEAN WHITE & MAROON ELEGANCE
    ========================================================= */
 
 .about-page {
   min-height: 100vh;
   background: #ffffff;
-  color: var(--maroon-dark);
+  color: var(--text-primary);
 }
 
 /* =========================================================
@@ -13,13 +13,12 @@
    ========================================================= */
 
 .about-eyebrow {
-  margin: 0 0 20px;
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  margin: 0 0 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold-dark);
+  color: var(--maroon);
 }
 
 /* =========================================================
@@ -28,9 +27,9 @@
 
 .about-story {
   max-width: 1250px;
-  min-height: 680px;
+  min-height: 620px;
   margin: 0 auto;
-  padding: 140px 5vw 80px;
+  padding: 140px 6vw 75px;
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   align-items: center;
@@ -42,19 +41,17 @@
 }
 
 .about-story-content h1 {
-  margin: 0 0 24px;
-  font-family: inherit;
-  font-size: clamp(34px, 4vw, 48px);
-  font-weight: 500;
-  line-height: 0.88;
-  letter-spacing: -0.04em;
+  margin: 0 0 22px;
+  font-size: clamp(34px, 4.2vw, 50px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
   color: var(--maroon-dark);
 }
 
 .about-story-content h1 em {
-  color: var(--maroon-light);
-  font-weight: 500;
-  font-style: italic;
+  color: var(--maroon);
+  font-style: normal;
 }
 
 /* Quick Action Bar for Pilgrims */
@@ -62,20 +59,18 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
 .quick-action-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 18px;
-  border-radius: 25px;
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.25s ease;
@@ -83,37 +78,38 @@
 
 .action-map {
   background: var(--maroon);
-  color: var(--cream);
+  color: #ffffff;
   border: 1px solid var(--maroon);
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.2);
 }
 
 .action-map:hover {
   background: var(--maroon-dark);
-  color: var(--gold);
+  color: #ffffff;
   transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(114, 38, 63, 0.3);
 }
 
 .action-wa {
-  background: rgba(37, 211, 102, 0.12);
-  color: #128c46;
-  border: 1px solid rgba(37, 211, 102, 0.4);
+  background: #25d366;
+  color: #ffffff;
+  border: 1px solid #25d366;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.25);
 }
 
 .action-wa:hover {
-  background: #25d366;
-  color: #ffffff;
+  background: #1eb956;
   transform: translateY(-2px);
 }
 
 .action-call {
-  background: rgba(114, 38, 63, 0.06);
-  color: var(--maroon-dark);
-  border: 1px solid rgba(114, 38, 63, 0.2);
+  background: #ffffff;
+  color: var(--maroon);
+  border: 1.5px solid var(--maroon);
 }
 
 .action-call:hover {
-  background: var(--maroon);
-  color: var(--cream);
+  background: #fdf7f9;
   transform: translateY(-2px);
 }
 
@@ -122,11 +118,10 @@
 }
 
 .about-story-text p {
-  margin: 0 0 18px;
-  font-family: inherit;
-  font-size: 12.5px;
-  line-height: 1.9;
-  color: rgba(93, 30, 52, 0.78);
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text-secondary);
 }
 
 .about-story-text p:last-child {
@@ -134,7 +129,7 @@
 }
 
 /* =========================================================
-   STOREFRONT SHOWCASE CARD (Architectural Heritage Card)
+   STOREFRONT SHOWCASE CARD
    ========================================================= */
 
 .about-storefront-frame {
@@ -144,52 +139,44 @@
 
 .storefront-card {
   background: #ffffff;
-  border: 1.5px solid rgba(197, 155, 78, 0.45);
-  border-radius: 18px;
+  border: 1.5px solid #f0e6e8;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 
-    0 16px 40px rgba(114, 38, 63, 0.09),
-    0 2px 10px rgba(197, 155, 78, 0.15);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .storefront-card:hover {
   transform: translateY(-4px);
-  box-shadow: 
-    0 24px 50px rgba(114, 38, 63, 0.14),
-    0 4px 16px rgba(197, 155, 78, 0.22);
+  box-shadow: 0 22px 50px rgba(114, 38, 63, 0.12);
 }
 
 .storefront-card-top-tag {
-  background: linear-gradient(135deg, #72263f 0%, #4a1425 100%);
-  color: var(--gold);
+  background: var(--maroon);
+  color: #ffffff;
   padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(228, 182, 94, 0.3);
 }
 
 .top-tag-om {
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fef08a;
 }
 
 .top-tag-text {
-  font-family: inherit;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(247, 233, 201, 0.9);
+  color: #ffffff;
 }
 
 .storefront-image-wrap {
   width: 100%;
-  background: #14030a;
+  background: #faf8f6;
   position: relative;
   overflow: hidden;
 }
@@ -204,84 +191,43 @@
 }
 
 .storefront-card:hover .storefront-img {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
 .storefront-caption {
-  padding: 14px 20px;
+  padding: 16px 20px;
   background: #ffffff;
   display: flex;
   align-items: center;
   gap: 12px;
-  border-top: 1px solid rgba(197, 155, 78, 0.2);
+  border-top: 1px solid #f0e6e8;
 }
 
 .caption-pin {
-  font-size: 18px;
-  color: var(--gold-dark);
+  font-size: 20px;
+  color: var(--maroon);
   flex-shrink: 0;
 }
 
 .caption-text strong {
   display: block;
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14.5px;
+  font-weight: 700;
   color: var(--maroon-dark);
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 .caption-text small {
   display: block;
-  font-family: inherit;
-  font-size: 10.5px;
-  color: rgba(93, 30, 52, 0.65);
-  margin-top: 2px;
+  font-size: 12.5px;
+  color: #4b5563;
+  margin-top: 3px;
 }
 
 .about-image-placeholder {
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 42% 42% 7% 7% / 30% 30% 6% 6%;
-  background:
-    radial-gradient(
-      circle at 50% 30%,
-      rgba(228, 182, 94, 0.25) 0%,
-      rgba(114, 38, 63, 0.08) 60%,
-      rgba(45, 92, 89, 0.05) 100%
-    );
-  color: var(--maroon-dark);
-  text-align: center;
-  padding: 30px;
-}
-
-.placeholder-om {
-  font-family: inherit;
-  font-size: 20px;
-  color: var(--gold-dark);
-  margin-bottom: 12px;
-  letter-spacing: 0.1em;
-}
-
-.placeholder-title {
-  font-family: inherit;
-  font-size: 34px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: var(--maroon-dark);
-}
-
-.placeholder-sub {
-  margin-top: 10px;
-  font-family: inherit;
-  font-size: 9.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(93, 30, 52, 0.6);
+  height: 280px;
+  background: #faf8f6;
 }
 
 /* =========================================================
@@ -290,13 +236,10 @@
 
 .about-wholesale-strip {
   background: #fdfaf9;
+  color: var(--text-primary);
+  padding: 55px 6vw;
   border-top: 1px solid #f0e6e8;
   border-bottom: 1px solid #f0e6e8;
-  color: var(--text-primary);
-  color: var(--cream);
-  padding: 45px 5vw;
-  border-top: 1px solid rgba(228, 182, 94, 0.2);
-  border-bottom: 1px solid rgba(228, 182, 94, 0.2);
 }
 
 .wholesale-strip-content {
@@ -310,107 +253,106 @@
 }
 
 .wholesale-strip-info {
-  max-width: 780px;
+  max-width: 760px;
 }
 
 .wholesale-badge {
   display: inline-block;
-  padding: 4px 12px;
-  background: rgba(228, 182, 94, 0.15);
-  border: 1px solid rgba(228, 182, 94, 0.4);
-  border-radius: 14px;
-  font-family: inherit;
-  font-size: 9px;
-  letter-spacing: 0.16em;
-  color: var(--gold);
-  font-weight: 600;
+  padding: 5px 14px;
+  background: rgba(114, 38, 63, 0.08);
+  border: 1px solid rgba(114, 38, 63, 0.2);
+  border-radius: 9999px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--maroon);
+  font-weight: 700;
   margin-bottom: 12px;
+  text-transform: uppercase;
 }
 
 .wholesale-strip-info h3 {
-  margin: 0 0 8px;
-  font-family: inherit;
-  font-size: clamp(26px, 3vw, 34px);
-  font-weight: 600;
-  color: var(--cream);
+  margin: 0 0 10px;
+  font-size: clamp(24px, 2.8vw, 32px);
+  font-weight: 700;
+  color: var(--maroon-dark);
+  line-height: 1.25;
 }
 
 .wholesale-strip-info p {
   margin: 0;
-  font-family: inherit;
-  font-size: 11.5px;
-  line-height: 1.8;
-  color: rgba(247, 233, 201, 0.8);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-secondary);
 }
 
 .wholesale-inquiry-btn {
   display: inline-flex;
   align-items: center;
-  padding: 12px 24px;
-  background: var(--gold);
-  color: var(--maroon-dark);
-  border-radius: 25px;
-  font-family: inherit;
-  font-size: 11px;
+  padding: 13px 26px;
+  background: var(--maroon);
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.25);
   transition: all 0.25s ease;
 }
 
 .wholesale-inquiry-btn:hover {
-  background: #f7e9c9;
+  background: var(--maroon-dark);
+  color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(114, 38, 63, 0.35);
 }
 
 /* =========================================================
-   CONTACT / STORE DETAILS SECTION
+   CONTACT / PHYSICAL STORE DETAILS SECTION
    ========================================================= */
 
 .about-contact {
   position: relative;
   background: var(--maroon-dark);
   color: #ffffff;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--cream);
-  padding: 95px 6vw;
+  padding: 85px 6vw;
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-columns: 0.9fr 1.1fr;
   gap: 70px;
   align-items: start;
 }
 
+.about-contact .about-eyebrow {
+  color: #fef08a;
+}
+
 .about-contact-heading h2 {
   margin: 0 0 16px;
-  font-family: inherit;
-  font-size: clamp(55px, 5.5vw, 82px);
-  font-weight: 500;
-  line-height: 0.88;
-  letter-spacing: -0.04em;
+  font-size: clamp(32px, 3.8vw, 46px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: #ffffff;
 }
 
 .about-contact-heading h2 em {
-  color: var(--gold);
-  font-weight: 500;
-  font-style: italic;
+  color: #fef08a;
+  font-style: normal;
 }
 
 .contact-heading-sub {
   margin: 0;
-  font-family: inherit;
-  font-size: 12px;
-  line-height: 1.85;
-  color: rgba(255, 255, 255, 0.8);
-  max-width: 440px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 460px;
 }
 
 .about-contact-details {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 36px;
+  gap: 32px;
 }
 
 .about-contact-block {
@@ -420,44 +362,44 @@
 }
 
 .about-contact-label {
-  margin-bottom: 18px;
-  font-family: inherit;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: var(--gold);
-  font-weight: 600;
+  margin-bottom: 16px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: #fef08a;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
 .contact-address-text {
   margin: 0 0 16px;
-  font-family: inherit;
-  font-size: 12px;
-  line-height: 1.85;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .contact-address-text strong {
-  color: #fff;
-  font-size: 14px;
+  color: #ffffff;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 4px;
 }
 
 .address-map-badge {
   display: inline-flex;
   align-items: center;
-  padding: 6px 12px;
-  background: rgba(228, 182, 94, 0.15);
-  border: 1px solid rgba(228, 182, 94, 0.35);
-  border-radius: 14px;
-  color: var(--gold);
-  font-family: inherit;
-  font-size: 10px;
+  padding: 7px 14px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .address-map-badge:hover {
-  background: var(--gold);
+  background: #ffffff;
   color: var(--maroon-dark);
 }
 
@@ -473,13 +415,12 @@
 .contact-person-item {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .person-name {
-  font-family: inherit;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   color: #ffffff;
 }
 
@@ -491,84 +432,82 @@
 }
 
 .person-phone {
-  font-family: inherit;
-  font-size: 11.5px;
-  color: rgba(247, 233, 201, 0.8);
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .person-phone:hover {
-  color: var(--gold);
+  color: #fef08a;
 }
 
 .person-wa-btn {
   display: inline-flex;
   align-items: center;
-  padding: 3px 9px;
-  background: rgba(37, 211, 102, 0.18);
-  border: 1px solid rgba(37, 211, 102, 0.4);
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 9.5px;
-  color: #55ef88;
+  padding: 3px 10px;
+  background: #25d366;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #ffffff;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .person-wa-btn:hover {
-  background: #25d366;
-  color: #ffffff;
+  opacity: 0.9;
 }
 
 .contact-email-link {
-  font-family: inherit;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.75);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #fef08a;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .contact-email-link:hover {
-  color: var(--gold);
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 /* Hours Block */
 .contact-hours-text {
   margin: 0 0 14px;
-  font-family: inherit;
-  font-size: 12px;
-  line-height: 1.85;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .contact-hours-text strong {
-  color: #fff;
-  font-size: 14px;
+  color: #ffffff;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 4px;
 }
 
 .hours-darshan-tip {
-  padding: 10px 12px;
-  background: rgba(247, 233, 201, 0.08);
-  border-left: 2px solid var(--gold);
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border-left: 2px solid #fef08a;
   border-radius: 0 8px 8px 0;
 }
 
 .hours-darshan-tip span {
   display: block;
-  font-family: inherit;
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--gold);
-  margin-bottom: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fef08a;
+  margin-bottom: 2px;
 }
 
 .hours-darshan-tip small {
   display: block;
-  font-family: inherit;
-  font-size: 9.5px;
+  font-size: 12px;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* =========================================================
@@ -576,31 +515,29 @@
    ========================================================= */
 
 .about-pilgrim-guide {
-  padding: 85px 5vw;
-  background: #fbf6ec;
-  border-bottom: 1px solid rgba(114, 38, 63, 0.1);
+  padding: 85px 6vw;
+  background: #faf8f6;
+  border-bottom: 1px solid #f0e6e8;
 }
 
 .pilgrim-guide-header {
   text-align: center;
   max-width: 680px;
-  margin: 0 auto 45px;
+  margin: 0 auto 50px;
 }
 
 .pilgrim-guide-header h2 {
   margin: 0 0 12px;
-  font-family: inherit;
-  font-size: clamp(38px, 4.5vw, 54px);
-  font-weight: 600;
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 700;
   color: var(--maroon-dark);
 }
 
 .pilgrim-guide-header p {
   margin: 0;
-  font-family: inherit;
-  font-size: 12px;
-  line-height: 1.8;
-  color: rgba(93, 30, 52, 0.72);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-secondary);
 }
 
 .pilgrim-cards-grid {
@@ -613,54 +550,51 @@
 
 .pilgrim-card {
   background: #ffffff;
-  border: 1px solid rgba(114, 38, 63, 0.12);
-  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
   padding: 30px 24px;
-  box-shadow: 0 6px 20px rgba(93, 30, 52, 0.03);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .pilgrim-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(93, 30, 52, 0.06);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(114, 38, 63, 0.08);
 }
 
 .pilgrim-card-icon {
-  font-size: 28px;
+  font-size: 32px;
   display: block;
   margin-bottom: 14px;
 }
 
 .pilgrim-card h3 {
   margin: 0 0 10px;
-  font-family: inherit;
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: var(--maroon-dark);
 }
 
 .pilgrim-card p {
   margin: 0 0 18px;
-  font-family: inherit;
-  font-size: 11px;
-  line-height: 1.8;
-  color: rgba(93, 30, 52, 0.78);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-secondary);
   flex-grow: 1;
 }
 
 .pilgrim-time-badge {
   display: inline-block;
   width: fit-content;
-  padding: 4px 10px;
-  background: rgba(228, 182, 94, 0.15);
-  border: 1px solid rgba(228, 182, 94, 0.35);
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--dark-gold);
+  padding: 5px 12px;
+  background: rgba(114, 38, 63, 0.08);
+  border: 1px solid rgba(114, 38, 63, 0.2);
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--maroon);
 }
 
 .pilgrim-local-tip {
@@ -669,24 +603,24 @@
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  background: rgba(45, 92, 89, 0.06);
-  border: 1px solid rgba(45, 92, 89, 0.2);
-  border-radius: 10px;
-  padding: 16px 20px;
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px 22px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .tip-star {
-  font-size: 20px;
+  font-size: 22px;
   flex-shrink: 0;
   line-height: 1;
 }
 
 .pilgrim-local-tip p {
   margin: 0;
-  font-family: inherit;
-  font-size: 11px;
-  line-height: 1.75;
-  color: #204c49;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-primary);
 }
 
 /* =========================================================
@@ -694,53 +628,50 @@
    ========================================================= */
 
 .about-location {
-  padding: 85px 5vw 110px;
-  background: var(--cream);
+  padding: 85px 6vw 100px;
+  background: #ffffff;
 }
 
 .about-location-heading {
   max-width: 1250px;
-  margin: 0 auto 40px;
+  margin: 0 auto 36px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 50px;
+  gap: 40px;
 }
 
 .about-location-heading h2 {
   margin: 0;
-  font-family: inherit;
-  font-size: clamp(52px, 5.5vw, 76px);
-  font-weight: 500;
-  line-height: 0.9;
-  letter-spacing: -0.04em;
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--maroon-dark);
 }
 
 .about-location-heading h2 em {
-  color: var(--gold-dark);
-  font-weight: 500;
-  font-style: italic;
+  color: var(--maroon);
+  font-style: normal;
 }
 
 .about-location-heading > p {
-  max-width: 400px;
-  margin: 0 0 7px;
-  font-family: inherit;
-  font-size: 11.5px;
-  line-height: 1.85;
-  color: rgba(93, 30, 52, 0.72);
+  max-width: 440px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-secondary);
 }
 
 .about-map {
   width: 100%;
   max-width: 1250px;
-  height: 500px;
+  height: 480px;
   margin: 0 auto;
   overflow: hidden;
-  border: 1.5px solid rgba(114, 38, 63, 0.18);
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(93, 30, 52, 0.05);
+  border: 1.5px solid #f0e6e8;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
 }
 
 .about-map iframe {
@@ -764,138 +695,136 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 22px;
+  padding: 12px 24px;
   background: var(--maroon);
-  color: var(--cream);
-  border: 1px solid var(--maroon);
-  border-radius: 25px;
-  font-family: inherit;
-  font-size: 11.5px;
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.03em;
   text-decoration: none;
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.25);
   transition: all 0.25s ease;
 }
 
 .about-map-link:hover {
   background: var(--maroon-dark);
-  color: var(--gold);
+  color: #ffffff;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(114, 38, 63, 0.35);
 }
 
 .about-map-wa-link {
-  font-family: inherit;
-  font-size: 11.5px;
-  color: #128c46;
+  font-size: 13.5px;
+  color: #16a34a;
   font-weight: 600;
-  text-decoration: underline;
+  text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .about-map-wa-link:hover {
-  color: #0b6832;
+  color: #15803d;
+  text-decoration: underline;
 }
 
 /* =========================================================
-   TABLET RESPONSIVENESS
+   TABLET & MOBILE RESPONSIVENESS
    ========================================================= */
 
 @media (max-width: 1080px) {
   .about-story {
     grid-template-columns: 1fr;
-    gap: 50px;
-    padding-top: 120px;
+    padding: 120px 6vw 60px;
+    gap: 40px;
   }
 
-  .about-storefront-frame {
-    max-width: 620px;
-    margin: 0 auto;
-    width: 100%;
+  .about-story-content {
+    max-width: 100%;
   }
 
   .about-contact {
     grid-template-columns: 1fr;
-    gap: 45px;
-    padding: 75px 5vw;
+    gap: 40px;
+    padding: 65px 6vw;
   }
 
   .about-contact-details {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
   }
 
   .pilgrim-cards-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-story {
+    padding: 100px 5vw 50px;
+  }
+
+  .about-story-content h1 {
+    font-size: 30px;
+  }
+
+  .about-story-text p {
+    font-size: 14px;
+  }
+
+  .about-wholesale-strip {
+    padding: 45px 5vw;
+  }
+
+  .wholesale-strip-info h3 {
+    font-size: 22px;
+  }
+
+  .wholesale-strip-info p {
+    font-size: 14px;
+  }
+
+  .about-contact {
+    padding: 55px 5vw;
+  }
+
+  .about-contact-details {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .about-contact-heading h2 {
+    font-size: 28px;
+  }
+
+  .about-pilgrim-guide {
+    padding: 60px 5vw;
+  }
+
+  .pilgrim-guide-header h2 {
+    font-size: 26px;
+  }
+
+  .about-location {
+    padding: 60px 5vw 70px;
   }
 
   .about-location-heading {
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
-  }
-}
-
-/* =========================================================
-   MOBILE RESPONSIVENESS
-   ========================================================= */
-
-@media (max-width: 768px) {
-  .about-story {
-    padding: 100px 5vw 60px;
-    gap: 40px;
+    gap: 12px;
   }
 
-  .about-story-content h1 {
-    font-size: clamp(48px, 12vw, 68px);
-  }
-
-  .about-quick-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .quick-action-btn {
-    justify-content: center;
-  }
-
-  .about-storefront-frame {
-    width: 100%;
-  }
-
-  .wholesale-strip-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  .wholesale-inquiry-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .about-contact-details {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .about-contact-heading h2 {
-    font-size: clamp(44px, 11vw, 60px);
-  }
-
-  .about-pilgrim-guide {
-    padding: 65px 5vw;
+  .about-location-heading h2 {
+    font-size: 26px;
   }
 
   .about-map {
-    height: 380px;
+    height: 340px;
   }
 
   .about-map-actions {
     flex-direction: column;
     align-items: stretch;
-    text-align: center;
   }
 
   .about-map-link {

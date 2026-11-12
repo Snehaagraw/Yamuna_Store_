@@ -51,27 +51,25 @@
 .account-eyebrow {
   display: block;
   margin-bottom: 6px;
-  font-family: inherit;
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  color: var(--gold-dark);
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  color: var(--maroon);
+  font-weight: 700;
   text-transform: uppercase;
 }
 
 .account-details h1 {
   margin: 0 0 6px;
-  font-family: inherit;
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 1;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
   color: var(--maroon-dark);
 }
 
 .account-details p {
   margin: 0;
-  font-family: inherit;
-  font-size: 11px;
-  color: rgba(93, 30, 52, 0.75);
+  font-size: 13.5px;
+  color: #4b5563;
 }
 
 .account-logout-btn {
@@ -79,9 +77,9 @@
   border: 1px solid var(--maroon);
   background: transparent;
   color: var(--maroon);
-  font-family: inherit;
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  border-radius: 9999px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   font-weight: 600;
   cursor: pointer;
@@ -90,7 +88,7 @@
 
 .account-logout-btn:hover {
   background: var(--maroon);
-  color: var(--gold);
+  color: #ffffff;
 }
 
 /* Orders Section */
@@ -162,28 +160,27 @@
 
 .account-orders-empty h3 {
   margin: 0 0 10px;
-  font-family: inherit;
-  font-size: 28px;
+  font-size: 24px;
+  font-weight: 700;
   color: var(--maroon-dark);
 }
 
 .account-orders-empty p {
   margin: 0 auto 24px;
   max-width: 440px;
-  font-family: inherit;
-  font-size: 11px;
-  color: rgba(93, 30, 52, 0.7);
-  line-height: 1.7;
+  font-size: 14.5px;
+  color: #4b5563;
+  line-height: 1.6;
 }
 
 .account-shop-now-btn {
   display: inline-block;
-  padding: 12px 24px;
+  padding: 12px 28px;
   background: var(--maroon);
-  color: var(--gold);
-  font-family: inherit;
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  color: #ffffff;
+  border-radius: 9999px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   text-decoration: none;
   font-weight: 600;
@@ -192,7 +189,7 @@
 
 .account-shop-now-btn:hover {
   background: var(--maroon-dark);
-  color: var(--cream);
+  color: #ffffff;
 }
 
 /* Orders List */
@@ -225,20 +222,18 @@
 }
 
 .order-number-tag {
-  font-family: inherit;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--maroon-dark);
 }
 
 .order-number-tag strong {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--maroon);
 }
 
 .order-date-tag {
-  font-family: inherit;
-  font-size: 10px;
-  color: rgba(93, 30, 52, 0.65);
+  font-size: 12px;
+  color: #6b7280;
 }
 
 .order-header-right {
@@ -248,7 +243,6 @@
 }
 
 .order-card-total {
-  font-family: inherit;
   font-size: 16px;
   font-weight: 700;
   color: var(--maroon-dark);
@@ -256,10 +250,10 @@
 
 .order-status-badge {
   padding: 5px 12px;
-  font-family: inherit;
-  font-size: 9px;
+  border-radius: 9999px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -333,22 +327,21 @@
 }
 
 .step-label {
-  font-family: inherit;
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  color: rgba(93, 30, 52, 0.6);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: #6b7280;
   text-transform: uppercase;
 }
 
 .tracker-step.active .step-label {
   color: var(--maroon-dark);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .tracker-line {
   flex: 1;
   height: 2px;
-  background: rgba(114, 38, 63, 0.12);
+  background: #e5e7eb;
   margin: 0 12px 22px;
 }
 
@@ -359,11 +352,11 @@
 /* Items */
 .order-card-items h4 {
   margin: 0 0 14px;
-  font-family: inherit;
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--gold-dark);
+  color: var(--maroon);
 }
 
 .order-items-grid {
@@ -377,7 +370,8 @@
   align-items: center;
   gap: 12px;
   padding: 10px;
-  background: var(--cream-soft);
+  background: #faf8f6;
+  border-radius: 8px;
 }
 
 .item-thumb-wrapper {
@@ -386,6 +380,7 @@
   flex-shrink: 0;
   overflow: hidden;
   background: #fff;
+  border-radius: 4px;
 }
 
 .item-thumb-wrapper img {
@@ -400,32 +395,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: inherit;
   font-size: 20px;
-  color: var(--gold-dark);
+  color: var(--maroon);
 }
 
 .item-details strong {
   display: block;
-  font-family: inherit;
-  font-size: 16px;
-  color: var(--maroon-dark);
-  line-height: 1.2;
+  font-size: 14.5px;
+  color: #111827;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .item-details small {
   display: block;
-  margin-top: 2px;
-  font-family: inherit;
-  font-size: 9px;
-  color: rgba(93, 30, 52, 0.7);
+  margin-top: 3px;
+  font-size: 12px;
+  color: #4b5563;
 }
 
 /* Footer info */
 .order-card-footer {
   margin-top: 20px;
   padding-top: 16px;
-  border-top: 1px solid rgba(114, 38, 63, 0.1);
+  border-top: 1px solid #f3f4f6;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -433,16 +426,14 @@
 }
 
 .order-delivery-address {
-  font-family: inherit;
-  font-size: 10px;
-  color: rgba(93, 30, 52, 0.75);
+  font-size: 12.5px;
+  color: #4b5563;
 }
 
 .order-whatsapp-help {
-  font-family: inherit;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
-  color: #25d366;
+  color: #16a34a;
   text-decoration: none;
   white-space: nowrap;
 }
