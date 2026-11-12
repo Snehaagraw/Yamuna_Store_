@@ -51,19 +51,23 @@
 }
 
 .brand-mark {
-  width: 40px;
+  width: 43px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: none;
   border-radius: 50%;
-  background: var(--maroon);
-  color: #ffffff;
-  font-size: 21px;
-  font-weight: 700;
-  line-height: 1;
-  box-shadow: 0 2px 8px rgba(114, 38, 63, 0.2);
+  background: var(--gold);
+  color: var(--maroon-dark);
+  font-family: inherit;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 3;
+  padding-bottom: 0px;
+  padding-top: 3px;
+  box-shadow: 3px 6px 0 rgba(233, 161, 45, 0.3);
 }
 
 .brand-text {

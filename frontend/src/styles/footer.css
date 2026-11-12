@@ -33,18 +33,23 @@
 }
 
 .footer-logo-mark {
-  width: 42px;
-  height: 42px;
+  width: 43px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: none;
   border-radius: 50%;
-  background: #fef08a;
+  background: var(--gold);
   color: var(--maroon-dark);
-  font-size: 20px;
+  font-family: inherit;
+  font-size: 25px;
   font-weight: 800;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  line-height: 3;
+  padding-bottom: 0px;
+  padding-top: 3px;
+  box-shadow: 3px 6px 0 rgba(233, 161, 45, 0.3);
 }
 
 .footer-logo-text {

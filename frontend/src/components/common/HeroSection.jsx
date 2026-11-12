@@ -5,46 +5,34 @@ import secondaryImage from "../../assets/images/secondHero.png";
 function HeroSection() {  
   return (
     <section className="hero-section" aria-label="Yamuna Store - Traditional Clothing from Vrindavan">
+      <div className="hero-decoration hero-decoration-top" />
+      <div className="hero-decoration hero-decoration-bottom" />
+
       <div className="hero-content">
-        <div className="hero-badge-pill">
-          <span className="badge-dot" />
-          <span>TRADITIONAL DEVOTIONAL CLOTHING · VRINDAVAN</span>
-        </div>
+        <p className="hero-eyebrow">
+          RADHE RADHE · TRADITIONAL CLOTHING · SINCE 2014
+        </p>
 
         <h1>
-          Sacred Clothing &amp; Ethnic Wear
-          <span className="hero-highlight"> from Vrindavan.</span>
+          Sacred Clothing
+          <br />
+          <span>&amp; Ethnic Wear.</span>
+          <br />
+          Rooted in
+          <br />
+          <em>Vrindavan.</em>
         </h1>
 
         <p className="hero-description">
           Handcrafted Gopi Dresses, Pure Silk &amp; Cotton Sarees, Kurta Sets, and Traditional Dhotis — pure fabrics woven with devotion for daily seva, temple darshan, and celebrations.
         </p>
 
-        {/* Interactive Clothing Category Quick-Pills */}
-        <div className="hero-category-pills" aria-label="Browse clothing categories">
-          <Link to="/collections?section=women&category=Gopi+Dress" className="hero-cat-pill">
-            <span className="pill-icon">🌸</span> Gopi Dresses
-          </Link>
-          <Link to="/collections?section=women&category=Sarees" className="hero-cat-pill">
-            <span className="pill-icon">🥻</span> Sarees
-          </Link>
-          <Link to="/collections?section=men&category=Kurta" className="hero-cat-pill">
-            <span className="pill-icon">✨</span> Kurta Sets
-          </Link>
-          <Link to="/collections?section=men&category=Dhoti+Kurta" className="hero-cat-pill">
-            <span className="pill-icon">🪷</span> Dhoti Kurta
-          </Link>
-          <Link to="/collections?section=women&category=Dupattas" className="hero-cat-pill">
-            <span className="pill-icon">🧣</span> Dupattas
-          </Link>
-        </div>
-
         <div className="hero-actions">
           <Link
             to="/collections"
             className="hero-button hero-button-primary"
           >
-            Shop All Clothing <span>→</span>
+            Shop Clothing <span>→</span>
           </Link>
 
           <Link
@@ -54,40 +42,41 @@ function HeroSection() {
             Visit Our Store
           </Link>
         </div>
-
-        <div className="hero-guarantees">
-          <span className="guarantee-item">✓ 100% Pure Fabrics (Cotton &amp; Silk)</span>
-          <span className="guarantee-dot">·</span>
-          <span className="guarantee-item">✓ Sourced Directly from Sri Dham</span>
-          <span className="guarantee-dot">·</span>
-          <span className="guarantee-item">✓ Worldwide Delivery</span>
-        </div>
       </div>
 
       <div className="hero-visual">
-        <div className="hero-image-card hero-image-main">
+        <div className="hero-image-main">
           <img
             src={mainImage}
-            alt="Traditional Vrindavan Devotional Clothing"
+            alt="Yamuna Store traditional devotional clothing"
           />
-          <div className="hero-image-caption">
-            <strong>Authentic Vrindavan Attire</strong>
-            <small>Pure Handlooms &amp; Cotton</small>
-          </div>
         </div>
 
-        <div className="hero-image-card hero-image-secondary">
+        <div className="hero-image-secondary">
           <img
             src={secondaryImage}
-            alt="Vrindavan Temple Collection"
+            alt="Yamuna Store collection"
           />
         </div>
 
-        <div className="hero-floating-tag">
-          <span className="floating-tag-om">॥ श्री राधा ॥</span>
-          <span className="floating-tag-title">Yamuna Store</span>
-          <span className="floating-tag-sub">Clothing Boutique · Since 2014</span>
+        <div className="radhe-badge">
+          <div className="radhe-badge-inner">
+            <span className="badge-made">
+              Radhe
+            </span>
+
+            <span className="badge-slowly">
+              Radhe
+            </span>
+          </div>
         </div>
+      </div>
+
+      <div className="hero-pagination">
+        <span className="pagination-dot active" />
+        <span className="pagination-dot" />
+        <span className="pagination-dot" />
+        <span className="pagination-dot" />
       </div>
     </section>
   );
