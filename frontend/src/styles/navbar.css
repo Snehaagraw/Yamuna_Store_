@@ -584,8 +584,118 @@
   color: #6b7280;
 }
 
-@media (max-width: 800px) {
-  .mobile-menu-toggle {
+/* =========================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .navbar {
+    height: 64px;
+    padding: 0 18px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-links {
+    display: none !important;
+  }
+
+  .navbar-mega-dropdown {
+    display: none !important;
+  }
+
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+
+  .brand {
+    gap: 9px;
+  }
+
+  .brand-mark {
+    width: 36px;
+    height: 34px;
+    font-size: 21px;
+    box-shadow: 2px 4px 0 rgba(233, 161, 45, 0.3);
+  }
+
+  .brand-text strong {
+    font-size: 18px;
+  }
+
+  .brand-text small {
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+  }
+
+  .navbar-actions {
+    gap: 8px;
+  }
+
+  .nav-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .announcement-bar {
+    font-size: 11px;
+    padding: 6px 14px;
+    min-height: 30px;
+    letter-spacing: 0.03em;
+    line-height: 1.35;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    height: 58px;
+    padding: 0 12px;
+  }
+
+  .brand {
+    gap: 7px;
+  }
+
+  .brand-mark {
+    width: 32px;
+    height: 30px;
+    font-size: 19px;
+  }
+
+  .brand-text strong {
+    font-size: 16px;
+  }
+
+  .brand-text small {
+    font-size: 8.5px;
+    letter-spacing: 0.08em;
+  }
+
+  .navbar-actions {
+    gap: 4px;
+  }
+
+  .nav-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .nav-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .nav-cart-count {
+    min-width: 16px;
+    height: 16px;
+    font-size: 10px;
+  }
+
+  .announcement-bar {
+    font-size: 10px;
+    padding: 5px 8px;
+    min-height: 26px;
+    letter-spacing: 0.02em;
   }
 }

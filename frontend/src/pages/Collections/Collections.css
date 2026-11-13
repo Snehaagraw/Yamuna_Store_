@@ -225,7 +225,7 @@
 
 .collections-sticky-deck {
   position: sticky;
-  top: 72px;
+  top: 108px;
   z-index: 30;
   margin: 24px 0 20px;
   padding: 16px 20px;
@@ -1310,7 +1310,7 @@
   }
 
   .collections-sticky-deck {
-    top: 60px;
+    top: 94px;
     padding: 12px 14px;
     gap: 10px;
     margin: 18px 0 16px;
@@ -1475,6 +1475,13 @@
     font-size: 9.5px;
     font-weight: 700;
     padding: 3px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .collections-sticky-deck {
+    top: 84px;
+    padding: 10px 10px;
   }
 }
 

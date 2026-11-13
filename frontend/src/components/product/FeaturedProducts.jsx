@@ -3,57 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/client";
 import { useCurrency } from "../../context/CurrencyContext";
 
-import collectionCover1 from "../../assets/images/collectionCover1.png";
-import collectionCover2 from "../../assets/images/collectionCover2.png";
-import collectionCover3 from "../../assets/images/collectionCover3.png";
-import collectionCover4 from "../../assets/images/collectionCover4.png";
-import collectionCover5 from "../../assets/images/collectionCover5.png";
-
-const CURATED_FALLBACK_PRODUCTS = [
-  {
-    id: null,
-    name: "Sri Radharani Chanderi Gopi Dress",
-    categoryName: "Gopi Dress",
-    price: 2499,
-    image: collectionCover1,
-    badge: "Best Seller",
-  },
-  {
-    id: null,
-    name: "Banarasi Temple Border Silk Saree",
-    categoryName: "Sarees",
-    price: 3200,
-    image: collectionCover2,
-    badge: "New Arrival",
-  },
-  {
-    id: null,
-    name: "Pure Handloom Ahimsa Dhoti Kurta",
-    categoryName: "Dhoti Kurta",
-    price: 1850,
-    image: collectionCover5,
-    badge: "Sacred Classic",
-  },
-  {
-    id: null,
-    name: "Vrindavan Kanthi Floral Kurti",
-    categoryName: "Kurties",
-    price: 1250,
-    image: collectionCover3,
-    badge: "Devotee Favorite",
-  },
-  {
-    id: null,
-    name: "Sacred Kadambari Dupatta Ensemble",
-    categoryName: "Dupattas",
-    price: 950,
-    image: collectionCover4,
-    badge: "Pure Cotton",
-  },
-];
-
 function FeaturedProducts() {
-  const [products, setProducts] = useState(CURATED_FALLBACK_PRODUCTS);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const { formatPrice } = useCurrency();
@@ -64,6 +16,7 @@ function FeaturedProducts() {
 
     const fetchFeaturedProducts = async () => {
       try {
+        setLoading(true);
         const response = await api.get("/api/products/");
         if (!isMounted) return;
 
@@ -111,31 +64,24 @@ function FeaturedProducts() {
             (p) => p.is_best_seller || p.is_new_collection
           );
 
-          if (featuredList.length < 3) {
+          if (featuredList.length === 0) {
+            featuredList = apiProducts;
+          } else if (featuredList.length < 6) {
             const nonFeatured = apiProducts.filter(
               (p) => !featuredList.some((f) => f.id === p.id)
             );
             featuredList = [...featuredList, ...nonFeatured];
           }
 
-          if (featuredList.length < 3) {
-            const fallbackPadding = CURATED_FALLBACK_PRODUCTS.filter(
-              (fb) =>
-                !featuredList.some(
-                  (f) =>
-                    f.name.toLowerCase().trim() ===
-                    fb.name.toLowerCase().trim()
-                )
-            );
-            featuredList = [...featuredList, ...fallbackPadding];
-          }
-
-          if (featuredList.length > 0) {
-            setProducts(featuredList.slice(0, 6));
-          }
+          setProducts(featuredList.slice(0, 6));
+        } else {
+          setProducts([]);
         }
       } catch (error) {
         console.error("Unable to load featured products:", error);
+        if (isMounted) setProducts([]);
+      } finally {
+        if (isMounted) setLoading(false);
       }
     };
 

@@ -26,37 +26,21 @@ const PRIORITY_ORDER = [
   "dupattas",
 ];
 
-const DEFAULT_COLLECTIONS = [
-  {
-    title: "Gopi Dress",
-    category: "Gopi Dress",
-    image: collectionCover1,
-  },
-  {
-    title: "Sarees",
-    category: "Sarees",
-    image: collectionCover2,
-  },
-  {
-    title: "Dhoti Kurta",
-    category: "Dhoti Kurta",
-    image: collectionCover5,
-  },
-  {
-    title: "Kurties",
-    category: "Kurties",
-    image: collectionCover3,
-  },
-];
+
 
 function CollectionsSection() {
-  const [collections, setCollections] = useState(DEFAULT_COLLECTIONS);
+  const [collections, setCollections] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchCategories = async () => {
       try {
+        setLoading(true);
         const response = await api.get("/api/categories/");
-        if (response.data && response.data.length > 0) {
+        if (!isMounted) return;
+
+        if (response.data && Array.isArray(response.data) && response.data.length > 0) {
           const fallbackList = [
             collectionCover1,
             collectionCover2,
@@ -91,19 +75,31 @@ function CollectionsSection() {
           });
 
           setCollections(dynamicCollections);
+        } else {
+          setCollections([]);
         }
       } catch (err) {
         console.error(
           "Failed to load dynamic collections for home section:",
           err
         );
+        if (isMounted) setCollections([]);
+      } finally {
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchCategories();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const displayCollections = collections.slice(0, MAX_DISPLAY_SLOTS);
+
+  if (displayCollections.length === 0) {
+    return null;
+  }
 
   return (
     <section className="collections-section">
