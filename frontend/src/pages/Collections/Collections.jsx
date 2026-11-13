@@ -72,16 +72,7 @@ const HERO_CONTENT = {
   },
 };
 
-const DEFAULT_CATEGORIES = [
-  { id: 1, name: "Gopi Dress", section: "women" },
-  { id: 2, name: "Sarees", section: "women" },
-  { id: 3, name: "Kurties", section: "women" },
-  { id: 4, name: "Dupattas", section: "women" },
-  { id: 5, name: "Dhoti Kurta", section: "men" },
-  { id: 6, name: "Kids Dhoti Kurta", section: "kids" },
-  { id: 7, name: "Kids Gopi Dress", section: "kids" },
-  { id: 8, name: "Kids Kurta", section: "kids" },
-];
+
 
 const PAGE_SIZE = 12;
 
@@ -131,7 +122,8 @@ function Collections() {
 
   const [activeSection, setActiveSection] = useState(initialSection);
   const [activeCategory, setActiveCategory] = useState(rawCategoryParam || "All");
-  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
+  const [categories, setCategories] = useState([]);
+  const [isCategoriesLoading, setIsCategoriesLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("Featured");
@@ -200,18 +192,27 @@ function Collections() {
 
   // Fetch dynamic categories from backend
   useEffect(() => {
+    let isMounted = true;
     const fetchCategories = async () => {
       try {
+        setIsCategoriesLoading(true);
         const response = await api.get("/api/categories/");
-        if (response.data && response.data.length > 0) {
+        if (isMounted && Array.isArray(response.data)) {
           setCategories(response.data);
         }
       } catch (err) {
         console.error("Failed to fetch dynamic categories in Collections:", err);
+      } finally {
+        if (isMounted) {
+          setIsCategoriesLoading(false);
+        }
       }
     };
 
     fetchCategories();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Fetch products
@@ -250,29 +251,35 @@ function Collections() {
     return counts;
   }, [products]);
 
+  const normalizeSection = (sec) => String(sec || "women").trim().toLowerCase();
+
   // Filter categories for the active sub-section
   const displayedCategories = useMemo(() => {
     let list = [];
-    if (activeSection === "all") {
+    const currentSec = normalizeSection(activeSection);
+
+    if (currentSec === "all") {
       const seen = new Set();
       categories.forEach((c) => {
-        if (!seen.has(c.name)) {
-          seen.add(c.name);
-          list.push(c.name);
+        const catName = String(c?.name || "").trim();
+        if (catName && !seen.has(catName.toLowerCase())) {
+          seen.add(catName.toLowerCase());
+          list.push(catName);
         }
       });
     } else {
       list = categories
-        .filter((c) => (c.section || "women") === activeSection)
-        .map((c) => c.name);
+        .filter((c) => normalizeSection(c.section) === currentSec)
+        .map((c) => String(c?.name || "").trim())
+        .filter(Boolean);
     }
 
     const firstPill =
-      activeSection === "women"
+      currentSec === "women"
         ? "All Women's"
-        : activeSection === "men"
+        : currentSec === "men"
         ? "All Men's"
-        : activeSection === "kids"
+        : currentSec === "kids"
         ? "All Kids'"
         : "All Pieces";
 

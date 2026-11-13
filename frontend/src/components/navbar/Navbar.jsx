@@ -73,11 +73,17 @@ function Navbar() {
     };
   }, []);
 
+  const normalizeSection = (sec) => String(sec || "women").trim().toLowerCase();
+
   const womenCategories = categories.filter(
-    (c) => (c.section || "women") === "women"
+    (c) => normalizeSection(c.section) === "women"
   );
-  const menCategories = categories.filter((c) => c.section === "men");
-  const kidsCategories = categories.filter((c) => c.section === "kids");
+  const menCategories = categories.filter(
+    (c) => normalizeSection(c.section) === "men"
+  );
+  const kidsCategories = categories.filter(
+    (c) => normalizeSection(c.section) === "kids"
+  );
 
   // Close mobile menu whenever route changes
   useEffect(() => {
@@ -150,55 +156,18 @@ function Navbar() {
                     </Link>
                   </div>
                   <ul className="mega-category-list">
-                    {womenCategories.length > 0 ? (
-                      womenCategories.map((cat) => (
-                        <li key={cat.id}>
-                          <Link
-                            to={`/collections?section=women&category=${encodeURIComponent(
-                              cat.name
-                            )}`}
-                            onClick={() => setIsDropdownHovered(false)}
-                          >
-                            {cat.name}
-                          </Link>
-                        </li>
-                      ))
-                    ) : (
-                      <>
-                        <li>
-                          <Link
-                            to="/collections?section=women&category=Gopi+Dress"
-                            onClick={() => setIsDropdownHovered(false)}
-                          >
-                            Gopi Dress
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/collections?section=women&category=Sarees"
-                            onClick={() => setIsDropdownHovered(false)}
-                          >
-                            Sarees
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/collections?section=women&category=Kurties"
-                            onClick={() => setIsDropdownHovered(false)}
-                          >
-                            Kurties
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/collections?section=women&category=Dupattas"
-                            onClick={() => setIsDropdownHovered(false)}
-                          >
-                            Dupattas
-                          </Link>
-                        </li>
-                      </>
-                    )}
+                    {womenCategories.map((cat) => (
+                      <li key={cat.id}>
+                        <Link
+                          to={`/collections?section=women&category=${encodeURIComponent(
+                            cat.name
+                          )}`}
+                          onClick={() => setIsDropdownHovered(false)}
+                        >
+                          {cat.name}
+                        </Link>
+                      </li>
+                    ))}
                     <li className="mega-view-all">
                       <Link
                         to="/collections?section=women"
@@ -223,31 +192,18 @@ function Navbar() {
                     </Link>
                   </div>
                   <ul className="mega-category-list">
-                    {menCategories.length > 0 ? (
-                      menCategories.map((cat) => (
-                        <li key={cat.id}>
-                          <Link
-                            to={`/collections?section=men&category=${encodeURIComponent(
-                              cat.name
-                            )}`}
-                            onClick={() => setIsDropdownHovered(false)}
-                          >
-                            {cat.name}
-                          </Link>
-                        </li>
-                      ))
-                    ) : (
-                      <>
-                        <li>
-                          <Link
-                            to="/collections?section=men&category=Dhoti+Kurta"
-                            onClick={() => setIsDropdownHovered(false)}
-                          >
-                            Dhoti Kurta
-                          </Link>
-                        </li>
-                      </>
-                    )}
+                    {menCategories.map((cat) => (
+                      <li key={cat.id}>
+                        <Link
+                          to={`/collections?section=men&category=${encodeURIComponent(
+                            cat.name
+                          )}`}
+                          onClick={() => setIsDropdownHovered(false)}
+                        >
+                          {cat.name}
+                        </Link>
+                      </li>
+                    ))}
                     <li className="mega-view-all">
                       <Link
                         to="/collections?section=men"
@@ -272,39 +228,18 @@ function Navbar() {
                     </Link>
                   </div>
                   <ul className="mega-category-list">
-                    {kidsCategories.length > 0 ? (
-                      kidsCategories.map((cat) => (
-                        <li key={cat.id}>
-                          <Link
-                            to={`/collections?section=kids&category=${encodeURIComponent(
-                              cat.name
-                            )}`}
-                            onClick={() => setIsDropdownHovered(false)}
-                          >
-                            {cat.name}
-                          </Link>
-                        </li>
-                      ))
-                    ) : (
-                      <>
-                        <li>
-                          <Link
-                            to="/collections?section=kids&category=Kids+Dhoti+Kurta"
-                            onClick={() => setIsDropdownHovered(false)}
-                          >
-                            Kids Dhoti Kurta
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/collections?section=kids&category=Kids+Gopi+Dress"
-                            onClick={() => setIsDropdownHovered(false)}
-                          >
-                            Kids Gopi Dress
-                          </Link>
-                        </li>
-                      </>
-                    )}
+                    {kidsCategories.map((cat) => (
+                      <li key={cat.id}>
+                        <Link
+                          to={`/collections?section=kids&category=${encodeURIComponent(
+                            cat.name
+                          )}`}
+                          onClick={() => setIsDropdownHovered(false)}
+                        >
+                          {cat.name}
+                        </Link>
+                      </li>
+                    ))}
                     <li className="mega-view-all">
                       <Link
                         to="/collections?section=kids"
