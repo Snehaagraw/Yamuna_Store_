@@ -23,6 +23,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Cart from "./pages/Cart/Cart";
 import LegalPolicies from "./pages/Legal/LegalPolicies";
+import Connect from "./pages/Connect/Connect";
 
 import CartProvider from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
@@ -89,6 +90,9 @@ function App() {
                 <Route path="/privacy-policy" element={<LegalPolicies initialTab="privacy" />} />
                 <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
                 <Route path="/contact-us" element={<Navigate to="/about" replace />} />
+                <Route path="/connect" element={<Connect />} />
+                <Route path="/links" element={<Navigate to="/connect" replace />} />
+                <Route path="/card" element={<Navigate to="/connect" replace />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </div>

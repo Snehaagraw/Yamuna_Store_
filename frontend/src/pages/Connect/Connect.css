@@ -1,0 +1,462 @@
+/* =========================================================
+   CONNECT / SMART DIGITAL BUSINESS CARD HUB
+   ========================================================= */
+
+.connect-page-wrap {
+  position: relative;
+  min-height: 100vh;
+  padding: 30px 16px 50px;
+  background: #fdfaf7;
+  color: #111827;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: hidden;
+  font-family: inherit;
+}
+
+.connect-bg-glow {
+  position: fixed;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(650px, 120vw);
+  height: 450px;
+  background: radial-gradient(circle, rgba(114, 38, 63, 0.08) 0%, rgba(212, 163, 75, 0.06) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.connect-card-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* =========================================================
+   HEADER CARD
+   ========================================================= */
+
+.connect-header-card {
+  background: #ffffff;
+  border: 1.5px solid #f0e6e8;
+  border-radius: 20px;
+  padding: 28px 20px 22px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(114, 38, 63, 0.05);
+}
+
+.connect-blessing-pill {
+  display: inline-block;
+  padding: 5px 14px;
+  background: #fdf7f9;
+  border: 1px solid rgba(114, 38, 63, 0.18);
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--maroon, #72263f);
+  margin-bottom: 16px;
+}
+
+.connect-brand-avatar {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 12px;
+  background: linear-gradient(135deg, #d4a34b 0%, #b8862d 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(212, 163, 75, 0.35);
+  border: 3px solid #ffffff;
+}
+
+.connect-avatar-letter {
+  font-size: 38px;
+  font-weight: 800;
+  color: #52162b;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.connect-brand-title {
+  margin: 0 0 2px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--maroon, #72263f);
+}
+
+.connect-brand-location {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #b8862d;
+  text-transform: uppercase;
+}
+
+.connect-brand-tagline {
+  margin: 0 auto 14px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #4b5563;
+  max-width: 320px;
+}
+
+.connect-trust-tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px dashed #f0e6e8;
+}
+
+.connect-trust-tags span {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #6b7280;
+  background: #fbf9f8;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid #f1f1f1;
+}
+
+/* =========================================================
+   ACTIONS DECK
+   ========================================================= */
+
+.connect-actions-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.connect-link-tile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  text-decoration: none;
+  color: #111827;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.connect-link-tile:hover,
+.connect-link-tile:active {
+  transform: translateY(-2px);
+  border-color: var(--maroon, #72263f);
+  box-shadow: 0 8px 24px rgba(114, 38, 63, 0.09);
+}
+
+.tile-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.tile-icon-box svg {
+  width: 22px;
+  height: 22px;
+}
+
+.connect-link-tile:hover .tile-icon-box {
+  transform: scale(1.06);
+}
+
+.website-icon-box {
+  background: #fdf7f9;
+  color: var(--maroon, #72263f);
+  border: 1px solid rgba(114, 38, 63, 0.15);
+}
+
+.instagram-icon-box {
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid rgba(225, 29, 72, 0.15);
+}
+
+.whatsapp-icon-box {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid rgba(5, 150, 105, 0.15);
+}
+
+.maps-icon-box {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+.facebook-icon-box {
+  background: #f0fdfa;
+  color: #0d9488;
+  border: 1px solid rgba(13, 148, 136, 0.15);
+}
+
+.tile-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.tile-text strong {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.3;
+}
+
+.tile-text small {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tile-arrow {
+  font-size: 18px;
+  color: #9ca3af;
+  font-weight: 700;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.connect-link-tile:hover .tile-arrow {
+  color: var(--maroon, #72263f);
+  transform: translateX(3px);
+}
+
+/* Primary Highlight (Website tile) */
+.primary-tile {
+  background: linear-gradient(135deg, #ffffff 0%, #fdf7f9 100%);
+  border-color: rgba(114, 38, 63, 0.3);
+}
+
+/* Phone Contacts Grid */
+.connect-contacts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.connect-contact-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #111827;
+  transition: all 0.2s ease;
+}
+
+.connect-contact-btn:hover {
+  border-color: var(--maroon, #72263f);
+  background: #fdf7f9;
+  transform: translateY(-2px);
+}
+
+.contact-btn-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.contact-btn-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.contact-btn-info strong {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-btn-info span {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--maroon, #72263f);
+}
+
+/* Save to Contacts Button */
+.connect-vcard-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: var(--maroon, #72263f);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 14px rgba(114, 38, 63, 0.25);
+}
+
+.connect-vcard-btn:hover {
+  background: #52162b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(114, 38, 63, 0.35);
+}
+
+.vcard-btn-icon {
+  font-size: 18px;
+}
+
+/* =========================================================
+   FOOTER CARD
+   ========================================================= */
+
+.connect-footer-card {
+  background: #ffffff;
+  border: 1.5px solid #f0e6e8;
+  border-radius: 20px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 4px 20px rgba(114, 38, 63, 0.05);
+}
+
+.connect-address-block strong,
+.connect-email-block strong {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--maroon, #72263f);
+  margin-bottom: 4px;
+}
+
+.connect-address-block p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #4b5563;
+}
+
+.connect-email-block {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.connect-email-block a {
+  color: var(--maroon, #72263f);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.connect-email-block a:hover {
+  text-decoration: underline;
+}
+
+.connect-footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #f3f4f6;
+  flex-wrap: wrap;
+}
+
+.connect-share-btn {
+  padding: 9px 16px;
+  background: #faf8f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.connect-share-btn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.connect-home-link {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--maroon, #72263f);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.connect-home-link:hover {
+  text-decoration: underline;
+}
+
+.connect-copyright {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN (NARROW PHONES)
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .connect-page-wrap {
+    padding: 16px 12px 40px;
+  }
+
+  .connect-header-card {
+    padding: 22px 14px 18px;
+  }
+
+  .connect-contacts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .connect-link-tile {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .tile-icon-box {
+    width: 38px;
+    height: 38px;
+  }
+
+  .tile-icon-box svg {
+    width: 19px;
+    height: 19px;
+  }
+}
