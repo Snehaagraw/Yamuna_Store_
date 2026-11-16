@@ -4,8 +4,28 @@ import api from "../../api/client";
 import { useCurrency } from "../../context/CurrencyContext";
 
 function FeaturedProducts() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState(() => {
+    try {
+      const cached = sessionStorage.getItem("ys_cached_featured");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      // ignore
+    }
+    return [];
+  });
+  const [loading, setLoading] = useState(() => {
+    try {
+      const cached = sessionStorage.getItem("ys_cached_featured");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return false;
+      }
+    } catch (e) {}
+    return true;
+  });
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const { formatPrice } = useCurrency();
@@ -16,7 +36,6 @@ function FeaturedProducts() {
 
     const fetchFeaturedProducts = async () => {
       try {
-        setLoading(true);
         const response = await api.get("/api/products/");
         if (!isMounted) return;
 
@@ -73,13 +92,19 @@ function FeaturedProducts() {
             featuredList = [...featuredList, ...nonFeatured];
           }
 
-          setProducts(featuredList.slice(0, 6));
+          const topFeatured = featuredList.slice(0, 6);
+          setProducts(topFeatured);
+          try {
+            sessionStorage.setItem(
+              "ys_cached_featured",
+              JSON.stringify(topFeatured)
+            );
+          } catch (e) {}
         } else {
           setProducts([]);
         }
       } catch (error) {
         console.error("Unable to load featured products:", error);
-        if (isMounted) setProducts([]);
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -168,11 +193,14 @@ function FeaturedProducts() {
     return () => clearInterval(timer);
   }, [products.length, isPaused]);
 
-  if (products.length === 0) {
+  if (!loading && products.length === 0) {
     return null;
   }
 
+  const isSkeleton = loading && products.length === 0;
+
   const getProduct = (offset) => {
+    if (products.length === 0) return null;
     return products[
       (activeIndex + offset + products.length) % products.length
     ];
@@ -235,7 +263,17 @@ function FeaturedProducts() {
         role="region"
         aria-label="Featured collection carousel. Swipe with finger or use arrow keys."
       >
-        <button
+        {isSkeleton ? (
+          <div className="featured-skeleton-card">
+            <div className="featured-skeleton-shimmer" />
+            <div className="featured-skeleton-inner">
+              <span className="featured-skeleton-badge">॥ श्री राधेश्याम ॥</span>
+              <span className="featured-skeleton-text">Curating Sacred Spotlight...</span>
+            </div>
+          </div>
+        ) : (
+          <>
+            <button
           type="button"
           className="featured-products-arrow featured-products-arrow-left"
           onClick={previousProduct}
@@ -372,7 +410,9 @@ function FeaturedProducts() {
 
           <span className="pagination-line" />
         </div>
-      </div>
+      </>
+    )}
+  </div>
     </section>
   );
 }

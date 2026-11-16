@@ -2,7 +2,7 @@ import "./About.css";
 
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
-import storeFrontImage from "../../assets/images/yamunaStoreFront.jpg";
+import storeFrontImage from "../../assets/images/yamunaStoreFront.webp";
 
 const GOOGLE_MAPS_URL =
   "https://www.google.com/maps/place/Yamuna+Store/@27.5833134,77.6976848,17z/data=!3m1!4b1!4m6!3m5!1s0x39736e351a126c33:0x2d7091d2212b9698!8m2!3d27.5833134!4d77.6976848!16s%2Fg%2F11hbfhhtsn?entry=ttu";

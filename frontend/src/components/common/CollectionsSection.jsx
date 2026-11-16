@@ -2,11 +2,38 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/client";
 
-import collectionCover1 from "../../assets/images/collectionCover1.png";
-import collectionCover2 from "../../assets/images/collectionCover2.png";
-import collectionCover3 from "../../assets/images/collectionCover3.png";
-import collectionCover4 from "../../assets/images/collectionCover4.png";
-import collectionCover5 from "../../assets/images/collectionCover5.png";
+import collectionCover1 from "../../assets/images/collectionCover1.webp";
+import collectionCover2 from "../../assets/images/collectionCover2.webp";
+import collectionCover3 from "../../assets/images/collectionCover3.webp";
+import collectionCover4 from "../../assets/images/collectionCover4.webp";
+import collectionCover5 from "../../assets/images/collectionCover5.webp";
+
+const INITIAL_FLAGSHIP_COLLECTIONS = [
+  {
+    id: "gopi-dress",
+    title: "Gopi Dress",
+    category: "Gopi Dress",
+    image: collectionCover1,
+  },
+  {
+    id: "sarees",
+    title: "Sarees",
+    category: "Sarees",
+    image: collectionCover2,
+  },
+  {
+    id: "kurties",
+    title: "Kurties",
+    category: "Kurties",
+    image: collectionCover3,
+  },
+  {
+    id: "dhoti-kurta",
+    title: "Dhoti Kurta",
+    category: "Dhoti Kurta",
+    image: collectionCover5,
+  },
+];
 
 const FALLBACK_COVERS = {
   "gopi dress": collectionCover1,
@@ -26,17 +53,24 @@ const PRIORITY_ORDER = [
   "dupattas",
 ];
 
-
-
 function CollectionsSection() {
-  const [collections, setCollections] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [collections, setCollections] = useState(() => {
+    try {
+      const cached = sessionStorage.getItem("ys_cached_collections");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      // ignore
+    }
+    return INITIAL_FLAGSHIP_COLLECTIONS;
+  });
 
   useEffect(() => {
     let isMounted = true;
     const fetchCategories = async () => {
       try {
-        setLoading(true);
         const response = await api.get("/api/categories/");
         if (!isMounted) return;
 
@@ -75,17 +109,18 @@ function CollectionsSection() {
           });
 
           setCollections(dynamicCollections);
-        } else {
-          setCollections([]);
+          try {
+            sessionStorage.setItem(
+              "ys_cached_collections",
+              JSON.stringify(dynamicCollections)
+            );
+          } catch (e) {}
         }
       } catch (err) {
         console.error(
           "Failed to load dynamic collections for home section:",
           err
         );
-        if (isMounted) setCollections([]);
-      } finally {
-        if (isMounted) setLoading(false);
       }
     };
 
@@ -96,10 +131,6 @@ function CollectionsSection() {
   }, []);
 
   const displayCollections = collections.slice(0, MAX_DISPLAY_SLOTS);
-
-  if (displayCollections.length === 0) {
-    return null;
-  }
 
   return (
     <section className="collections-section">

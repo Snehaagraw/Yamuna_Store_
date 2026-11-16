@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import mainImage from "../../assets/images/mainHero.png"; 
-import secondaryImage from "../../assets/images/secondHero.png"; 
+import mainImage from "../../assets/images/mainHero.webp"; 
+import secondaryImage from "../../assets/images/secondHero.webp"; 
 
 function HeroSection() {  
   return (
@@ -46,6 +46,10 @@ function HeroSection() {
           <img
             src={mainImage}
             alt="Yamuna Store traditional devotional clothing"
+            fetchPriority="high"
+            decoding="async"
+            width="540"
+            height="680"
           />
         </div>
 
@@ -53,6 +57,10 @@ function HeroSection() {
           <img
             src={secondaryImage}
             alt="Yamuna Store collection"
+            fetchPriority="high"
+            decoding="async"
+            width="340"
+            height="440"
           />
         </div>
 

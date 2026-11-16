@@ -27,6 +27,69 @@
   border-radius: 50%;
 }
 
+/* Skeleton Loading Card (prevents section pop-in and layout shift) */
+.featured-skeleton-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: 480px;
+  background: #fdf7f9;
+  border: 1px solid #f0e6e8;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  margin: 0 auto;
+}
+
+.featured-skeleton-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 100%
+  );
+  animation: featuredShimmer 1.8s infinite;
+}
+
+@keyframes featuredShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.featured-skeleton-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.featured-skeleton-badge {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 5px 14px;
+  background: rgba(114, 38, 63, 0.08);
+  border-radius: 9999px;
+  color: var(--maroon);
+}
+
+.featured-skeleton-text {
+  font-size: 13.5px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
 .featured-products-content {
   position: relative;
   z-index: 5;
