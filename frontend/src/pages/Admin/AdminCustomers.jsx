@@ -9,6 +9,15 @@ function AdminCustomers() {
   const [error, setError] = useState("");
   const [deletingId, setDeletingId] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [copiedId, setCopiedId] = useState(null);
+
+  const copyToClipboard = (text, id) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
 
   const fetchCustomers = async () => {
     const token = localStorage.getItem("admin_access_token");
@@ -61,13 +70,38 @@ function AdminCustomers() {
     }
   };
 
+  const cleanStr = (s) => (s ? String(s).toLowerCase().replace(/[^a-z0-9]/g, "") : "");
+  const searchLower = searchTerm.trim().toLowerCase();
+  const searchClean = cleanStr(searchTerm);
+
+  const filteredCustomers = customers.filter((c) => {
+    if (!searchLower) return true;
+    if (c.name?.toLowerCase().includes(searchLower)) return true;
+    if (c.username?.toLowerCase().includes(searchLower)) return true;
+    if (c.email?.toLowerCase().includes(searchLower)) return true;
+    if (c.city?.toLowerCase().includes(searchLower)) return true;
+    if (c.state?.toLowerCase().includes(searchLower)) return true;
+    if (c.country?.toLowerCase().includes(searchLower)) return true;
+
+    const phoneClean = cleanStr(c.phone);
+    if (phoneClean && (phoneClean.includes(searchClean) || searchClean.includes(phoneClean))) return true;
+
+    if (c.orders?.some((ord) =>
+      ord.order_number?.toLowerCase().includes(searchLower) ||
+      ord.transaction_id?.toLowerCase().includes(searchLower) ||
+      ord.items?.some((it) => it.product_name?.toLowerCase().includes(searchLower))
+    )) return true;
+
+    return false;
+  });
+
   return (
     <section className="admin-orders-section">
       <div className="admin-orders-top">
         <div className="admin-orders-heading">
           <span>STORE MANAGEMENT</span>
           <h2>Customer Directory ({customers.length})</h2>
-          <p>Devotees and customers registered on Yamuna Store with their order records.</p>
+          <p>Search registered devotees by name, phone, order number, or TXN ID.</p>
         </div>
 
         <button
@@ -79,6 +113,37 @@ function AdminCustomers() {
           {loading ? "Refreshing..." : "↻ Refresh Customers"}
         </button>
       </div>
+
+      {/* Customer Directory Search Bar */}
+      {!loading && !error && customers.length > 0 && (
+        <div className="admin-orders-controls">
+          <div className="admin-search-box">
+            <span className="search-icon">🔍</span>
+            <input
+              type="text"
+              placeholder="Search customers by Name, Username, Phone, Email, City, Order #, or TXN ID..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="admin-search-input"
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                className="admin-search-clear-btn"
+                onClick={() => setSearchTerm("")}
+                title="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          {searchTerm && (
+            <div className="admin-search-result-count">
+              Showing {filteredCustomers.length} of {customers.length} customers
+            </div>
+          )}
+        </div>
+      )}
 
       {loading && (
         <div className="admin-orders-status-box">
@@ -99,7 +164,22 @@ function AdminCustomers() {
         </div>
       )}
 
-      {!loading && !error && customers.length > 0 && (
+      {!loading && !error && customers.length > 0 && filteredCustomers.length === 0 && (
+        <div className="admin-orders-status-box empty" style={{ padding: "30px" }}>
+          <h3>No matching customers found</h3>
+          <p>No customer profiles or order records match "{searchTerm}".</p>
+          <button
+            type="button"
+            className="admin-filter-tab"
+            style={{ marginTop: "12px", cursor: "pointer" }}
+            onClick={() => setSearchTerm("")}
+          >
+            Clear Search
+          </button>
+        </div>
+      )}
+
+      {!loading && !error && filteredCustomers.length > 0 && (
         <div className="admin-orders-table-wrapper">
           <table className="admin-orders-table">
             <thead>
@@ -115,7 +195,7 @@ function AdminCustomers() {
               </tr>
             </thead>
             <tbody>
-              {customers.map((c) => {
+              {filteredCustomers.map((c) => {
                 const phoneInfo = getPhoneDisplayInfo(
                   c.phone,
                   c.country || "India",
@@ -309,9 +389,17 @@ function AdminCustomers() {
                 selectedCustomer.orders.map((ord) => (
                   <div key={ord.id} className="customer-order-card-nested">
                     <div className="customer-order-card-nested-header">
-                      <div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                         <strong style={{ color: "var(--maroon)", fontSize: "14px" }}>{ord.order_number}</strong>
-                        <span style={{ fontSize: "11px", color: "#6b7280", marginLeft: "10px" }}>
+                        <button
+                          type="button"
+                          className="admin-mini-copy-btn"
+                          onClick={() => copyToClipboard(ord.order_number, `cust-ord-${ord.id}`)}
+                          title="Copy Order Number"
+                        >
+                          {copiedId === `cust-ord-${ord.id}` ? "✓" : "📋"}
+                        </button>
+                        <span style={{ fontSize: "11px", color: "#6b7280", marginLeft: "6px" }}>
                           {new Date(ord.created_at).toLocaleDateString("en-IN", {
                             day: "numeric",
                             month: "short",
@@ -322,8 +410,20 @@ function AdminCustomers() {
                         </span>
                       </div>
                       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                        <span className={`payment-status-badge ${ord.payment_status === "Paid" ? "paid" : "pending"}`}>
-                          {ord.payment_status === "Paid" ? "✓ Paid" : ord.payment_status || "Pending"}
+                        <span className={`payment-status-badge ${
+                          ord.payment_status === "Paid"
+                            ? "paid"
+                            : ord.payment_status === "Refunded"
+                            ? "refunded"
+                            : ord.payment_status?.toLowerCase().includes("wire")
+                            ? "wire"
+                            : "pending"
+                        }`}>
+                          {ord.payment_status === "Paid"
+                            ? "✓ Paid"
+                            : ord.payment_status === "Refunded"
+                            ? "↩ Refunded"
+                            : ord.payment_status || "Pending"}
                         </span>
                         <span className={`order-status-badge status-${(ord.order_status || "pending").toLowerCase()}`}>
                           {ord.order_status}
@@ -334,10 +434,34 @@ function AdminCustomers() {
                       </div>
                     </div>
 
-                    <div style={{ fontSize: "11px", color: "#4b5563", marginBottom: "8px" }}>
+                    <div style={{ fontSize: "11px", color: "#4b5563", marginBottom: "8px", display: "flex", alignItems: "center", flexWrap: "wrap", gap: "4px" }}>
                       <span><strong>Delivery:</strong> {ord.shipping_carrier || "India Post"} ({ord.city}, {ord.state})</span>
                       {ord.total_weight && <span> · ⚖️ {ord.total_weight}</span>}
-                      {ord.transaction_id && <span> · <code>TXN: {ord.transaction_id}</code></span>}
+                      {ord.transaction_id && (
+                        <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                          · <code>TXN: {ord.transaction_id}</code>
+                          <button
+                            type="button"
+                            className="admin-mini-copy-btn"
+                            onClick={() => copyToClipboard(ord.transaction_id, `cust-txn-${ord.id}`)}
+                            title="Copy Transaction ID"
+                          >
+                            {copiedId === `cust-txn-${ord.id}` ? "✓" : "📋"}
+                          </button>
+                          {ord.transaction_id.startsWith("pay_") && (
+                            <a
+                              href={`https://dashboard.razorpay.com/app/payments/${ord.transaction_id}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="modal-razorpay-link-btn"
+                              style={{ padding: "1px 6px", fontSize: "9.5px", marginLeft: "2px" }}
+                              title="Open in Razorpay Dashboard"
+                            >
+                              Razorpay ↗
+                            </a>
+                          )}
+                        </span>
+                      )}
                     </div>
 
                     <div className="customer-order-card-nested-items">

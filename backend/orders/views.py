@@ -3,6 +3,7 @@ import hmac
 import os
 import uuid
 from django.db.models import Q
+from django.utils import timezone
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -196,6 +197,78 @@ class OrderViewSet(viewsets.ModelViewSet):
             "supportedCurrencies": os.getenv("STORE_BANK_CURRENCIES", "USD ($), EUR (€), GBP (£), AUD (A$), CAD (C$), INR (₹)"),
             "notes": os.getenv("STORE_BANK_NOTES", "Please mention your Order Number in the wire transfer description / remarks."),
         })
+
+    @action(detail=True, methods=["post"], url_path="refund", permission_classes=[permissions.IsAdminUser])
+    def refund(self, request, pk=None):
+        """
+        Admin endpoint to process order refunds:
+        - If paid online via Razorpay (transaction_id starts with 'pay_'), triggers official Razorpay refund API.
+        - Updates payment_status to 'Refunded', order_status to 'Cancelled', and logs details in order_notes.
+        """
+        order = self.get_object()
+        amount_to_refund = request.data.get("amount")
+        reason = (request.data.get("reason") or "Customer requested refund").strip()
+
+        # If order was paid via Razorpay (transaction_id starts with "pay_")
+        if order.transaction_id and order.transaction_id.startswith("pay_"):
+            client, key_id, key_secret = get_razorpay_client()
+            if not client:
+                return Response(
+                    {"error": "Razorpay client is not configured or missing API credentials."},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+            try:
+                if amount_to_refund:
+                    refund_paise = int(round(float(amount_to_refund) * 100))
+                else:
+                    refund_paise = int(round(float(order.total_amount) * 100))
+
+                refund_payload = {
+                    "amount": refund_paise,
+                    "notes": {
+                        "order_number": order.order_number,
+                        "customer_name": order.customer_name,
+                        "reason": reason,
+                    }
+                }
+                rz_refund = client.payment.refund(order.transaction_id, refund_payload)
+                refund_id = rz_refund.get("id") or "rzp_refund"
+
+                order.payment_status = "Refunded"
+                order.order_status = "Cancelled"
+                timestamp_str = timezone.now().strftime("%Y-%m-%d %H:%M IST")
+                refund_note = f"[Razorpay Refund: {refund_id}] ₹{refund_paise / 100:.2f} refunded on {timestamp_str}. Reason: {reason}"
+                order.order_notes = f"{order.order_notes}\n{refund_note}".strip()
+                order.save()
+
+                return Response({
+                    "success": True,
+                    "message": f"Refund of ₹{refund_paise / 100:.2f} successfully executed through Razorpay.",
+                    "refund_id": refund_id,
+                    "payment_status": order.payment_status,
+                    "order_status": order.order_status,
+                    "order_notes": order.order_notes,
+                }, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response({
+                    "error": f"Razorpay refund error: {str(e)}"
+                }, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # Manual / Bank Wire / COD order refund marked by admin
+            order.payment_status = "Refunded"
+            order.order_status = "Cancelled"
+            timestamp_str = timezone.now().strftime("%Y-%m-%d %H:%M IST")
+            refund_note = f"[Manual Refund Recorded] on {timestamp_str}. Reason: {reason}"
+            order.order_notes = f"{order.order_notes}\n{refund_note}".strip()
+            order.save()
+
+            return Response({
+                "success": True,
+                "message": "Order marked as Refunded and Cancelled.",
+                "payment_status": order.payment_status,
+                "order_status": order.order_status,
+                "order_notes": order.order_notes,
+            }, status=status.HTTP_200_OK)
 
     def get_queryset(self):
         user = self.request.user
