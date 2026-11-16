@@ -209,6 +209,13 @@ class ProductImage(models.Model):
         blank=True
     )
 
+    color = models.CharField(
+        max_length=100,
+        blank=True,
+        default="",
+        help_text="Color variant represented by this image"
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )

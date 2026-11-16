@@ -48,6 +48,12 @@ function AdminAddProduct({
    */
   const [removedImageIds, setRemovedImageIds] = useState([]);
 
+  /*
+   * Color variants mapped to images.
+   */
+  const [newImageColors, setNewImageColors] = useState([]);
+  const [existingImageColors, setExistingImageColors] = useState({});
+
   const [availableCategories, setAvailableCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -102,6 +108,8 @@ function AdminAddProduct({
       setSizePrices({});
       setExistingImages([]);
       setRemovedImageIds([]);
+      setNewImageColors([]);
+      setExistingImageColors({});
 
       return;
     }
@@ -138,7 +146,14 @@ function AdminAddProduct({
         ? { ...productToEdit.size_prices }
         : {}
     );
-    setExistingImages(productToEdit.images || []);
+    const existingImgs = productToEdit.images || [];
+    setExistingImages(existingImgs);
+    const initColors = {};
+    existingImgs.forEach((img) => {
+      initColors[img.id] = img.color || "";
+    });
+    setExistingImageColors(initColors);
+    setNewImageColors([]);
     setRemovedImageIds([]);
     setImages([]);
     setPreviews([]);
@@ -219,9 +234,24 @@ function AdminAddProduct({
       return;
     }
 
+    const currentColors = (formData.colors || "")
+      .split(",")
+      .map((c) => c.trim())
+      .filter(Boolean);
+
+    const initialAssigned = selectedFiles.map((_, i) => {
+      const targetIdx = images.length + i;
+      return currentColors[targetIdx] || "";
+    });
+
     setImages((previousImages) => [
       ...previousImages,
       ...selectedFiles,
+    ]);
+
+    setNewImageColors((prev) => [
+      ...prev,
+      ...initialAssigned,
     ]);
 
     const newPreviewUrls = selectedFiles.map(
@@ -244,6 +274,10 @@ function AdminAddProduct({
       previousImages.filter(
         (_, index) => index !== indexToRemove
       )
+    );
+
+    setNewImageColors((prev) =>
+      prev.filter((_, index) => index !== indexToRemove)
     );
 
     setPreviews((previousPreviews) => {
@@ -440,7 +474,7 @@ function AdminAddProduct({
       );
 
       /*
-       * Send newly-added images.
+       * Send newly-added images and their color mapping.
        */
       images.forEach((image) => {
         data.append(
@@ -448,6 +482,18 @@ function AdminAddProduct({
           image
         );
       });
+
+      data.append(
+        "image_colors",
+        JSON.stringify(newImageColors)
+      );
+
+      if (isEditMode) {
+        data.append(
+          "existing_image_colors",
+          JSON.stringify(existingImageColors)
+        );
+      }
 
       /*
        * Tell the backend which existing images
@@ -543,6 +589,11 @@ function AdminAddProduct({
       setLoading(false);
     }
   };
+
+  const availableColorOptions = (formData.colors || "")
+    .split(",")
+    .map((c) => c.trim())
+    .filter(Boolean);
 
   return (
     <section className="admin-add-product-section">
@@ -1102,6 +1153,22 @@ function AdminAddProduct({
 
             {/* Existing Cloudinary Images */}
 
+            {availableColorOptions.length > 0 && (
+              <div
+                style={{
+                  background: "#fdf7f9",
+                  border: "1px solid rgba(114, 38, 63, 0.2)",
+                  borderRadius: "8px",
+                  padding: "10px 14px",
+                  marginBottom: "14px",
+                  fontSize: "12.5px",
+                  color: "var(--maroon-dark)",
+                }}
+              >
+                <strong>🎨 Multi-Color Image Pairing:</strong> Tag each uploaded dress photo with its specific color below ({availableColorOptions.join(", ")}). Customers will see and order that exact dress color!
+              </div>
+            )}
+
             {isEditMode &&
               existingImages.length > 0 && (
                 <>
@@ -1135,9 +1202,35 @@ function AdminAddProduct({
                             ×
                           </button>
 
-                          <span>
-                            Existing
-                          </span>
+                          <div className="admin-img-badge-row">
+                            <span className="admin-img-badge">
+                              Existing
+                            </span>
+                            {availableColorOptions.length > 0 && (
+                              <select
+                                className="admin-img-color-select"
+                                value={
+                                  existingImageColors[image.id] ||
+                                  image.color ||
+                                  ""
+                                }
+                                onChange={(e) =>
+                                  setExistingImageColors((prev) => ({
+                                    ...prev,
+                                    [image.id]: e.target.value,
+                                  }))
+                                }
+                                title="Select color for this dress photo"
+                              >
+                                <option value="">(No Color)</option>
+                                {availableColorOptions.map((c) => (
+                                  <option key={c} value={c}>
+                                    {c}
+                                  </option>
+                                ))}
+                              </select>
+                            )}
+                          </div>
                         </div>
                       )
                     )}
@@ -1214,9 +1307,33 @@ function AdminAddProduct({
                           ×
                         </button>
 
-                        <span>
-                          New
-                        </span>
+                        <div className="admin-img-badge-row">
+                          <span className="admin-img-badge">
+                            New
+                          </span>
+                          {availableColorOptions.length > 0 && (
+                            <select
+                              className="admin-img-color-select"
+                              value={newImageColors[index] || ""}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setNewImageColors((prev) => {
+                                  const copy = [...prev];
+                                  copy[index] = val;
+                                  return copy;
+                                });
+                              }}
+                              title="Select color for this dress photo"
+                            >
+                              <option value="">(No Color)</option>
+                              {availableColorOptions.map((c) => (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                        </div>
                       </div>
                     )
                   )}

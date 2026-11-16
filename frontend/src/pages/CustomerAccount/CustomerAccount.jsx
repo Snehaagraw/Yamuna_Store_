@@ -506,6 +506,18 @@ function CustomerAccount() {
                               </div>
                               <div className="item-details">
                                 <strong>{item.product_name}</strong>
+                                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", margin: "2px 0" }}>
+                                  {item.color && (
+                                    <span style={{ fontSize: "11px", padding: "1px 6px", background: "rgba(114,38,63,0.08)", color: "var(--maroon)", borderRadius: "4px", fontWeight: "600" }}>
+                                      Color: {item.color}
+                                    </span>
+                                  )}
+                                  {item.size && (
+                                    <span style={{ fontSize: "11px", padding: "1px 6px", background: "#f3f4f6", color: "#4b5563", borderRadius: "4px", fontWeight: "600" }}>
+                                      Size: {item.size}
+                                    </span>
+                                  )}
+                                </div>
                                 <small>
                                   Qty: {item.quantity} · ₹{Number(item.price).toLocaleString("en-IN")} each
                                 </small>

@@ -48,7 +48,7 @@ class CategoryNestedSerializer(serializers.ModelSerializer):
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
-        fields = ["id", "image", "alt_text"]
+        fields = ["id", "image", "alt_text", "color"]
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -82,6 +82,18 @@ class ProductSerializer(serializers.ModelSerializer):
         child=serializers.ImageField(),
         write_only=True,
         required=False
+    )
+
+    image_colors = serializers.ListField(
+        child=serializers.CharField(allow_blank=True),
+        write_only=True,
+        required=False
+    )
+
+    existing_image_colors = serializers.JSONField(
+        write_only=True,
+        required=False,
+        default=dict
     )
 
     remove_image_ids = serializers.ListField(
@@ -144,6 +156,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "is_new_collection",
             "images",
             "image_files",
+            "image_colors",
+            "existing_image_colors",
             "remove_image_ids",
             "average_rating",
             "reviews_count",
@@ -157,13 +171,32 @@ class ProductSerializer(serializers.ModelSerializer):
         if hasattr(data, "getlist"):
             new_data = {}
             for key in data.keys():
-                if key in ["image_files", "remove_image_ids"]:
+                if key in ["image_files", "remove_image_ids", "image_colors"]:
                     new_data[key] = data.getlist(key)
                 else:
                     new_data[key] = data.get(key)
             data = new_data
         elif isinstance(data, dict):
             data = dict(data)
+
+        if "image_colors" in data:
+            raw_colors = data.get("image_colors")
+            if isinstance(raw_colors, str):
+                try:
+                    parsed = json.loads(raw_colors)
+                    data["image_colors"] = parsed if isinstance(parsed, list) else [str(parsed).strip()]
+                except Exception:
+                    data["image_colors"] = [c.strip() for c in raw_colors.split(",") if c.strip()]
+            elif isinstance(raw_colors, list):
+                data["image_colors"] = [str(c).strip() for c in raw_colors]
+
+        if "existing_image_colors" in data:
+            raw_exist = data.get("existing_image_colors")
+            if isinstance(raw_exist, str):
+                try:
+                    data["existing_image_colors"] = json.loads(raw_exist)
+                except Exception:
+                    data["existing_image_colors"] = {}
 
         for field_name in ["colors", "sizes"]:
             val = data.get(field_name)
@@ -309,6 +342,16 @@ class ProductSerializer(serializers.ModelSerializer):
             []
         )
 
+        image_colors = validated_data.pop(
+            "image_colors",
+            []
+        )
+
+        validated_data.pop(
+            "existing_image_colors",
+            {}
+        )
+
         validated_data.pop(
             "remove_image_ids",
             []
@@ -317,14 +360,23 @@ class ProductSerializer(serializers.ModelSerializer):
         cat_instance = self._resolve_category(validated_data)
         validated_data["category"] = cat_instance
 
+        colors_list = validated_data.get("colors", [])
+
         product = Product.objects.create(
             **validated_data
         )
 
-        for image_file in image_files:
+        for idx, image_file in enumerate(image_files):
+            c_val = ""
+            if idx < len(image_colors) and image_colors[idx]:
+                c_val = str(image_colors[idx]).strip()
+            elif idx < len(colors_list) and colors_list[idx]:
+                c_val = str(colors_list[idx]).strip()
+
             ProductImage.objects.create(
                 product=product,
-                image=image_file
+                image=image_file,
+                color=c_val
             )
 
         return product
@@ -333,6 +385,16 @@ class ProductSerializer(serializers.ModelSerializer):
         image_files = validated_data.pop(
             "image_files",
             []
+        )
+
+        image_colors = validated_data.pop(
+            "image_colors",
+            []
+        )
+
+        existing_image_colors = validated_data.pop(
+            "existing_image_colors",
+            {}
         )
 
         remove_image_ids = validated_data.pop(
@@ -363,10 +425,25 @@ class ProductSerializer(serializers.ModelSerializer):
             id__in=remove_image_ids
         ).delete()
 
-        for image_file in image_files:
+        # Update colors on existing images if provided
+        if existing_image_colors:
+            for img_id_str, c_val in existing_image_colors.items():
+                if str(img_id_str).isdigit():
+                    ProductImage.objects.filter(product=instance, id=int(img_id_str)).update(color=str(c_val).strip())
+
+        colors_list = instance.colors or []
+
+        for idx, image_file in enumerate(image_files):
+            c_val = ""
+            if idx < len(image_colors) and image_colors[idx]:
+                c_val = str(image_colors[idx]).strip()
+            elif idx < len(colors_list) and colors_list[idx]:
+                c_val = str(colors_list[idx]).strip()
+
             ProductImage.objects.create(
                 product=instance,
-                image=image_file
+                image=image_file,
+                color=c_val
             )
 
         return instance

@@ -21,6 +21,7 @@ function ProductDetails() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
@@ -30,9 +31,10 @@ function ProductDetails() {
     return cartItems.some(
       (item) =>
         item.id === product.id &&
-        (item.size || "") === (selectedSize || "")
+        (item.size || "") === (selectedSize || "") &&
+        (item.color || "") === (selectedColor || "")
     );
-  }, [product, cartItems, selectedSize]);
+  }, [product, cartItems, selectedSize, selectedColor]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -69,12 +71,19 @@ function ProductDetails() {
     } else {
       setSelectedSize("");
     }
+
+    if (product?.colors && product.colors.length > 0) {
+      setSelectedColor(product.colors[0]);
+    } else {
+      setSelectedColor("");
+    }
   }, [product]);
 
   const currentCartItem = cartItems.find(
     (item) =>
       item.id === product?.id &&
-      (item.size || "") === (selectedSize || "")
+      (item.size || "") === (selectedSize || "") &&
+      (item.color || "") === (selectedColor || "")
   );
   const cartQuantity = currentCartItem ? currentCartItem.quantity : 0;
 
@@ -101,12 +110,39 @@ function ProductDetails() {
 
   const remainingAvailableStock = Math.max(0, maxAllowedStock - cartQuantity);
 
+  const handleSelectColor = (colorName, colorIndex) => {
+    setSelectedColor(colorName);
+    const imgs = product?.images || [];
+    // 1) Find image with matching color
+    const matchedIdx = imgs.findIndex(
+      (img) => img.color && img.color.toLowerCase() === colorName.toLowerCase()
+    );
+    if (matchedIdx >= 0) {
+      setSelectedImage(matchedIdx);
+    } else if (imgs[colorIndex]) {
+      // 2) Fallback to positional mapping
+      setSelectedImage(colorIndex);
+    }
+  };
+
+  const handleThumbnailClick = (imgIndex) => {
+    setSelectedImage(imgIndex);
+    const imgs = product?.images || [];
+    const clickedImg = imgs[imgIndex];
+    if (clickedImg?.color) {
+      setSelectedColor(clickedImg.color);
+    } else if (product?.colors && product.colors[imgIndex]) {
+      setSelectedColor(product.colors[imgIndex]);
+    }
+  };
+
   const handleAddToCart = () => {
     if (!product || isOutOfStock || isMaxStockReached) {
       return;
     }
 
-    addToCart(product, selectedSize, quantity);
+    const currentImg = product.images?.[selectedImage]?.image || null;
+    addToCart(product, selectedSize, quantity, selectedColor, currentImg);
   };
 
   const activePrice = useMemo(() => {
@@ -230,13 +266,16 @@ function ProductDetails() {
                             ? "product-thumbnail active"
                             : "product-thumbnail"
                         }
-                        onClick={() => setSelectedImage(index)}
+                        onClick={() => handleThumbnailClick(index)}
                         aria-label={`View photo ${index + 1}`}
                       >
                         <img
                           src={image.image}
                           alt={`${product.name} view ${index + 1}`}
                         />
+                        {image.color && (
+                          <span className="thumbnail-color-tag">{image.color}</span>
+                        )}
                       </button>
                     ))}
                   </div>
@@ -359,22 +398,61 @@ function ProductDetails() {
 
               <div className="product-details-divider" />
 
-              {/* Colors Display (Static Informational Tags) */}
+              {/* Color Selection (Interactive Variant Swatches) */}
               {product.colors?.length > 0 && (
                 <div className="product-option-block">
                   <div className="option-label-row">
-                    <span className="option-title">Featured Colors</span>
+                    <span className="option-title">Select Color</span>
+                    {selectedColor && (
+                      <span className="selected-color-pill">
+                        Chosen: <strong>{selectedColor}</strong>
+                      </span>
+                    )}
                   </div>
 
-                  <div className="product-color-tags">
-                    {product.colors.map((color, index) => (
-                      <span
-                        key={`${color}-${index}`}
-                        className="color-static-tag"
-                      >
-                        {color}
-                      </span>
-                    ))}
+                  <div className="product-color-options">
+                    {product.colors.map((color, index) => {
+                      const isSelected =
+                        (selectedColor || "").trim().toLowerCase() ===
+                        color.trim().toLowerCase();
+
+                      // Optional thumbnail preview of the dress for this color
+                      const colorImg =
+                        images.find(
+                          (img) =>
+                            img.color &&
+                            img.color.trim().toLowerCase() ===
+                              color.trim().toLowerCase()
+                        )?.image ||
+                        (images[index]?.image ? images[index].image : null);
+
+                      return (
+                        <button
+                          key={`${color}-${index}`}
+                          type="button"
+                          className={`product-color-btn ${
+                            isSelected ? "active" : ""
+                          }`}
+                          onClick={() => handleSelectColor(color, index)}
+                          title={`Select ${color} dress`}
+                          aria-label={`Select color ${color}`}
+                        >
+                          {colorImg && (
+                            <span className="color-btn-thumb-wrap">
+                              <img
+                                src={colorImg}
+                                alt={color}
+                                className="color-btn-thumb"
+                              />
+                            </span>
+                          )}
+                          <span className="color-btn-text">{color}</span>
+                          {isSelected && (
+                            <span className="color-btn-check">✓</span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}

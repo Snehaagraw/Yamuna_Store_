@@ -419,6 +419,43 @@
   font-size: 9px;
 }
 
+.admin-img-badge-row {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-img-badge {
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: rgba(17, 24, 39, 0.85);
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.admin-img-color-select {
+  flex: 1;
+  min-width: 0;
+  padding: 3px 4px;
+  background: #ffffff;
+  border: 1.5px solid var(--maroon);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--maroon-dark);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
 .admin-remove-image {
   position: absolute;
   top: 8px;

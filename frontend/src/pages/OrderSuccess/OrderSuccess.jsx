@@ -114,9 +114,77 @@ function OrderSuccess() {
                   <h4>Ordered Pieces ({order.items.length})</h4>
                   <div className="order-items-list">
                     {order.items.map((item, idx) => (
-                      <div key={item.id || idx} className="order-recap-row">
-                        <span>{item.quantity}x {item.product_name}</span>
-                        <strong>₹{(Number(item.price) * item.quantity).toLocaleString("en-IN")}</strong>
+                      <div
+                        key={item.id || idx}
+                        className="order-recap-row"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        {item.image_url && (
+                          <img
+                            src={item.image_url}
+                            alt={item.product_name}
+                            style={{
+                              width: "36px",
+                              height: "46px",
+                              objectFit: "cover",
+                              borderRadius: "4px",
+                              border: "1px solid #e5e7eb",
+                              flexShrink: 0,
+                            }}
+                          />
+                        )}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div>
+                            {item.quantity}x {item.product_name}
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "6px",
+                              flexWrap: "wrap",
+                              marginTop: "2px",
+                            }}
+                          >
+                            {item.color && (
+                              <span
+                                style={{
+                                  fontSize: "11px",
+                                  padding: "1px 6px",
+                                  background: "rgba(114,38,63,0.08)",
+                                  color: "var(--maroon)",
+                                  borderRadius: "4px",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                Color: {item.color}
+                              </span>
+                            )}
+                            {item.size && (
+                              <span
+                                style={{
+                                  fontSize: "11px",
+                                  padding: "1px 6px",
+                                  background: "#f3f4f6",
+                                  color: "#4b5563",
+                                  borderRadius: "4px",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                Size: {item.size}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <strong>
+                          ₹
+                          {(
+                            Number(item.price) * item.quantity
+                          ).toLocaleString("en-IN")}
+                        </strong>
                       </div>
                     ))}
                   </div>

@@ -233,11 +233,18 @@ function Checkout() {
       transaction_id: transactionId || "",
       items: cartItems.map((item) => ({
         product_id: item.id,
-        name: item.size ? `${item.name} (${item.size})` : item.name,
+        name: [
+          item.name,
+          item.color ? `Color: ${item.color}` : null,
+          item.size ? `Size: ${item.size}` : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+        color: item.color || "",
         size: item.size || "",
         price: item.price,
         quantity: item.quantity,
-        image: item.image,
+        image: item.image || "",
       })),
     };
 
@@ -1081,11 +1088,57 @@ function Checkout() {
                 {/* Items Mini List */}
                 <div className="summary-items-list">
                   {cartItems.map((item) => (
-                    <div key={`${item.id}-${item.size || "default"}`} className="summary-item-row">
+                    <div
+                      key={`${item.id}-${item.color || "def"}-${item.size || "default"}`}
+                      className="summary-item-row"
+                    >
+                      {item.image && (
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          style={{
+                            width: "36px",
+                            height: "44px",
+                            objectFit: "cover",
+                            borderRadius: "4px",
+                            marginRight: "10px",
+                            border: "1px solid #e5e7eb",
+                            flexShrink: 0,
+                          }}
+                        />
+                      )}
                       <div className="summary-item-title-group">
                         <span className="summary-item-name">{item.name}</span>
-                        {item.size && <span className="summary-item-size">Size: {item.size}</span>}
-                        <span className="summary-item-qty">Qty: {item.quantity}</span>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "6px",
+                            flexWrap: "wrap",
+                            marginTop: "2px",
+                          }}
+                        >
+                          {item.color && (
+                            <span
+                              className="summary-item-size"
+                              style={{
+                                background: "#fdf7f9",
+                                borderColor: "rgba(114,38,63,0.2)",
+                                color: "var(--maroon)",
+                                fontWeight: "600",
+                              }}
+                            >
+                              Color: {item.color}
+                            </span>
+                          )}
+                          {item.size && (
+                            <span className="summary-item-size">
+                              Size: {item.size}
+                            </span>
+                          )}
+                        </div>
+                        <span className="summary-item-qty">
+                          Qty: {item.quantity}
+                        </span>
                       </div>
                       <span className="summary-item-subtotal">
                         ₹{(item.price * item.quantity).toLocaleString("en-IN")}

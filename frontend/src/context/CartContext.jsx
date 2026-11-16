@@ -43,7 +43,13 @@ function CartProvider({ children }) {
     }
   }, [cartItems]);
 
-  const addToCart = (product, selectedSize = "", quantityToAdd = 1) => {
+  const addToCart = (
+    product,
+    selectedSize = "",
+    quantityToAdd = 1,
+    selectedColor = "",
+    selectedImage = null
+  ) => {
     let maxStock = 99;
     if (
       product.size_inventory &&
@@ -75,11 +81,27 @@ function CartProvider({ children }) {
         ? Number(product.size_prices[selectedSize])
         : Number(product.price);
 
+    const normColor = selectedColor ? selectedColor.trim() : "";
+    const normSize = selectedSize ? selectedSize.trim() : "";
+
+    // Pick the most accurate image for this color
+    let chosenImage = selectedImage;
+    if (!chosenImage && normColor && product.images?.length > 0) {
+      const matchedImg = product.images.find(
+        (img) => img.color && img.color.toLowerCase() === normColor.toLowerCase()
+      );
+      if (matchedImg) chosenImage = matchedImg.image;
+    }
+    if (!chosenImage) {
+      chosenImage = product.images?.[0]?.image || null;
+    }
+
     setCartItems((previousItems) => {
       const existingItem = previousItems.find(
         (item) =>
           item.id === product.id &&
-          (item.size || "") === (selectedSize || "")
+          (item.size || "") === normSize &&
+          (item.color || "") === normColor
       );
 
       if (existingItem) {
@@ -89,10 +111,12 @@ function CartProvider({ children }) {
 
         return previousItems.map((item) =>
           item.id === product.id &&
-          (item.size || "") === (selectedSize || "")
+          (item.size || "") === normSize &&
+          (item.color || "") === normColor
             ? {
                 ...item,
                 price: itemPrice,
+                image: chosenImage || item.image,
                 maxStock,
                 quantity: Math.min(maxStock, item.quantity + qty),
               }
@@ -106,12 +130,12 @@ function CartProvider({ children }) {
           id: product.id,
           name: product.name,
           category: product.category,
-          size: selectedSize || "",
+          size: normSize,
+          color: normColor,
           price: itemPrice,
           fabric: product.fabric,
           weight: product.weight || "",
-          image:
-            product.images?.[0]?.image || null,
+          image: chosenImage,
           quantity: Math.min(maxStock, qty),
           maxStock,
         },
@@ -121,24 +145,26 @@ function CartProvider({ children }) {
     return true;
   };
 
-  const removeFromCart = (productId, size = null) => {
+  const removeFromCart = (productId, size = null, color = null) => {
     setCartItems((previousItems) =>
       previousItems.filter(
         (item) =>
           !(
             item.id === productId &&
-            (size === null || (item.size || "") === (size || ""))
+            (size === null || (item.size || "") === (size || "")) &&
+            (color === null || (item.color || "") === (color || ""))
           )
       )
     );
   };
 
-  const increaseQuantity = (productId, size = null) => {
+  const increaseQuantity = (productId, size = null, color = null) => {
     setCartItems((previousItems) =>
       previousItems.map((item) => {
         if (
           item.id === productId &&
-          (size === null || (item.size || "") === (size || ""))
+          (size === null || (item.size || "") === (size || "")) &&
+          (color === null || (item.color || "") === (color || ""))
         ) {
           const maxAllowed =
             item.maxStock !== undefined ? item.maxStock : 99;
@@ -157,12 +183,13 @@ function CartProvider({ children }) {
     );
   };
 
-  const decreaseQuantity = (productId, size = null) => {
+  const decreaseQuantity = (productId, size = null, color = null) => {
     setCartItems((previousItems) =>
       previousItems
         .map((item) =>
           item.id === productId &&
-          (size === null || (item.size || "") === (size || ""))
+          (size === null || (item.size || "") === (size || "")) &&
+          (color === null || (item.color || "") === (color || ""))
             ? {
                 ...item,
                 quantity: item.quantity - 1,

@@ -11,6 +11,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "id",
             "product",
             "product_name",
+            "color",
+            "size",
             "price",
             "quantity",
             "image_url",
@@ -99,12 +101,21 @@ class OrderSerializer(serializers.ModelSerializer):
                                     f"Only {current_size_stock} available, but {quantity} requested."
                                 )
 
+                color_val = item_data.get("color") or ""
+                # If color not provided, check if in name e.g. "Gopi Dress · Color: Red · Size: S"
+                if not color_val and item_data.get("name") and "Color:" in item_data.get("name"):
+                    try:
+                        color_val = item_data.get("name").split("Color:")[-1].split("·")[0].split("(")[0].strip()
+                    except Exception:
+                        color_val = ""
+
                 validated_order_items.append({
                     "product": product_instance,
                     "product_name": item_data.get("name") or item_data.get("product_name") or "Devotional Attire",
+                    "color": color_val,
+                    "size_name": size_name or "",
                     "price": item_data.get("price", 0),
                     "quantity": quantity,
-                    "size_name": size_name,
                     "image_url": item_data.get("image") or item_data.get("image_url") or "",
                 })
 
@@ -117,6 +128,8 @@ class OrderSerializer(serializers.ModelSerializer):
                     order=order,
                     product=item["product"],
                     product_name=item["product_name"],
+                    color=item["color"],
+                    size=item["size_name"],
                     price=item["price"],
                     quantity=item["quantity"],
                     image_url=item["image_url"],

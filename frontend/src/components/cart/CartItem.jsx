@@ -33,6 +33,7 @@ function CartItem({
       <div className="cart-item-details">
         <p className="cart-item-category">
           {product.category}
+          {product.color ? ` · Color: ${product.color}` : ""}
           {product.size ? ` · Size: ${product.size}` : ""}
           {product.weight ? ` · ${product.weight}` : ""}
         </p>

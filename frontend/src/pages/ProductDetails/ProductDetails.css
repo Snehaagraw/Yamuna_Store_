@@ -113,6 +113,7 @@
 }
 
 .product-thumbnail {
+  position: relative;
   flex: 0 0 74px;
   width: 74px;
   height: 88px;
@@ -394,26 +395,107 @@
   font-weight: 700;
 }
 
-/* Static Color Tags (Informational, non-clickable) */
-.product-color-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+/* Selected Color Pill */
+.selected-color-pill {
+  font-size: 12px;
+  color: #4b5563;
 }
 
-.color-static-tag {
+.selected-color-pill strong {
+  color: var(--maroon);
+  font-weight: 700;
+}
+
+/* Interactive Color Swatches */
+.product-color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.product-color-btn {
   display: inline-flex;
   align-items: center;
-  padding: 7px 16px;
+  gap: 8px;
+  padding: 6px 14px 6px 8px;
   background: #ffffff;
-  border: 1px solid #d1d5db;
+  border: 1.5px solid #d1d5db;
   border-radius: 9999px;
-  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.product-color-btn:hover {
+  border-color: var(--maroon);
+  background: #fdf7f9;
+  transform: translateY(-1px);
+}
+
+.product-color-btn.active {
+  border-color: var(--maroon);
+  background: #fdf7f9;
+  box-shadow: 0 0 0 2px rgba(114, 38, 63, 0.2);
+}
+
+.color-btn-thumb-wrap {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  flex-shrink: 0;
+}
+
+.color-btn-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.color-btn-text {
+  font-size: 13px;
   font-weight: 600;
   color: #111827;
-  letter-spacing: 0.02em;
-  user-select: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  letter-spacing: 0.01em;
+}
+
+.product-color-btn.active .color-btn-text {
+  color: var(--maroon);
+  font-weight: 700;
+}
+
+.color-btn-check {
+  font-size: 12px;
+  color: var(--maroon);
+  font-weight: 800;
+  margin-left: 2px;
+}
+
+/* Thumbnail Color Badge */
+.thumbnail-color-tag {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  right: 3px;
+  background: rgba(17, 24, 39, 0.78);
+  backdrop-filter: blur(2px);
+  color: #ffffff;
+  font-size: 9.5px;
+  font-weight: 600;
+  padding: 1px 3px;
+  border-radius: 3px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  pointer-events: none;
 }
 
 /* Sizes */

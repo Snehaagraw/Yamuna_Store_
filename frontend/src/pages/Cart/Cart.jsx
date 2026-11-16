@@ -32,15 +32,15 @@ function Cart() {
   }, [cartItems]);
 
   const handleDecrease = (item) => {
-    decreaseQuantity(item.product.id, item.product.size);
+    decreaseQuantity(item.product.id, item.product.size, item.product.color);
   };
 
   const handleIncrease = (item) => {
-    increaseQuantity(item.product.id, item.product.size);
+    increaseQuantity(item.product.id, item.product.size, item.product.color);
   };
 
   const handleRemove = (item) => {
-    removeFromCart(item.product.id, item.product.size);
+    removeFromCart(item.product.id, item.product.size, item.product.color);
   };
 
   const handleCheckout = () => {
@@ -100,7 +100,7 @@ function Cart() {
 
                   return (
                     <CartItem
-                      key={`${item.id}-${item.size || ""}`}
+                      key={`${item.id}-${item.color || "def"}-${item.size || ""}`}
                       item={cartItem}
                       onDecrease={handleDecrease}
                       onIncrease={handleIncrease}

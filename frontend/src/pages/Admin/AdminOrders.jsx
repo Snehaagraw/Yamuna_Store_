@@ -368,9 +368,104 @@ function AdminOrders() {
                 <h4>Items Ordered ({selectedOrder.items?.length || 0})</h4>
                 <div className="modal-items-list">
                   {selectedOrder.items?.map((item, idx) => (
-                    <div key={item.id || idx} className="modal-item-row">
-                      <span>{item.quantity}x {item.product_name}</span>
-                      <strong>₹{(Number(item.price) * item.quantity).toLocaleString("en-IN")}</strong>
+                    <div
+                      key={item.id || idx}
+                      className="modal-item-row"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        padding: "8px 0",
+                        borderBottom: "1px solid #f3f4f6",
+                      }}
+                    >
+                      {item.image_url ? (
+                        <img
+                          src={item.image_url}
+                          alt={item.product_name}
+                          style={{
+                            width: "40px",
+                            height: "50px",
+                            objectFit: "cover",
+                            borderRadius: "4px",
+                            border: "1px solid #e5e7eb",
+                            flexShrink: 0,
+                          }}
+                        />
+                      ) : (
+                        <div
+                          style={{
+                            width: "40px",
+                            height: "50px",
+                            background: "#f3f4f6",
+                            borderRadius: "4px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "10px",
+                            color: "#9ca3af",
+                            flexShrink: 0,
+                          }}
+                        >
+                          👗
+                        </div>
+                      )}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div
+                          style={{
+                            fontWeight: "600",
+                            color: "#111827",
+                            fontSize: "13.5px",
+                          }}
+                        >
+                          {item.quantity}x {item.product_name}
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "6px",
+                            flexWrap: "wrap",
+                            marginTop: "3px",
+                          }}
+                        >
+                          {item.color && (
+                            <span
+                              style={{
+                                fontSize: "11px",
+                                padding: "1px 7px",
+                                background: "#fdf7f9",
+                                border: "1px solid rgba(114,38,63,0.2)",
+                                color: "var(--maroon)",
+                                borderRadius: "4px",
+                                fontWeight: "600",
+                              }}
+                            >
+                              Color: {item.color}
+                            </span>
+                          )}
+                          {item.size && (
+                            <span
+                              style={{
+                                fontSize: "11px",
+                                padding: "1px 7px",
+                                background: "#f3f4f6",
+                                border: "1px solid #e5e7eb",
+                                color: "#374151",
+                                borderRadius: "4px",
+                                fontWeight: "600",
+                              }}
+                            >
+                              Size: {item.size}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <strong style={{ fontSize: "14px", color: "#111827" }}>
+                        ₹
+                        {(
+                          Number(item.price) * item.quantity
+                        ).toLocaleString("en-IN")}
+                      </strong>
                     </div>
                   ))}
                 </div>

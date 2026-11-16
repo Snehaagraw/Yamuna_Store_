@@ -144,6 +144,8 @@ class OrderItem(models.Model):
     )
 
     product_name = models.CharField(max_length=255)
+    color = models.CharField(max_length=100, blank=True, default="")
+    size = models.CharField(max_length=50, blank=True, default="")
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
     image_url = models.CharField(max_length=500, blank=True)
