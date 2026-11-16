@@ -22,5 +22,5 @@
   overflow-x: hidden;
   background: #ffffff;
   color: var(--text-primary);
-  color-scheme: only light;
+  color-scheme: light dark;
 }
