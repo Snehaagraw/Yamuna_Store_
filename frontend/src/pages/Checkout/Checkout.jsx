@@ -204,8 +204,22 @@ function Checkout() {
     ) {
       setError("Please complete all required delivery address fields.");
       setIsAddressEditing(true);
+      const el = document.querySelector(".hostinger-step-card");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       return false;
     }
+
+    if (isDomestic) {
+      const cleanPin = String(formData.pincode).replace(/\D/g, "");
+      if (cleanPin.length !== 6) {
+        setError("Please enter a valid 6-digit Indian PIN code to calculate delivery tariff.");
+        setIsAddressEditing(true);
+        const pinEl = document.getElementById("pincode");
+        if (pinEl) pinEl.focus();
+        return false;
+      }
+    }
+
     setError("");
     return true;
   };
@@ -454,6 +468,9 @@ function Checkout() {
                       {formData.address}
                       {formData.pincode ? ` — ${formData.pincode}` : ""}
                     </p>
+                    <div className="confirmed-shipping-badge">
+                      ✓ {shippingInfo.carrierIcon} {shippingInfo.carrier} ({shippingInfo.zoneName}) · ₹{shippingInfo.shippingFee.toLocaleString("en-IN")} · {shippingInfo.estimatedDelivery}
+                    </div>
                     {formData.orderNotes && (
                       <p className="confirmed-notes">
                         <em>Notes:</em> {formData.orderNotes}
@@ -582,16 +599,32 @@ function Checkout() {
                       </div>
 
                       <div className="form-group">
-                        <label htmlFor="pincode">Pincode / Postal Code *</label>
+                        <label htmlFor="pincode">
+                          {isDomestic ? "6-Digit Delivery Pincode *" : "Postal Code / Zip *"}
+                        </label>
                         <input
                           id="pincode"
                           name="pincode"
                           type="text"
-                          placeholder="e.g. 281121 / 10001"
+                          maxLength={isDomestic ? 6 : 12}
+                          placeholder={isDomestic ? "e.g. 281121" : "e.g. 10001 / SW1A 1AA"}
                           value={formData.pincode}
                           onChange={handleChange}
                           required
                         />
+                        {isDomestic && (
+                          <div className="pin-feedback-row">
+                            {shippingInfo.isPincodePending ? (
+                              <span className="pin-feedback-pending">
+                                📍 Enter 6-digit PIN code to verify India Post tariff (Local UP/Delhi ₹50 · National ₹70)
+                              </span>
+                            ) : (
+                              <span className="pin-feedback-verified">
+                                ✓ PIN {formData.pincode} verified: {shippingInfo.zoneName} (₹{shippingInfo.shippingFee.toLocaleString("en-IN")})
+                              </span>
+                            )}
+                          </div>
+                        )}
                       </div>
 
                       <div className="form-group">
@@ -680,7 +713,11 @@ function Checkout() {
                             disabled={loading}
                             onClick={handlePaymentSubmit}
                           >
-                            {loading ? "Processing..." : `Submit payment (Pay ₹${finalPayableAmount.toLocaleString("en-IN")})`}
+                            {loading
+                              ? "Processing..."
+                              : isDomestic && shippingInfo.isPincodePending
+                              ? "Complete Step 1 (Address) to Pay"
+                              : `Submit payment (Pay ₹${finalPayableAmount.toLocaleString("en-IN")})`}
                           </button>
 
                           <div className="payment-security-badge">
@@ -731,7 +768,11 @@ function Checkout() {
                             disabled={loading}
                             onClick={handlePaymentSubmit}
                           >
-                            {loading ? "Processing..." : `Submit payment (Pay ₹${finalPayableAmount.toLocaleString("en-IN")})`}
+                            {loading
+                              ? "Processing..."
+                              : isDomestic && shippingInfo.isPincodePending
+                              ? "Complete Step 1 (Address) to Pay"
+                              : `Submit payment (Pay ₹${finalPayableAmount.toLocaleString("en-IN")})`}
                           </button>
 
                           <div className="payment-security-badge">
@@ -780,7 +821,11 @@ function Checkout() {
                             disabled={loading}
                             onClick={handlePaymentSubmit}
                           >
-                            {loading ? "Processing..." : `Submit payment (Pay ₹${finalPayableAmount.toLocaleString("en-IN")})`}
+                            {loading
+                              ? "Processing..."
+                              : isDomestic && shippingInfo.isPincodePending
+                              ? "Complete Step 1 (Address) to Pay"
+                              : `Submit payment (Pay ₹${finalPayableAmount.toLocaleString("en-IN")})`}
                           </button>
 
                           <div className="payment-security-badge">
@@ -1178,9 +1223,24 @@ function Checkout() {
                         </span>
                       </div>
                       <span className="delivery-trigger-price">
-                        ₹{shippingInfo.shippingFee.toLocaleString("en-IN")}
+                        {isDomestic && shippingInfo.isPincodePending ? (
+                          <span className="delivery-pending-text">Enter PIN</span>
+                        ) : (
+                          `₹${shippingInfo.shippingFee.toLocaleString("en-IN")}`
+                        )}
                       </span>
                     </div>
+
+                    {/* Helpful status / notice */}
+                    {isDomestic && shippingInfo.isPincodePending ? (
+                      <div className="delivery-pending-hint">
+                        📍 Enter 6-digit PIN code in Step 1 for exact postal tariff (Local UP/Delhi ₹50 · National ₹70)
+                      </div>
+                    ) : (
+                      <div className="delivery-verified-hint">
+                        ✓ {shippingInfo.carrier} · {shippingInfo.zoneName}
+                      </div>
+                    )}
 
                     {deliveryDropdownOpen && (
                       <div className="delivery-dropdown-tray">
@@ -1200,6 +1260,14 @@ function Checkout() {
                           <span>Est. Delivery:</span>
                           <span>{shippingInfo.estimatedDelivery}</span>
                         </div>
+                        {shippingInfo.rateExplanation && (
+                          <div className="tray-line">
+                            <span>Tariff Slab:</span>
+                            <span style={{ fontSize: "11px", color: "#6b7280" }}>
+                              {shippingInfo.rateExplanation}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -1214,7 +1282,11 @@ function Checkout() {
                   <div className="calc-row total-row">
                     <div>
                       <strong>Total</strong>
-                      <small className="total-sub">All taxes &amp; shipping included</small>
+                      <small className="total-sub">
+                        {isDomestic && shippingInfo.isPincodePending
+                          ? "Items total · Delivery fee added upon PIN entry"
+                          : "All taxes & shipping included"}
+                      </small>
                     </div>
                     <strong className="total-number">
                       ₹{finalPayableAmount.toLocaleString("en-IN")}

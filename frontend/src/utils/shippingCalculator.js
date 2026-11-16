@@ -98,15 +98,15 @@ export function calculateIndiaPost(totalGrams, pincode = "") {
   const cleanPin = String(pincode || "").replace(/\D/g, "");
   const pinPrefix2 = cleanPin.slice(0, 2);
   const pinPrefix3 = cleanPin.slice(0, 3);
-  const isPincodePending = cleanPin.length < 6;
+  const isPincodePending = cleanPin.length !== 6;
 
-  // Determine Zone from Pincode
+  // Determine Zone from 6-digit Pincode
   let zoneName = "Rest of India (Speed Post)";
   let zoneType = "National";
   let baseRate = 70; // first 500g
   let additionalRate = 35; // per addl 500g
 
-  if (cleanPin.length >= 2) {
+  if (cleanPin.length === 6) {
     // Local UP & Delhi NCR (20-28, 11, 12, 13)
     const upDelhiPins = ["20", "21", "22", "23", "24", "25", "26", "27", "28", "11", "12", "13"];
     // Remote / Special / North-East / Islands (79, 78, 18, 19, 74)
@@ -138,19 +138,22 @@ export function calculateIndiaPost(totalGrams, pincode = "") {
     additionalCharge = additionalSlabs * additionalRate;
   }
 
-  const shippingFee = baseRate + additionalCharge;
+  const calculatedFee = baseRate + additionalCharge;
+  const shippingFee = isPincodePending ? 0 : calculatedFee;
+  const estimatedFee = calculatedFee;
 
-  const rateExplanation =
-    additionalSlabs > 0
-      ? `₹${baseRate} (first 500 g) + ${additionalSlabs} × ₹${additionalRate} (${formatWeight(additionalWeightGrams)} addl.)`
-      : `₹${baseRate} base slab (up to 500 g)`;
+  const rateExplanation = isPincodePending
+    ? `Calculated from 6-digit PIN code (Local UP/Delhi ₹50 · National ₹70)`
+    : additionalSlabs > 0
+    ? `₹${baseRate} (first 500 g) + ${additionalSlabs} × ₹${additionalRate} (${formatWeight(additionalWeightGrams)} addl.)`
+    : `₹${baseRate} base slab (up to 500 g)`;
 
   return {
     carrier: "India Post",
     service: "Speed Post / Tracked Parcel",
     carrierIcon: "🇮🇳",
     destinationType: "Domestic",
-    zoneName,
+    zoneName: isPincodePending ? "Delivery PIN Code Pending" : zoneName,
     zoneType,
     baseRate,
     additionalRate,
@@ -159,12 +162,13 @@ export function calculateIndiaPost(totalGrams, pincode = "") {
     additionalSlabs,
     additionalCharge,
     shippingFee,
+    estimatedFee,
     rateExplanation,
     estimatedDelivery: zoneType === "Local/State" ? "2–3 Business Days" : "3–5 Business Days",
     isPincodePending,
     notice: isPincodePending
-      ? "Standard national rate shown. Enter full 6-digit pin code for exact tariff."
-      : null,
+      ? "Enter 6-digit delivery PIN code in Step 1 to calculate exact postal tariff."
+      : `Verified for PIN ${cleanPin} (${zoneName})`,
   };
 }
 
@@ -250,6 +254,7 @@ export function calculateDHL(totalGrams, country = "United States") {
     additionalSlabs,
     additionalCharge,
     shippingFee,
+    estimatedFee: shippingFee,
     rateExplanation,
     estimatedDelivery: "4–7 Business Days (Worldwide Tracked)",
     isPincodePending: false,
