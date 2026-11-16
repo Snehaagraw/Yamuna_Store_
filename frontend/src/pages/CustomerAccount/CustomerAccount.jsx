@@ -497,16 +497,26 @@ function CustomerAccount() {
                         <div className="order-items-grid">
                           {order.items?.map((item, idx) => (
                             <div key={item.id || idx} className="order-card-item">
-                              <div className="item-thumb-wrapper">
+                              <Link
+                                to={item.product ? `/product/${item.product}` : "/collections"}
+                                className="item-thumb-wrapper item-thumb-link"
+                                title={item.product ? `View ${item.product_name}` : "View Products"}
+                              >
                                 {item.image_url ? (
                                   <img src={item.image_url} alt={item.product_name} />
                                 ) : (
                                   <div className="thumb-placeholder">य</div>
                                 )}
-                              </div>
+                              </Link>
                               <div className="item-details">
-                                <strong>{item.product_name}</strong>
-                                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", margin: "2px 0" }}>
+                                <Link
+                                  to={item.product ? `/product/${item.product}` : "/collections"}
+                                  className="item-name-link"
+                                  title={item.product ? `View ${item.product_name}` : "View Products"}
+                                >
+                                  <strong>{item.product_name}</strong>
+                                </Link>
+                                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", margin: "3px 0" }}>
                                   {item.color && (
                                     <span style={{ fontSize: "11px", padding: "1px 6px", background: "rgba(114,38,63,0.08)", color: "var(--maroon)", borderRadius: "4px", fontWeight: "600" }}>
                                       Color: {item.color}
@@ -518,9 +528,17 @@ function CustomerAccount() {
                                     </span>
                                   )}
                                 </div>
-                                <small>
-                                  Qty: {item.quantity} · ₹{Number(item.price).toLocaleString("en-IN")} each
-                                </small>
+                                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "6px", marginTop: "3px" }}>
+                                  <small>
+                                    Qty: {item.quantity} · ₹{Number(item.price).toLocaleString("en-IN")} each
+                                  </small>
+                                  <Link
+                                    to={item.product ? `/product/${item.product}` : "/collections"}
+                                    className="item-view-product-link"
+                                  >
+                                    View Product ↗
+                                  </Link>
+                                </div>
                               </div>
                             </div>
                           ))}

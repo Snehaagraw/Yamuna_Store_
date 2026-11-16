@@ -225,7 +225,7 @@ function Checkout() {
   };
 
   // Submit Order Helper
-  const submitOrderToBackend = async ({ paymentMethodName, paymentStatus, transactionId }) => {
+  const submitOrderToBackend = async ({ paymentMethodName, paymentStatus, transactionId, orderStatus }) => {
     const fullPhone = `${formData.dialCode.trim()} ${formData.phone.trim()}`.trim();
 
     const payload = {
@@ -244,6 +244,7 @@ function Checkout() {
       total_weight: shippingInfo.totalWeightFormatted,
       payment_method: paymentMethodName,
       payment_status: paymentStatus,
+      order_status: orderStatus || (paymentStatus === "Paid" ? "Confirmed" : "Pending"),
       transaction_id: transactionId || "",
       items: cartItems.map((item) => ({
         product_id: item.id,

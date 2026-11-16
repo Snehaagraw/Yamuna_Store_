@@ -408,6 +408,41 @@ class AdminCustomerListView(APIView):
             customer_state = (user_address.state if (user_address and user_address.state) else None) or (latest_order.state if latest_order else "")
             customer_country = (user_address.country if (user_address and user_address.country) else None) or (getattr(latest_order, "country", "India") if latest_order else "India")
 
+            orders_data = []
+            for o in user_orders:
+                items_data = [
+                    {
+                        "id": item.id,
+                        "product_id": item.product_id,
+                        "product_name": item.product_name,
+                        "color": item.color,
+                        "size": item.size,
+                        "price": float(item.price),
+                        "quantity": item.quantity,
+                        "image_url": item.image_url,
+                    }
+                    for item in o.items.all()
+                ]
+                orders_data.append({
+                    "id": o.id,
+                    "order_number": o.order_number,
+                    "created_at": o.created_at,
+                    "total_amount": float(o.total_amount),
+                    "shipping_fee": float(o.shipping_fee or 0),
+                    "shipping_carrier": o.shipping_carrier,
+                    "total_weight": o.total_weight,
+                    "order_status": o.order_status,
+                    "payment_status": o.payment_status,
+                    "payment_method": o.payment_method,
+                    "transaction_id": o.transaction_id,
+                    "shipping_address": o.shipping_address,
+                    "city": o.city,
+                    "state": o.state,
+                    "pincode": o.pincode,
+                    "country": o.country,
+                    "items": items_data,
+                })
+
             customer_list.append({
                 "id": user.id,
                 "name": user.first_name or user.username,
@@ -421,6 +456,7 @@ class AdminCustomerListView(APIView):
                 "city": customer_city,
                 "state": customer_state,
                 "country": customer_country,
+                "orders": orders_data,
             })
 
         return Response(customer_list, status=status.HTTP_200_OK)

@@ -573,3 +573,138 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Payment Status Badges */
+.payment-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.payment-status-badge.paid {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.payment-status-badge.pending {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.payment-status-badge.wire {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+/* Customer Orders Modal & Interactive Row */
+.admin-clickable-customer-row {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.admin-clickable-customer-row:hover {
+  background: rgba(114, 38, 63, 0.03);
+}
+
+.customer-view-orders-btn {
+  padding: 5px 10px;
+  background: rgba(114, 38, 63, 0.08);
+  border: 1px solid var(--maroon);
+  color: var(--maroon);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.customer-view-orders-btn:hover {
+  background: var(--maroon);
+  color: #fff;
+}
+
+.customer-orders-modal-card {
+  width: min(780px, 95vw);
+  max-height: 88vh;
+  background: #fff;
+  border: 1px solid var(--gold);
+  padding: 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
+}
+
+.customer-orders-summary-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: var(--cream-soft);
+  border: 1px solid rgba(114, 38, 63, 0.12);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+}
+
+.customer-orders-summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.customer-orders-summary-item span {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.customer-orders-summary-item strong {
+  font-size: 13px;
+  color: var(--maroon-dark);
+}
+
+.customer-order-card-nested {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.customer-order-card-nested-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.customer-order-card-nested-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.customer-order-nested-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+

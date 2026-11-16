@@ -100,6 +100,33 @@ function AdminOrders() {
     }
   };
 
+  const handlePaymentStatusChange = async (orderId, newPaymentStatus) => {
+    const token = localStorage.getItem("admin_access_token");
+    if (!token) return;
+
+    try {
+      setUpdatingId(orderId);
+      await api.patch(
+        `/api/orders/${orderId}/`,
+        { payment_status: newPaymentStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setOrders((prev) =>
+        prev.map((o) => (o.id === orderId ? { ...o, payment_status: newPaymentStatus } : o))
+      );
+
+      if (selectedOrder && selectedOrder.id === orderId) {
+        setSelectedOrder((prev) => ({ ...prev, payment_status: newPaymentStatus }));
+      }
+    } catch (err) {
+      console.error("Failed to update payment status:", err);
+      alert("Unable to update payment status. Please try again.");
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   return (
     <section className="admin-orders-section">
       <div className="admin-orders-top">
@@ -143,7 +170,8 @@ function AdminOrders() {
                 <th>Phone / WhatsApp</th>
                 <th>Items</th>
                 <th>Total</th>
-                <th>Status</th>
+                <th>Payment</th>
+                <th>Fulfillment</th>
                 <th>Date</th>
                 <th>Actions</th>
               </tr>
@@ -214,6 +242,36 @@ function AdminOrders() {
                       {order.total_weight && (
                         <div>
                           <small style={{ color: "#666", fontSize: "9.5px" }}>⚖️ {order.total_weight}</small>
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      <select
+                        className={`payment-status-badge ${
+                          order.payment_status === "Paid"
+                            ? "paid"
+                            : order.payment_status?.toLowerCase().includes("wire")
+                            ? "wire"
+                            : "pending"
+                        }`}
+                        value={order.payment_status || "Pending"}
+                        disabled={updatingId === order.id}
+                        onChange={(e) => handlePaymentStatusChange(order.id, e.target.value)}
+                        style={{ cursor: "pointer", border: "1px solid currentColor", outline: "none" }}
+                        title="Click to toggle Payment Status"
+                      >
+                        <option value="Paid">✓ Paid</option>
+                        <option value="Pending">⏳ Pending</option>
+                        <option value="Pending (Wire Verification)">🏦 Wire Pending</option>
+                      </select>
+                      {order.transaction_id && (
+                        <div style={{ marginTop: "3px" }}>
+                          <small
+                            style={{ fontSize: "10px", color: "#6b7280", fontFamily: "monospace" }}
+                            title={order.transaction_id}
+                          >
+                            TXN: {order.transaction_id.slice(0, 14)}...
+                          </small>
                         </div>
                       )}
                     </td>
@@ -342,7 +400,23 @@ function AdminOrders() {
                 </div>
 
                 <div>
-                  <h4>Shipping & Parcel Details</h4>
+                  <h4>Payment &amp; Fulfillment</h4>
+                  <p>
+                    <strong>Payment Status:</strong>{" "}
+                    <span className={`payment-status-badge ${selectedOrder.payment_status === "Paid" ? "paid" : "pending"}`}>
+                      {selectedOrder.payment_status === "Paid" ? "✓ Paid" : selectedOrder.payment_status || "Pending"}
+                    </span>
+                    <br />
+                    <strong>Payment Method:</strong> {selectedOrder.payment_method || "Online"}<br />
+                    {selectedOrder.transaction_id && (
+                      <>
+                        <strong>Transaction ID:</strong> <code>{selectedOrder.transaction_id}</code><br />
+                      </>
+                    )}
+                    <strong>Fulfillment Status:</strong> {selectedOrder.order_status}
+                  </p>
+
+                  <h4 style={{ marginTop: "14px" }}>Shipping &amp; Parcel Details</h4>
                   <p>
                     <strong>Carrier:</strong> {selectedOrder.shipping_carrier || "India Post"}<br />
                     {selectedOrder.total_weight && (
@@ -379,47 +453,107 @@ function AdminOrders() {
                         borderBottom: "1px solid #f3f4f6",
                       }}
                     >
-                      {item.image_url ? (
-                        <img
-                          src={item.image_url}
-                          alt={item.product_name}
-                          style={{
-                            width: "40px",
-                            height: "50px",
-                            objectFit: "cover",
-                            borderRadius: "4px",
-                            border: "1px solid #e5e7eb",
-                            flexShrink: 0,
-                          }}
-                        />
-                      ) : (
-                        <div
-                          style={{
-                            width: "40px",
-                            height: "50px",
-                            background: "#f3f4f6",
-                            borderRadius: "4px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: "10px",
-                            color: "#9ca3af",
-                            flexShrink: 0,
-                          }}
+                      {item.product ? (
+                        <a
+                          href={`/product/${item.product}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="View product on store"
+                          style={{ display: "block", flexShrink: 0 }}
                         >
-                          👗
-                        </div>
+                          {item.image_url ? (
+                            <img
+                              src={item.image_url}
+                              alt={item.product_name}
+                              style={{
+                                width: "40px",
+                                height: "50px",
+                                objectFit: "cover",
+                                borderRadius: "4px",
+                                border: "1px solid #e5e7eb",
+                                flexShrink: 0,
+                              }}
+                            />
+                          ) : (
+                            <div
+                              style={{
+                                width: "40px",
+                                height: "50px",
+                                background: "#f3f4f6",
+                                borderRadius: "4px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "10px",
+                                color: "#9ca3af",
+                                flexShrink: 0,
+                              }}
+                            >
+                              👗
+                            </div>
+                          )}
+                        </a>
+                      ) : (
+                        item.image_url ? (
+                          <img
+                            src={item.image_url}
+                            alt={item.product_name}
+                            style={{
+                              width: "40px",
+                              height: "50px",
+                              objectFit: "cover",
+                              borderRadius: "4px",
+                              border: "1px solid #e5e7eb",
+                              flexShrink: 0,
+                            }}
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              width: "40px",
+                              height: "50px",
+                              background: "#f3f4f6",
+                              borderRadius: "4px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontSize: "10px",
+                              color: "#9ca3af",
+                              flexShrink: 0,
+                            }}
+                          >
+                            👗
+                          </div>
+                        )
                       )}
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div
-                          style={{
-                            fontWeight: "600",
-                            color: "#111827",
-                            fontSize: "13.5px",
-                          }}
-                        >
-                          {item.quantity}x {item.product_name}
-                        </div>
+                        {item.product ? (
+                          <a
+                            href={`/product/${item.product}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              fontWeight: "600",
+                              color: "var(--maroon)",
+                              fontSize: "13.5px",
+                              textDecoration: "none",
+                              display: "inline-block",
+                            }}
+                            title="Open product page in new tab"
+                          >
+                            {item.quantity}x {item.product_name} ↗
+                          </a>
+                        ) : (
+                          <div
+                            style={{
+                              fontWeight: "600",
+                              color: "#111827",
+                              fontSize: "13.5px",
+                            }}
+                          >
+                            {item.quantity}x {item.product_name}
+                          </div>
+                        )}
                         <div
                           style={{
                             display: "flex",
