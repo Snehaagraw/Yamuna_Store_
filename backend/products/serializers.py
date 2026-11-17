@@ -161,6 +161,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "remove_image_ids",
             "average_rating",
             "reviews_count",
+            "created_at",
+            "updated_at",
         ]
 
     def to_internal_value(self, data):

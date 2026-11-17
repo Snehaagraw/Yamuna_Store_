@@ -138,12 +138,24 @@ function ProductDetails() {
         "@type": "Brand",
         "name": "Yamuna Store Vrindavan"
       },
+      ...(product.reviews_count > 0
+        ? {
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": product.average_rating || 5.0,
+              "reviewCount": product.reviews_count || 1
+            }
+          }
+        : {}),
       "offers": {
         "@type": "Offer",
         "url": `https://yamunastore.com/product/${product.id}`,
         "priceCurrency": "INR",
         "price": Number(product.price),
         "priceValidUntil": "2027-12-31",
+        "validFrom": product.created_at
+          ? new Date(product.created_at).toISOString().split("T")[0]
+          : "2024-01-01",
         "availability":
           product.stock_status === "In Stock"
             ? "https://schema.org/InStock"
@@ -153,6 +165,42 @@ function ProductDetails() {
           "@type": "Organization",
           "name": "Yamuna Store Vrindavan",
           "url": "https://yamunastore.com"
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "IN",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 7,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
+          "merchantReturnLink": "https://yamunastore.com/refund-policy"
+        },
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 70,
+            "currency": "INR"
+          },
+          "shippingDestination": {
+            "@type": "DefinedRegion",
+            "addressCountry": "IN"
+          },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 1,
+              "maxValue": 2,
+              "unitCode": "d"
+            },
+            "transitTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 2,
+              "maxValue": 6,
+              "unitCode": "d"
+            }
+          }
         }
       }
     };
