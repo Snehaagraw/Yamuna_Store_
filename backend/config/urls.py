@@ -15,7 +15,11 @@ def custom_500(request):
 
 handler500 = custom_500
 
+from products.views import dynamic_sitemap_xml
+
 urlpatterns = [
+    path("sitemap.xml", dynamic_sitemap_xml),
+    path("api/sitemap.xml", dynamic_sitemap_xml),
     path("api/ping/", lambda r: JsonResponse({"status": "ok", "version": "latest-live"})),
     path("admin/", admin.site.urls),
     path("api/", include("products.urls")),

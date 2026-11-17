@@ -79,6 +79,97 @@ function ProductDetails() {
     }
   }, [product]);
 
+  // Dynamic SEO metadata & Schema.org Product structured data for Google & search engines
+  useEffect(() => {
+    if (!product) return;
+
+    const originalTitle = document.title;
+    const categoryName = product.category_details?.name || product.category || "Devotional Clothing";
+    const formattedPrice = `₹${Number(product.price).toLocaleString("en-IN")}`;
+
+    // 1. Dynamic Search Title
+    document.title = `${product.name} (${categoryName}) - ${formattedPrice} | Yamuna Store Vrindavan`;
+
+    // 2. Dynamic Meta Description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    const originalDesc = metaDesc ? metaDesc.getAttribute("content") : "";
+    const cleanDesc = product.description ? product.description.replace(/[\r\n]+/g, " ").slice(0, 150) : "";
+    const productDescText = `Buy authentic ${product.name} (${categoryName}) at ${formattedPrice} from Yamuna Store Vrindavan. ${cleanDesc}. Handcrafted devotional attire with worldwide delivery.`;
+    if (metaDesc) {
+      metaDesc.setAttribute("content", productDescText);
+    }
+
+    // 3. Open Graph Tags (WhatsApp, Facebook, Google Rich Snippets)
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const originalOgTitle = ogTitle ? ogTitle.getAttribute("content") : "";
+    if (ogTitle) ogTitle.setAttribute("content", `${product.name} | Yamuna Store Vrindavan`);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    const originalOgDesc = ogDesc ? ogDesc.getAttribute("content") : "";
+    if (ogDesc) ogDesc.setAttribute("content", productDescText);
+
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    const originalOgImage = ogImage ? ogImage.getAttribute("content") : "";
+    const primaryImg = product.images?.[0]?.image;
+    if (ogImage && primaryImg) ogImage.setAttribute("content", primaryImg);
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    const originalOgUrl = ogUrl ? ogUrl.getAttribute("content") : "";
+    if (ogUrl) ogUrl.setAttribute("content", `https://yamunastore.com/product/${product.id}`);
+
+    // 4. Schema.org Product Structured Data (JSON-LD)
+    let scriptTag = document.getElementById("product-schema-jsonld");
+    if (!scriptTag) {
+      scriptTag = document.createElement("script");
+      scriptTag.id = "product-schema-jsonld";
+      scriptTag.type = "application/ld+json";
+      document.head.appendChild(scriptTag);
+    }
+
+    const schemaData = {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": product.name,
+      "image": product.images?.map((img) => img.image).filter(Boolean) || [],
+      "description": product.description || `Handcrafted ${product.name} from Yamuna Store Vrindavan`,
+      "sku": `YS-PRD-${product.id}`,
+      "category": categoryName,
+      "brand": {
+        "@type": "Brand",
+        "name": "Yamuna Store Vrindavan"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": `https://yamunastore.com/product/${product.id}`,
+        "priceCurrency": "INR",
+        "price": Number(product.price),
+        "priceValidUntil": "2027-12-31",
+        "availability":
+          product.stock_status === "In Stock"
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@type": "Organization",
+          "name": "Yamuna Store Vrindavan",
+          "url": "https://yamunastore.com"
+        }
+      }
+    };
+
+    scriptTag.textContent = JSON.stringify(schemaData);
+
+    return () => {
+      document.title = originalTitle;
+      if (metaDesc && originalDesc) metaDesc.setAttribute("content", originalDesc);
+      if (ogTitle && originalOgTitle) ogTitle.setAttribute("content", originalOgTitle);
+      if (ogDesc && originalOgDesc) ogDesc.setAttribute("content", originalOgDesc);
+      if (ogImage && originalOgImage) ogImage.setAttribute("content", originalOgImage);
+      if (ogUrl && originalOgUrl) ogUrl.setAttribute("content", originalOgUrl);
+      if (scriptTag) scriptTag.remove();
+    };
+  }, [product]);
+
   const currentCartItem = cartItems.find(
     (item) =>
       item.id === product?.id &&

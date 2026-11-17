@@ -253,6 +253,27 @@ function Collections() {
 
   const normalizeSection = (sec) => String(sec || "women").trim().toLowerCase();
 
+  // Dynamic SEO page title for collections
+  useEffect(() => {
+    const originalTitle = document.title;
+    let sectionTitle = "Sacred Devotional Collections";
+    if (activeSection === "women") sectionTitle = "Women's Sacred Attire & Gopi Dresses";
+    else if (activeSection === "men") sectionTitle = "Men's Traditional Dhoti Kurtas & Vedic Sets";
+    else if (activeSection === "kids") sectionTitle = "Kids' Devotional Clothing";
+
+    const catSuffix =
+      activeCategory &&
+      !["all", "all women's", "all men's", "all kids'"].includes(activeCategory.toLowerCase())
+        ? ` - ${activeCategory}`
+        : "";
+
+    document.title = `${sectionTitle}${catSuffix} | Yamuna Store Vrindavan`;
+
+    return () => {
+      document.title = originalTitle;
+    };
+  }, [activeSection, activeCategory]);
+
   // Filter categories for the active sub-section
   const displayedCategories = useMemo(() => {
     let list = [];

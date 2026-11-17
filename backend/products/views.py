@@ -3,6 +3,8 @@ import threading
 
 import cloudinary.uploader
 
+from datetime import datetime
+from django.http import HttpResponse
 from django.db.models import Count, Q
 from rest_framework import permissions, status, viewsets
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
@@ -224,3 +226,55 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(is_verified=True)
+
+
+def dynamic_sitemap_xml(request):
+    """
+    Dynamically generate XML sitemap for search engines covering all active products,
+    categories, and core store pages.
+    """
+    base_url = "https://yamunastore.com"
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    static_routes = [
+        {"loc": f"{base_url}/", "priority": "1.0", "changefreq": "daily"},
+        {"loc": f"{base_url}/collections", "priority": "0.9", "changefreq": "daily"},
+        {"loc": f"{base_url}/our-story", "priority": "0.7", "changefreq": "monthly"},
+        {"loc": f"{base_url}/lookbook", "priority": "0.7", "changefreq": "monthly"},
+        {"loc": f"{base_url}/visit-atelier", "priority": "0.7", "changefreq": "monthly"},
+        {"loc": f"{base_url}/contact", "priority": "0.6", "changefreq": "monthly"},
+    ]
+
+    xml_lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+
+    for route in static_routes:
+        xml_lines.append("  <url>")
+        xml_lines.append(f"    <loc>{route['loc']}</loc>")
+        xml_lines.append(f"    <lastmod>{today}</lastmod>")
+        xml_lines.append(f"    <changefreq>{route['changefreq']}</changefreq>")
+        xml_lines.append(f"    <priority>{route['priority']}</priority>")
+        xml_lines.append("  </url>")
+
+    for cat in Category.objects.filter(is_active=True):
+        xml_lines.append("  <url>")
+        xml_lines.append(f"    <loc>{base_url}/collections?category={cat.id}</loc>")
+        xml_lines.append(f"    <lastmod>{today}</lastmod>")
+        xml_lines.append("    <changefreq>weekly</changefreq>")
+        xml_lines.append("    <priority>0.85</priority>")
+        xml_lines.append("  </url>")
+
+    for prod in Product.objects.all():
+        mod_date = prod.updated_at.strftime("%Y-%m-%d") if prod.updated_at else today
+        xml_lines.append("  <url>")
+        xml_lines.append(f"    <loc>{base_url}/product/{prod.id}</loc>")
+        xml_lines.append(f"    <lastmod>{mod_date}</lastmod>")
+        xml_lines.append("    <changefreq>daily</changefreq>")
+        xml_lines.append("    <priority>0.9</priority>")
+        xml_lines.append("  </url>")
+
+    xml_lines.append("</urlset>")
+
+    return HttpResponse("\n".join(xml_lines), content_type="application/xml")
