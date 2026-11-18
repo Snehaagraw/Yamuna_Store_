@@ -31,11 +31,21 @@ import { CurrencyProvider } from "./context/CurrencyContext";
 import CurrencyFloatingWidget from "./components/common/CurrencyFloatingWidget";
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [pathname]);
+
+    // Track SPA virtual pageviews in Google Tag Manager / GA4
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: "page_view",
+        page_location: window.location.href,
+        page_path: pathname + (search || ""),
+        page_title: document.title,
+      });
+    }
+  }, [pathname, search]);
 
   return null;
 }
