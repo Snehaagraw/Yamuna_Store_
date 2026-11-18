@@ -36,7 +36,15 @@ function ScrollToTop() {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    // Track SPA virtual pageviews in Google Tag Manager / GA4
+    // Track SPA virtual pageviews in Google Analytics 4 (GA4)
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "page_view", {
+        page_location: window.location.href,
+        page_path: pathname + (search || ""),
+        page_title: document.title,
+      });
+    }
+
     if (window.dataLayer) {
       window.dataLayer.push({
         event: "page_view",
