@@ -94,6 +94,35 @@ class Order(models.Model):
         db_index=True,
     )
 
+    tracking_number = models.CharField(
+        max_length=100,
+        blank=True,
+        default="",
+        help_text="Consignment / Tracking number (e.g. India Post Speed Post EM123456789IN)",
+    )
+    tracking_url = models.URLField(
+        blank=True,
+        default="",
+        max_length=500,
+        help_text="Direct link to courier tracking portal",
+    )
+    shipped_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Timestamp when order was handed to courier/post office",
+    )
+    delivered_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Timestamp when order was confirmed delivered",
+    )
+    delivery_notes = models.CharField(
+        max_length=255,
+        blank=True,
+        default="",
+        help_text="Delivery confirmation / Proof of Delivery remarks",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 

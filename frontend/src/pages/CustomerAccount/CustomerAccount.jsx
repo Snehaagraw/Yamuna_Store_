@@ -15,6 +15,7 @@ function CustomerAccount() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [copiedOrderId, setCopiedOrderId] = useState(null);
 
   const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [addressFormData, setAddressFormData] = useState({
@@ -487,6 +488,101 @@ function CustomerAccount() {
                           <div className={`tracker-step ${step >= 4 ? "active" : ""}`}>
                             <span className="step-circle">{step >= 4 ? "✓" : "4"}</span>
                             <span className="step-label">Delivered</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Live Parcel Tracking Card (when Shipped or Delivered) */}
+                      {!isCancelled && (order.tracking_number || order.order_status === "Shipped" || order.order_status === "Delivered") && (
+                        <div className={`customer-tracking-card ${order.order_status === "Delivered" ? "delivered" : "shipped"}`}>
+                          <div className="tracking-card-header">
+                            <div className="tracking-carrier-badge">
+                              {order.order_status === "Delivered" ? "✓ OFFICIAL DELIVERY CONFIRMED" : "📦 DISPATCHED & IN TRANSIT"}
+                            </div>
+                            <span className="tracking-carrier-name">
+                              Carrier: <strong>{order.shipping_carrier || "India Post (Speed Post)"}</strong>
+                            </span>
+                          </div>
+
+                          <div className="tracking-card-body">
+                            {order.tracking_number ? (
+                              <div className="tracking-consignment-box">
+                                <div className="tracking-consignment-label">
+                                  India Post Consignment / Tracking Number:
+                                </div>
+                                <div className="tracking-consignment-val-row">
+                                  <span className="tracking-consignment-code">{order.tracking_number}</span>
+                                  <button
+                                    type="button"
+                                    className="tracking-copy-btn"
+                                    onClick={() => {
+                                      navigator.clipboard.writeText(order.tracking_number);
+                                      setCopiedOrderId(order.id);
+                                      setTimeout(() => setCopiedOrderId(null), 2000);
+                                    }}
+                                  >
+                                    {copiedOrderId === order.id ? "✓ Copied" : "📋 Copy"}
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="tracking-consignment-box">
+                                <span style={{ fontSize: "12px", color: "#6b7280" }}>
+                                  Parcel handed over to carrier. Consignment receipt being synchronized.
+                                </span>
+                              </div>
+                            )}
+
+                            <div className="tracking-timeline-details">
+                              {order.shipped_at && (
+                                <div className="tracking-timestamp-row">
+                                  <span>Dispatched from Vrindavan:</span>
+                                  <strong>
+                                    {new Date(order.shipped_at).toLocaleDateString("en-IN", {
+                                      day: "numeric",
+                                      month: "short",
+                                      year: "numeric",
+                                    })}
+                                  </strong>
+                                </div>
+                              )}
+
+                              {order.order_status === "Delivered" && (
+                                <div className="tracking-timestamp-row delivered-highlight">
+                                  <span>Delivered to Destination:</span>
+                                  <strong>
+                                    {order.delivered_at
+                                      ? new Date(order.delivered_at).toLocaleDateString("en-IN", {
+                                        day: "numeric",
+                                        month: "short",
+                                        year: "numeric",
+                                      })
+                                      : "Confirmed"}
+                                  </strong>
+                                </div>
+                              )}
+
+                              {order.delivery_notes && (
+                                <div className="tracking-timestamp-row" style={{ marginTop: "4px" }}>
+                                  <span>Delivery Remarks:</span>
+                                  <em>{order.delivery_notes}</em>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="tracking-action-bar">
+                              <a
+                                href={order.tracking_url || "https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx"}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="tracking-track-portal-btn"
+                              >
+                                <span>🔍</span> Track on India Post Official Website ↗
+                              </a>
+                              <small className="tracking-hint">
+                                Opens India Post Speed Post portal in new tab.
+                              </small>
+                            </div>
                           </div>
                         </div>
                       )}

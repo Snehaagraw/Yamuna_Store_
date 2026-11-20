@@ -298,3 +298,22 @@ class OrderViewSet(viewsets.ModelViewSet):
             serializer.save(customer=self.request.user)
         else:
             serializer.save()
+
+    def perform_update(self, serializer):
+        instance = serializer.instance
+        new_status = self.request.data.get("order_status")
+
+        extra_fields = {}
+        if new_status == "Shipped" and not instance.shipped_at:
+            extra_fields["shipped_at"] = timezone.now()
+        elif new_status == "Delivered" and not instance.delivered_at:
+            extra_fields["delivered_at"] = timezone.now()
+
+        # If tracking number provided but tracking_url is blank, auto-generate standard India Post URL if carrier is India Post
+        tracking_num = self.request.data.get("tracking_number", "").strip()
+        if tracking_num and not self.request.data.get("tracking_url"):
+            carrier = self.request.data.get("shipping_carrier") or instance.shipping_carrier
+            if "india post" in carrier.lower():
+                extra_fields["tracking_url"] = "https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx"
+
+        serializer.save(**extra_fields)
