@@ -617,11 +617,11 @@ function Checkout() {
                           <div className="pin-feedback-row">
                             {shippingInfo.isPincodePending ? (
                               <span className="pin-feedback-pending">
-                                📍 Enter 6-digit PIN code to verify India Post tariff (Local UP/Delhi ₹50 · National ₹70)
+                                📍 Enter 6-digit PIN code to calculate Speed Post tariff + 18% Postal GST
                               </span>
                             ) : (
                               <span className="pin-feedback-verified">
-                                ✓ PIN {formData.pincode} verified: {shippingInfo.zoneName} (₹{shippingInfo.shippingFee.toLocaleString("en-IN")})
+                                ✓ PIN {formData.pincode} verified: {shippingInfo.zoneName} (₹{shippingInfo.shippingFee.toLocaleString("en-IN")}, incl. 18% Postal GST)
                               </span>
                             )}
                           </div>
@@ -1235,7 +1235,7 @@ function Checkout() {
                     {/* Helpful status / notice */}
                     {isDomestic && shippingInfo.isPincodePending ? (
                       <div className="delivery-pending-hint">
-                        📍 Enter 6-digit PIN code in Step 1 for exact postal tariff (Local UP/Delhi ₹50 · National ₹70)
+                        📍 Enter 6-digit PIN code in Step 1 for exact Speed Post tariff + 18% Postal GST
                       </div>
                     ) : (
                       <div className="delivery-verified-hint">
@@ -1250,7 +1250,7 @@ function Checkout() {
                           <strong>{shippingInfo.carrierIcon} {shippingInfo.carrier}</strong>
                         </div>
                         <div className="tray-line">
-                          <span>Weight:</span>
+                          <span>Billable Weight:</span>
                           <span>{shippingInfo.totalWeightFormatted}</span>
                         </div>
                         <div className="tray-line">
@@ -1261,10 +1261,21 @@ function Checkout() {
                           <span>Est. Delivery:</span>
                           <span>{shippingInfo.estimatedDelivery}</span>
                         </div>
+                        {shippingInfo.baseTariff !== undefined && (
+                          <>
+                            <div className="tray-line">
+                              <span>Postage Tariff:</span>
+                              <span>₹{shippingInfo.baseTariff}</span>
+                            </div>
+                            <div className="tray-line">
+                              <span>Postal GST (18%):</span>
+                              <span>₹{shippingInfo.postalGstAmount}</span>
+                            </div>
+                          </>
+                        )}
                         {shippingInfo.rateExplanation && (
-                          <div className="tray-line">
-                            <span>Tariff Slab:</span>
-                            <span style={{ fontSize: "11px", color: "#6b7280" }}>
+                          <div className="tray-line" style={{ display: "block", paddingTop: "4px" }}>
+                            <span style={{ fontSize: "11px", color: "#6b7280", lineHeight: "1.4" }}>
                               {shippingInfo.rateExplanation}
                             </span>
                           </div>
@@ -1275,8 +1286,8 @@ function Checkout() {
 
                   {/* Taxes line */}
                   <div className="calc-row taxes-row">
-                    <span>Taxes &amp; Insurance</span>
-                    <span className="taxes-free-badge">Included (₹0)</span>
+                    <span>Goods &amp; Services Tax (GST)</span>
+                    <span className="taxes-free-badge">Included in Product Price</span>
                   </div>
 
                   {/* Total */}
@@ -1285,8 +1296,8 @@ function Checkout() {
                       <strong>Total</strong>
                       <small className="total-sub">
                         {isDomestic && shippingInfo.isPincodePending
-                          ? "Items total · Delivery fee added upon PIN entry"
-                          : "All taxes & shipping included"}
+                          ? "Items total (tax incl.) · Delivery fee added upon PIN entry"
+                          : "Product taxes & 18% Postal GST included"}
                       </small>
                     </div>
                     <strong className="total-number">

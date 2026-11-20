@@ -91,6 +91,78 @@ export function formatWeightCompact(grams) {
 }
 
 /**
+ * Official India Post Speed Post (Retail) Tariff Schedule
+ * Origin: Sri Vrindavan Dham, Mathura, UP (PIN: 281121)
+ * Tariffs per official India Post Speed Post Parcel Tariff + 18% Postal GST
+ */
+export const INDIA_POST_SPEED_POST_TARIFFS = {
+  local: {
+    key: "local",
+    name: "Local (Mathura / Vrindavan District)",
+    zoneType: "Local",
+    slabs: [
+      { maxGrams: 500, base: 28 },
+      { maxGrams: 1000, base: 48 },
+      { maxGrams: 1500, base: 60 },
+      { maxGrams: 2000, base: 87 },
+      { maxGrams: 3000, base: 116 },
+      { maxGrams: 4000, base: 145 },
+      { maxGrams: 5000, base: 174 },
+    ],
+    addlPerKg: 35,
+    estimatedDays: "1–2 Business Days",
+  },
+  state: {
+    key: "state",
+    name: "Within State (Uttar Pradesh)",
+    zoneType: "State",
+    slabs: [
+      { maxGrams: 500, base: 76 },
+      { maxGrams: 1000, base: 101 },
+      { maxGrams: 1500, base: 130 },
+      { maxGrams: 2000, base: 178 },
+      { maxGrams: 3000, base: 243 },
+      { maxGrams: 4000, base: 295 },
+      { maxGrams: 5000, base: 350 },
+    ],
+    addlPerKg: 60,
+    estimatedDays: "2–3 Business Days",
+  },
+  metro: {
+    key: "metro",
+    name: "Zone / Metro Cities (Delhi-NCR, Metros)",
+    zoneType: "Metro",
+    slabs: [
+      { maxGrams: 500, base: 82 },
+      { maxGrams: 1000, base: 137 },
+      { maxGrams: 1500, base: 182 },
+      { maxGrams: 2000, base: 254 },
+      { maxGrams: 3000, base: 355 },
+      { maxGrams: 4000, base: 430 },
+      { maxGrams: 5000, base: 510 },
+    ],
+    addlPerKg: 95,
+    estimatedDays: "2–4 Business Days",
+  },
+  national: {
+    key: "national",
+    name: "Rest of India (Speed Post)",
+    zoneType: "National",
+    slabs: [
+      { maxGrams: 500, base: 90 },
+      { maxGrams: 1000, base: 143 },
+      { maxGrams: 1500, base: 228 },
+      { maxGrams: 2000, base: 319 },
+      { maxGrams: 3000, base: 450 },
+      { maxGrams: 4000, base: 540 },
+      { maxGrams: 5000, base: 630 },
+    ],
+    addlPerKg: 120,
+    estimatedDays: "3–6 Business Days",
+  },
+};
+
+/**
  * India Post Speed Post / Parcel domestic calculation
  * Origin: Sri Dham Vrindavan / Mathura, Uttar Pradesh (PIN: 281121)
  */
@@ -100,75 +172,75 @@ export function calculateIndiaPost(totalGrams, pincode = "") {
   const pinPrefix3 = cleanPin.slice(0, 3);
   const isPincodePending = cleanPin.length !== 6;
 
-  // Determine Zone from 6-digit Pincode
-  let zoneName = "Rest of India (Speed Post)";
-  let zoneType = "National";
-  let baseRate = 70; // first 500g
-  let additionalRate = 35; // per addl 500g
+  // Determine Zone from 6-digit Pincode relative to Vrindavan (PIN: 281121)
+  let zoneKey = "national";
 
   if (cleanPin.length === 6) {
-    // Local UP & Delhi NCR (20-28, 11, 12, 13)
-    const upDelhiPins = ["20", "21", "22", "23", "24", "25", "26", "27", "28", "11", "12", "13"];
-    // Remote / Special / North-East / Islands (79, 78, 18, 19, 74)
-    const remotePins = ["79", "78", "18", "19", "74"];
+    if (pinPrefix3 === "281") {
+      // Local Mathura & Vrindavan district
+      zoneKey = "local";
+    } else {
+      const upPins = ["20", "21", "22", "23", "24", "25", "26", "27", "28"];
+      const metroPrefixes = ["11", "12", "13", "201", "400", "401", "402", "403", "404", "700", "600", "560", "500"];
 
-    if (upDelhiPins.includes(pinPrefix2)) {
-      zoneName = "UP & Delhi-NCR Zone (Local Delivery)";
-      zoneType = "Local/State";
-      baseRate = 50;
-      additionalRate = 25;
-    } else if (remotePins.includes(pinPrefix2) || pinPrefix3 === "737") {
-      zoneName = "North-East / J&K / Islands Zone";
-      zoneType = "Special";
-      baseRate = 95;
-      additionalRate = 45;
+      if (metroPrefixes.some((p) => cleanPin.startsWith(p))) {
+        zoneKey = "metro";
+      } else if (upPins.includes(pinPrefix2)) {
+        zoneKey = "state";
+      } else {
+        zoneKey = "national";
+      }
     }
   }
 
+  const zoneConfig = INDIA_POST_SPEED_POST_TARIFFS[zoneKey];
   const billableWeight = Math.max(100, Math.round(totalGrams));
-  const baseSlabWeight = 500; // grams
 
-  let additionalWeightGrams = 0;
-  let additionalSlabs = 0;
-  let additionalCharge = 0;
+  // Determine base postal tariff from weight slabs
+  let baseTariff = 0;
+  let slabDescription = "";
 
-  if (billableWeight > baseSlabWeight) {
-    additionalWeightGrams = billableWeight - baseSlabWeight;
-    additionalSlabs = Math.ceil(additionalWeightGrams / baseSlabWeight);
-    additionalCharge = additionalSlabs * additionalRate;
+  if (billableWeight <= 5000) {
+    const matchedSlab = zoneConfig.slabs.find((s) => billableWeight <= s.maxGrams) || zoneConfig.slabs[zoneConfig.slabs.length - 1];
+    baseTariff = matchedSlab.base;
+    slabDescription = `Up to ${matchedSlab.maxGrams >= 1000 ? `${matchedSlab.maxGrams / 1000} kg` : `${matchedSlab.maxGrams} g`}`;
+  } else {
+    const maxSlab = zoneConfig.slabs[zoneConfig.slabs.length - 1];
+    const extraKg = Math.ceil((billableWeight - 5000) / 1000);
+    baseTariff = maxSlab.base + extraKg * zoneConfig.addlPerKg;
+    slabDescription = `5 kg base + ${extraKg} kg addl.`;
   }
 
-  const calculatedFee = baseRate + additionalCharge;
-  const shippingFee = isPincodePending ? 0 : calculatedFee;
-  const estimatedFee = calculatedFee;
+  // 18% Postal GST applied on base postage tariff
+  const postalGstAmount = Math.round(baseTariff * 0.18);
+  const totalPostageWithGst = baseTariff + postalGstAmount;
+
+  const shippingFee = isPincodePending ? 0 : totalPostageWithGst;
+  const estimatedFee = totalPostageWithGst;
 
   const rateExplanation = isPincodePending
-    ? `Calculated from 6-digit PIN code (Local UP/Delhi ₹50 · National ₹70)`
-    : additionalSlabs > 0
-    ? `₹${baseRate} (first 500 g) + ${additionalSlabs} × ₹${additionalRate} (${formatWeight(additionalWeightGrams)} addl.)`
-    : `₹${baseRate} base slab (up to 500 g)`;
+    ? "Official India Post Speed Post retail tariff + 18% postal GST calculated on PIN code."
+    : `Postage: ₹${baseTariff} (${slabDescription}) + 18% Postal GST: ₹${postalGstAmount} = ₹${totalPostageWithGst} (${zoneConfig.name})`;
 
   return {
     carrier: "India Post",
-    service: "Speed Post / Tracked Parcel",
+    service: "Speed Post Parcel (Retail)",
     carrierIcon: "🇮🇳",
     destinationType: "Domestic",
-    zoneName: isPincodePending ? "Delivery PIN Code Pending" : zoneName,
-    zoneType,
-    baseRate,
-    additionalRate,
-    baseSlabWeight,
+    zoneName: isPincodePending ? "Delivery PIN Code Pending" : zoneConfig.name,
+    zoneType: zoneConfig.zoneType,
+    baseTariff,
+    postalGstAmount,
+    totalPostageWithGst,
     billableWeight,
-    additionalSlabs,
-    additionalCharge,
     shippingFee,
     estimatedFee,
     rateExplanation,
-    estimatedDelivery: zoneType === "Local/State" ? "2–3 Business Days" : "3–5 Business Days",
+    estimatedDelivery: zoneConfig.estimatedDays,
     isPincodePending,
     notice: isPincodePending
       ? "Enter 6-digit delivery PIN code in Step 1 to calculate exact postal tariff."
-      : `Verified for PIN ${cleanPin} (${zoneName})`,
+      : `Speed Post to PIN ${cleanPin} (${zoneConfig.name}) · Includes 18% Postal GST`,
   };
 }
 
