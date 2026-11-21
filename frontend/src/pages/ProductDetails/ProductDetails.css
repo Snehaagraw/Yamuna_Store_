@@ -252,9 +252,16 @@
 /* Price Container */
 .product-price-container {
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
   gap: 6px;
   margin-bottom: 22px;
+}
+
+.product-standard-price-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .product-currency-symbol {
@@ -270,11 +277,48 @@
   letter-spacing: -0.01em;
 }
 
+.product-detail-original-mrp {
+  font-size: 19px;
+  color: #8f92a1;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.product-detail-discount-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 9999px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.product-tax-and-savings-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .product-tax-text {
-  margin-left: 8px;
   font-size: 12.5px;
   font-weight: 500;
   color: #4b5563;
+}
+
+.product-detail-savings-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #15803d;
+}
+
+.detail-inr-mrp {
+  color: #6b7280;
+  font-size: 11px;
 }
 
 /* Multi-Currency Converted Price Display */

@@ -15,6 +15,8 @@ function AdminAddProduct({
     section: "women",
     category: "Gopi Dress",
     description: "",
+    original_price: "",
+    discount_percent: "",
     price: "",
     fabric: "",
     weight: "",
@@ -94,6 +96,8 @@ function AdminAddProduct({
         section: "women",
         category: "Gopi Dress",
         description: "",
+        original_price: "",
+        discount_percent: "",
         price: "",
         fabric: "",
         weight: "",
@@ -114,12 +118,31 @@ function AdminAddProduct({
       return;
     }
 
+    const editOriginalPrice =
+      productToEdit.original_price ?? productToEdit.price ?? "";
+    const editPrice = productToEdit.price ?? "";
+    let editDiscount = productToEdit.discount_percent ?? "";
+    if (
+      editDiscount === "" &&
+      editOriginalPrice &&
+      editPrice &&
+      Number(editOriginalPrice) > Number(editPrice)
+    ) {
+      editDiscount = Math.round(
+        ((Number(editOriginalPrice) - Number(editPrice)) /
+          Number(editOriginalPrice)) *
+          100
+      );
+    }
+
     setFormData({
       name: productToEdit.name || "",
       section: productToEdit.section || "women",
       category: productToEdit.category || "Gopi Dress",
       description: productToEdit.description || "",
-      price: productToEdit.price ?? "",
+      original_price: editOriginalPrice,
+      discount_percent: editDiscount !== "" ? String(editDiscount) : "",
+      price: editPrice,
       fabric: productToEdit.fabric || "",
       weight: productToEdit.weight || "",
       colors: Array.isArray(productToEdit.colors)
@@ -186,6 +209,107 @@ function AdminAddProduct({
           ? checked
           : value,
     }));
+  };
+
+  /**
+   * Automatic Bi-directional Pricing & Discount Calculation:
+   * 1. If user updates Actual Price (MRP), recalculate Final Selling Price if discount is active.
+   * 2. If user updates Discount %, auto-calculate Final Selling Price = Actual Price - Discount.
+   * 3. If user updates Final Selling Price, auto-calculate Discount % = (Actual - Final) / Actual * 100.
+   */
+  const handleOriginalPriceChange = (event) => {
+    const val = event.target.value;
+    const numVal = parseFloat(val);
+
+    setFormData((prev) => {
+      const disc = parseFloat(prev.discount_percent);
+      let calculatedPrice = val;
+
+      if (!isNaN(numVal) && numVal > 0) {
+        if (!isNaN(disc) && disc > 0 && disc < 100) {
+          calculatedPrice = String(Math.round(numVal * (1 - disc / 100)));
+        } else {
+          calculatedPrice = val;
+        }
+      }
+
+      return {
+        ...prev,
+        original_price: val,
+        price: calculatedPrice,
+      };
+    });
+  };
+
+  const handleDiscountPercentChange = (event) => {
+    const val = event.target.value;
+    const disc = parseFloat(val);
+
+    setFormData((prev) => {
+      const orig = parseFloat(prev.original_price);
+      let calculatedPrice = prev.price;
+
+      if (!isNaN(orig) && orig > 0) {
+        if (!isNaN(disc) && disc > 0 && disc < 100) {
+          calculatedPrice = String(Math.round(orig * (1 - disc / 100)));
+        } else if (isNaN(disc) || disc === 0) {
+          calculatedPrice = String(orig);
+        }
+      }
+
+      return {
+        ...prev,
+        discount_percent: val,
+        price: calculatedPrice,
+      };
+    });
+  };
+
+  const handleFinalPriceChange = (event) => {
+    const val = event.target.value;
+    const finalPrice = parseFloat(val);
+
+    setFormData((prev) => {
+      const orig = parseFloat(prev.original_price);
+      let calculatedDisc = prev.discount_percent;
+
+      if (!isNaN(orig) && orig > 0 && !isNaN(finalPrice) && finalPrice >= 0) {
+        if (finalPrice < orig) {
+          calculatedDisc = String(
+            Math.round(((orig - finalPrice) / orig) * 100)
+          );
+        } else {
+          calculatedDisc = "0";
+        }
+      }
+
+      return {
+        ...prev,
+        price: val,
+        discount_percent: calculatedDisc,
+      };
+    });
+  };
+
+  const applyDiscountPreset = (pct) => {
+    setFormData((prev) => {
+      const orig = parseFloat(prev.original_price);
+      let calculatedPrice = prev.price;
+
+      if (!isNaN(orig) && orig > 0) {
+        if (pct > 0) {
+          calculatedPrice = String(Math.round(orig * (1 - pct / 100)));
+        } else {
+          calculatedPrice = String(orig);
+        }
+      }
+
+      return {
+        ...prev,
+        discount_percent: pct > 0 ? String(pct) : "",
+        price: calculatedPrice,
+      };
+    });
   };
 
   const handleSectionChange = (event) => {
@@ -333,12 +457,10 @@ function AdminAddProduct({
       return;
     }
 
-    if (
-      !formData.price ||
-      Number(formData.price) < 0
-    ) {
+    const finalPriceVal = Number(formData.price || formData.original_price);
+    if (isNaN(finalPriceVal) || finalPriceVal <= 0) {
       setError(
-        "Please enter a valid product price."
+        "Please enter a valid product price (Actual Price or Selling Price)."
       );
       return;
     }
@@ -395,10 +517,13 @@ function AdminAddProduct({
         formData.description.trim()
       );
 
-      data.append(
-        "price",
-        formData.price
-      );
+      const effectivePrice = formData.price || formData.original_price;
+      const effectiveOriginalPrice = formData.original_price || formData.price;
+      const effectiveDiscount = formData.discount_percent || 0;
+
+      data.append("price", effectivePrice);
+      data.append("original_price", effectiveOriginalPrice);
+      data.append("discount_percent", effectiveDiscount);
 
       data.append(
         "fabric",
@@ -721,21 +846,129 @@ function AdminAddProduct({
               />
             </div>
 
-            <div className="admin-form-group">
-              <label htmlFor="product-price">
-                Price
-              </label>
+            {/* Dynamic Product Pricing & Discount Section */}
+            <div className="admin-pricing-card">
+              <div className="admin-pricing-header">
+                <span className="admin-pricing-title">💰 Product Pricing &amp; Automatic Discount</span>
+                <span className="admin-pricing-subtitle">
+                  Enter the actual MRP and discount % — the final discounted selling price calculates automatically.
+                </span>
+              </div>
 
-              <input
-                id="product-price"
-                name="price"
-                type="number"
-                min="0"
-                step="0.01"
-                value={formData.price}
-                onChange={handleChange}
-                placeholder="₹0.00"
-              />
+              <div className="admin-pricing-grid">
+                {/* 1. Actual Price / MRP */}
+                <div className="admin-form-group">
+                  <label htmlFor="product-original-price">
+                    Actual Price / MRP (₹) <span className="admin-required-star">*</span>
+                  </label>
+                  <div className="admin-currency-input-wrap">
+                    <span className="currency-prefix">₹</span>
+                    <input
+                      id="product-original-price"
+                      name="original_price"
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={formData.original_price}
+                      onChange={handleOriginalPriceChange}
+                      placeholder="e.g. 3000"
+                    />
+                  </div>
+                  <small className="field-hint">Actual retail price / printed MRP</small>
+                </div>
+
+                {/* 2. Discount Percentage */}
+                <div className="admin-form-group">
+                  <label htmlFor="product-discount-percent">
+                    Discount Percentage (%)
+                  </label>
+                  <div className="admin-currency-input-wrap">
+                    <input
+                      id="product-discount-percent"
+                      name="discount_percent"
+                      type="number"
+                      min="0"
+                      max="99"
+                      step="1"
+                      value={formData.discount_percent}
+                      onChange={handleDiscountPercentChange}
+                      placeholder="e.g. 20"
+                    />
+                    <span className="currency-suffix">% OFF</span>
+                  </div>
+                  <small className="field-hint">Type % or click quick buttons below</small>
+                </div>
+
+                {/* 3. Discounted Final Selling Price */}
+                <div className="admin-form-group">
+                  <label htmlFor="product-price">
+                    Final Discounted Price (₹) <span className="admin-required-star">*</span>
+                  </label>
+                  <div className="admin-currency-input-wrap">
+                    <span className="currency-prefix">₹</span>
+                    <input
+                      id="product-price"
+                      name="price"
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={formData.price}
+                      onChange={handleFinalPriceChange}
+                      placeholder="e.g. 2400"
+                    />
+                  </div>
+                  <small className="field-hint">Customer checkout price (auto-calculated)</small>
+                </div>
+              </div>
+
+              {/* Discount Quick Presets */}
+              <div className="discount-presets-row">
+                <span className="presets-label">Quick Presets:</span>
+                {[5, 10, 15, 20, 25, 30, 40, 50].map((pct) => (
+                  <button
+                    key={pct}
+                    type="button"
+                    className={`discount-preset-btn ${Number(formData.discount_percent) === pct ? "active" : ""}`}
+                    onClick={() => applyDiscountPreset(pct)}
+                  >
+                    {pct}%
+                  </button>
+                ))}
+                {Number(formData.discount_percent) > 0 && (
+                  <button
+                    type="button"
+                    className="discount-preset-clear"
+                    onClick={() => applyDiscountPreset(0)}
+                  >
+                    ✕ Clear Discount
+                  </button>
+                )}
+              </div>
+
+              {/* Live Price Display Preview */}
+              {formData.original_price && Number(formData.original_price) > 0 && (
+                <div className="admin-price-preview-banner">
+                  <span className="preview-label">Live Customer Display Preview:</span>
+                  <div className="preview-values">
+                    <span className="preview-final-price">
+                      ₹{Number(formData.price || formData.original_price).toLocaleString("en-IN")}
+                    </span>
+                    {Number(formData.discount_percent) > 0 && Number(formData.original_price) > Number(formData.price) && (
+                      <>
+                        <span className="preview-mrp">
+                          ₹{Number(formData.original_price).toLocaleString("en-IN")}
+                        </span>
+                        <span className="preview-badge">
+                          {formData.discount_percent}% OFF
+                        </span>
+                        <span className="preview-savings">
+                          (Customer saves ₹{(Number(formData.original_price) - Number(formData.price)).toLocaleString("en-IN")})
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="admin-form-group">

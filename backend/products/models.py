@@ -94,7 +94,22 @@ class Product(models.Model):
 
     price = models.DecimalField(
         max_digits=10,
-        decimal_places=2
+        decimal_places=2,
+        help_text="Final selling price after discount"
+    )
+
+    original_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Actual retail price (MRP) before discount"
+    )
+
+    discount_percent = models.PositiveIntegerField(
+        default=0,
+        blank=True,
+        help_text="Discount percentage (e.g. 20 for 20% OFF)"
     )
 
     fabric = models.CharField(
@@ -168,6 +183,24 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if self.category and hasattr(self.category, "section") and not self.section:
             self.section = self.category.section
+
+        from decimal import Decimal
+        # Auto-compute price or discount_percent when original_price is provided
+        if self.original_price and self.original_price > 0:
+            if self.discount_percent and self.discount_percent > 0:
+                discount_multiplier = Decimal(str(self.discount_percent)) / Decimal("100")
+                discount_amount = self.original_price * discount_multiplier
+                self.price = (self.original_price - discount_amount).quantize(Decimal("0.01"))
+            elif self.price and self.original_price > self.price:
+                diff = self.original_price - self.price
+                calculated_pct = (diff / self.original_price) * Decimal("100")
+                self.discount_percent = int(round(float(calculated_pct)))
+            else:
+                self.discount_percent = 0
+        elif self.price and not self.original_price:
+            self.original_price = self.price
+            self.discount_percent = 0
+
         super().save(*args, **kwargs)
 
     def deduct_size_stock(self, size_name, quantity=1):

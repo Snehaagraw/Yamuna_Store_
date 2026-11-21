@@ -122,6 +122,18 @@ class ProductSerializer(serializers.ModelSerializer):
         default=dict
     )
 
+    original_price = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        required=False,
+        allow_null=True
+    )
+
+    discount_percent = serializers.IntegerField(
+        required=False,
+        default=0
+    )
+
     average_rating = serializers.SerializerMethodField()
     reviews_count = serializers.SerializerMethodField()
 
@@ -145,6 +157,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "category_details",
             "description",
             "price",
+            "original_price",
+            "discount_percent",
             "fabric",
             "weight",
             "colors",
@@ -297,6 +311,26 @@ class ProductSerializer(serializers.ModelSerializer):
                     data["remove_image_ids"] = [
                         int(i.strip()) for i in rem_ids.split(",") if i.strip().isdigit()
                     ]
+
+        if "original_price" in data:
+            orig = data.get("original_price")
+            if orig is None or str(orig).strip() == "":
+                data["original_price"] = None
+            else:
+                try:
+                    data["original_price"] = float(orig)
+                except (ValueError, TypeError):
+                    data["original_price"] = None
+
+        if "discount_percent" in data:
+            disc = data.get("discount_percent")
+            if disc is None or str(disc).strip() == "":
+                data["discount_percent"] = 0
+            else:
+                try:
+                    data["discount_percent"] = int(float(disc))
+                except (ValueError, TypeError):
+                    data["discount_percent"] = 0
 
         return super().to_internal_value(data)
 

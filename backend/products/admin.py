@@ -37,6 +37,8 @@ class ProductAdmin(admin.ModelAdmin):
         "section",
         "category",
         "price",
+        "original_price",
+        "discount_percent",
         "stock_status",
         "is_best_seller",
         "is_new_collection",

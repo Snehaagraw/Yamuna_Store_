@@ -385,9 +385,21 @@ function AdminProducts({
 
                   <h3>{product.name}</h3>
 
-                  <p className="admin-product-price">
-                    ₹{product.price}
-                  </p>
+                  <div className="admin-product-price-row">
+                    <span className="admin-product-price">
+                      ₹{Number(product.price).toLocaleString("en-IN")}
+                    </span>
+                    {product.original_price && Number(product.original_price) > Number(product.price) && (
+                      <>
+                        <span className="admin-product-original-mrp">
+                          ₹{Number(product.original_price).toLocaleString("en-IN")}
+                        </span>
+                        <span className="admin-product-discount-pill">
+                          {product.discount_percent || Math.round(((Number(product.original_price) - Number(product.price)) / Number(product.original_price)) * 100)}% OFF
+                        </span>
+                      </>
+                    )}
+                  </div>
 
                   {product.description && (
                     <p className="admin-product-description">

@@ -49,6 +49,21 @@ function ProductCard({ product, onClick }) {
 
   const priceInfo = formatPrice(displayBasePrice);
 
+  const originalPriceNum = product.original_price
+    ? Number(product.original_price)
+    : null;
+  const currentPriceNum = Number(displayBasePrice);
+  const hasDiscount =
+    originalPriceNum !== null && originalPriceNum > currentPriceNum;
+  const discountPercent =
+    product.discount_percent ||
+    (hasDiscount
+      ? Math.round(
+          ((originalPriceNum - currentPriceNum) / originalPriceNum) * 100
+        )
+      : 0);
+  const originalPriceInfo = hasDiscount ? formatPrice(originalPriceNum) : null;
+
   return (
     <article
       className={`product-card ${isOutOfStock ? "is-sold-out" : ""}`}
@@ -93,6 +108,9 @@ function ProductCard({ product, onClick }) {
 
         {/* Status & Merchandising Badges */}
         <div className="product-badges">
+          {hasDiscount && !isOutOfStock && (
+            <span className="product-badge badge-discount">{discountPercent}% OFF</span>
+          )}
           {isOutOfStock && (
             <span className="product-badge badge-sold-out">Sold Out</span>
           )}
@@ -134,12 +152,28 @@ function ProductCard({ product, onClick }) {
 
         <div className="product-price-row">
           <div className="product-price-group">
-            <p className="product-price">
-              {hasVaryingPrices && (
-                <span className="price-from-label">From </span>
+            <div className="product-price-flex" style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
+              <p className="product-price">
+                {hasVaryingPrices && (
+                  <span className="price-from-label">From </span>
+                )}
+                {priceInfo.formatted}
+              </p>
+              {hasDiscount && (
+                <span
+                  className="product-card-mrp"
+                  title="Original Retail Price"
+                  style={{
+                    fontSize: "11.5px",
+                    color: "#888",
+                    textDecoration: "line-through",
+                    fontWeight: 500,
+                  }}
+                >
+                  {originalPriceInfo.formatted}
+                </span>
               )}
-              {priceInfo.formatted}
-            </p>
+            </div>
             {priceInfo.isConverted && (
               <span className="product-original-inr">
                 ({hasVaryingPrices ? "From " : ""}
@@ -149,6 +183,22 @@ function ProductCard({ product, onClick }) {
           </div>
           {isOutOfStock ? (
             <span className="product-stock-tag out">Out of Stock</span>
+          ) : hasDiscount ? (
+            <span
+              className="product-discount-chip"
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                color: "#15803d",
+                background: "#f0fdf4",
+                border: "1px solid #bbf7d0",
+                padding: "2px 6px",
+                borderRadius: "4px",
+                letterSpacing: "0.02em",
+              }}
+            >
+              {discountPercent}% OFF
+            </span>
           ) : (
             <span className="product-tax-label">Tax Incl.</span>
           )}

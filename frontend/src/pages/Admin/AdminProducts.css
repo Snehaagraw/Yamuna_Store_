@@ -144,11 +144,35 @@
   line-height: 1;
 }
 
-.admin-product-price {
+.admin-product-price-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
   margin: 10px 0 0;
+}
+
+.admin-product-price {
   color: #72263f;
   font-family: inherit;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.admin-product-original-mrp {
+  color: #8f92a1;
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
+.admin-product-discount-pill {
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  background: #dc2626;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
 }
 
 /* =========================================================

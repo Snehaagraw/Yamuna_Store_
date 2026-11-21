@@ -308,6 +308,22 @@ function ProductDetails() {
 
   const priceInfo = formatPrice(activePrice);
 
+  const originalPriceNum = product?.original_price
+    ? Number(product.original_price)
+    : null;
+  const currentPriceNum = Number(activePrice);
+  const hasDiscount =
+    originalPriceNum !== null && originalPriceNum > currentPriceNum;
+  const discountPercent =
+    product?.discount_percent ||
+    (hasDiscount
+      ? Math.round(
+          ((originalPriceNum - currentPriceNum) / originalPriceNum) * 100
+        )
+      : 0);
+  const originalPriceInfo = hasDiscount ? formatPrice(originalPriceNum) : null;
+  const savingsAmount = hasDiscount ? originalPriceNum - currentPriceNum : 0;
+
   if (loading) {
     return (
       <>
@@ -470,6 +486,16 @@ function ProductDetails() {
                       <span className="product-price-amount">
                         {priceInfo.formatted}
                       </span>
+                      {hasDiscount && (
+                        <span className="product-detail-original-mrp">
+                          {originalPriceInfo.formatted}
+                        </span>
+                      )}
+                      {hasDiscount && (
+                        <span className="product-detail-discount-badge">
+                          {discountPercent}% OFF
+                        </span>
+                      )}
                       <span className="product-currency-badge">
                         {selectedCurrency.flag} {selectedCurrency.code}
                       </span>
@@ -482,6 +508,9 @@ function ProductDetails() {
                     <div className="product-inr-reference-row">
                       <span>Approx. conversion · Charged in INR:</span>
                       <strong>{priceInfo.originalInr}</strong>
+                      {hasDiscount && (
+                        <span className="detail-inr-mrp"> (MRP: ₹{Number(originalPriceNum).toLocaleString("en-IN")})</span>
+                      )}
                     </div>
                   </div>
                 ) : (
@@ -490,6 +519,16 @@ function ProductDetails() {
                     <span className="product-price-amount">
                       {Number(activePrice).toLocaleString("en-IN")}
                     </span>
+                    {hasDiscount && (
+                      <span className="product-detail-original-mrp">
+                        ₹{Number(originalPriceNum).toLocaleString("en-IN")}
+                      </span>
+                    )}
+                    {hasDiscount && (
+                      <span className="product-detail-discount-badge">
+                        {discountPercent}% OFF
+                      </span>
+                    )}
                     {hasMultipleSizePrices && selectedSize && (
                       <span className="product-size-price-tag">
                         Size: {selectedSize}
@@ -497,9 +536,16 @@ function ProductDetails() {
                     )}
                   </div>
                 )}
-                <span className="product-tax-text">
-                  Inclusive of all taxes
-                </span>
+                <div className="product-tax-and-savings-row">
+                  <span className="product-tax-text">
+                    Inclusive of all taxes
+                  </span>
+                  {hasDiscount && (
+                    <span className="product-detail-savings-text">
+                      ✨ You save ₹{savingsAmount.toLocaleString("en-IN")} ({discountPercent}% OFF)
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Quick Specs Highlight Bar (Only for real attributes entered by admin) */}
