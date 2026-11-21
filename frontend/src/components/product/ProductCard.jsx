@@ -164,24 +164,24 @@ function ProductCard({ product, onClick }) {
         <div className="product-price-row">
           <div className="product-price-group">
             <div className="product-price-flex" style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
-              <p className="product-price">
+              <span className="product-price">
                 {hasVaryingPrices && (
                   <span className="price-from-label">From </span>
                 )}
                 {priceInfo.formatted}
-              </p>
+              </span>
               {hasDiscount && (
                 <span
                   className="product-card-mrp"
-                  title="Original Retail Price"
+                  title="Original Retail Price (MRP)"
                   style={{
-                    fontSize: "11.5px",
-                    color: "#888",
-                    textDecoration: "line-through",
+                    fontSize: "13px",
+                    color: "#6b7280",
                     fontWeight: 500,
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  {originalPriceInfo.formatted}
+                  MRP <span style={{ textDecoration: "line-through" }}>{originalPriceInfo.formatted}</span>
                 </span>
               )}
             </div>

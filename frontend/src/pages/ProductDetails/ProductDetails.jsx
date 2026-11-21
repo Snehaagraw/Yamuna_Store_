@@ -501,8 +501,11 @@ function ProductDetails() {
                         {priceInfo.formatted}
                       </span>
                       {hasDiscount && (
-                        <span className="product-detail-original-mrp">
-                          {originalPriceInfo.formatted}
+                        <span className="product-detail-mrp-container" style={{ display: "inline-flex", alignItems: "baseline", gap: "5px" }}>
+                          <span style={{ fontSize: "14px", color: "#6b7280", fontWeight: 600 }}>MRP:</span>
+                          <span className="product-detail-original-mrp">
+                            {originalPriceInfo.formatted}
+                          </span>
                         </span>
                       )}
                       {hasDiscount && (
@@ -523,7 +526,7 @@ function ProductDetails() {
                       <span>Approx. conversion · Charged in INR:</span>
                       <strong>{priceInfo.originalInr}</strong>
                       {hasDiscount && (
-                        <span className="detail-inr-mrp"> (MRP: ₹{Number(originalPriceNum).toLocaleString("en-IN")})</span>
+                        <span className="detail-inr-mrp"> (MRP: ₹{Number(effectiveOriginalPrice).toLocaleString("en-IN")})</span>
                       )}
                     </div>
                   </div>
@@ -534,8 +537,11 @@ function ProductDetails() {
                       {Number(activePrice).toLocaleString("en-IN")}
                     </span>
                     {hasDiscount && (
-                      <span className="product-detail-original-mrp">
-                        ₹{Number(originalPriceNum).toLocaleString("en-IN")}
+                      <span className="product-detail-mrp-container" style={{ display: "inline-flex", alignItems: "baseline", gap: "5px" }}>
+                        <span style={{ fontSize: "14px", color: "#6b7280", fontWeight: 600 }}>MRP:</span>
+                        <span className="product-detail-original-mrp">
+                          ₹{Number(effectiveOriginalPrice).toLocaleString("en-IN")}
+                        </span>
                       </span>
                     )}
                     {hasDiscount && (
