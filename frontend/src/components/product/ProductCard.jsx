@@ -49,20 +49,31 @@ function ProductCard({ product, onClick }) {
 
   const priceInfo = formatPrice(displayBasePrice);
 
+  const currentPriceNum = Number(displayBasePrice);
   const originalPriceNum = product.original_price
     ? Number(product.original_price)
+    : Number(product.discount_percent) > 0
+    ? Math.round(currentPriceNum / (1 - Number(product.discount_percent) / 100))
     : null;
-  const currentPriceNum = Number(displayBasePrice);
   const hasDiscount =
-    originalPriceNum !== null && originalPriceNum > currentPriceNum;
+    (originalPriceNum !== null && originalPriceNum > currentPriceNum) ||
+    Number(product.discount_percent) > 0;
   const discountPercent =
-    product.discount_percent ||
-    (hasDiscount
+    Number(product.discount_percent) ||
+    (originalPriceNum && originalPriceNum > currentPriceNum
       ? Math.round(
           ((originalPriceNum - currentPriceNum) / originalPriceNum) * 100
         )
       : 0);
-  const originalPriceInfo = hasDiscount ? formatPrice(originalPriceNum) : null;
+  const effectiveOriginalPrice =
+    originalPriceNum && originalPriceNum > currentPriceNum
+      ? originalPriceNum
+      : discountPercent > 0
+      ? Math.round(currentPriceNum / (1 - discountPercent / 100))
+      : null;
+  const originalPriceInfo = effectiveOriginalPrice
+    ? formatPrice(effectiveOriginalPrice)
+    : null;
 
   return (
     <article

@@ -308,21 +308,35 @@ function ProductDetails() {
 
   const priceInfo = formatPrice(activePrice);
 
+  const currentPriceNum = Number(activePrice);
   const originalPriceNum = product?.original_price
     ? Number(product.original_price)
+    : Number(product?.discount_percent) > 0
+    ? Math.round(currentPriceNum / (1 - Number(product.discount_percent) / 100))
     : null;
-  const currentPriceNum = Number(activePrice);
   const hasDiscount =
-    originalPriceNum !== null && originalPriceNum > currentPriceNum;
+    (originalPriceNum !== null && originalPriceNum > currentPriceNum) ||
+    Number(product?.discount_percent) > 0;
   const discountPercent =
-    product?.discount_percent ||
-    (hasDiscount
+    Number(product?.discount_percent) ||
+    (originalPriceNum && originalPriceNum > currentPriceNum
       ? Math.round(
           ((originalPriceNum - currentPriceNum) / originalPriceNum) * 100
         )
       : 0);
-  const originalPriceInfo = hasDiscount ? formatPrice(originalPriceNum) : null;
-  const savingsAmount = hasDiscount ? originalPriceNum - currentPriceNum : 0;
+  const effectiveOriginalPrice =
+    originalPriceNum && originalPriceNum > currentPriceNum
+      ? originalPriceNum
+      : discountPercent > 0
+      ? Math.round(currentPriceNum / (1 - discountPercent / 100))
+      : null;
+  const originalPriceInfo = effectiveOriginalPrice
+    ? formatPrice(effectiveOriginalPrice)
+    : null;
+  const savingsAmount =
+    effectiveOriginalPrice && effectiveOriginalPrice > currentPriceNum
+      ? effectiveOriginalPrice - currentPriceNum
+      : 0;
 
   if (loading) {
     return (
