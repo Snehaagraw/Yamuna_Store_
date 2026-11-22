@@ -416,9 +416,15 @@ function AdminProducts({
                             </span>
                           </>
                         )}
+                        {product.discount_label && (
+                          <span className="admin-product-offer-tag" title="Special Seasonal Offer">
+                            🏷️ {product.discount_label}
+                          </span>
+                        )}
                       </div>
                     );
                   })()}
+
 
                   {product.description && (
                     <p className="admin-product-description">
@@ -528,7 +534,14 @@ function AdminProducts({
                         New
                       </span>
                     )}
+
+                    {product.discount_label && (
+                      <span className="product-tag product-tag-offer">
+                        🏷️ {product.discount_label}
+                      </span>
+                    )}
                   </div>
+
 
                   <div className="admin-product-actions">
                     <button

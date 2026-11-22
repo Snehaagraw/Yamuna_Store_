@@ -82,6 +82,36 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
+.product-badge.badge-special-offer {
+  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+  color: #ffffff;
+  font-size: 10px;
+  padding: 4px 10px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 6px rgba(185, 28, 28, 0.3);
+}
+
+.product-card-offer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 3px 0 6px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #7c2d12;
+  background: #ffedd5;
+  border: 1px solid #fed7aa;
+  border-radius: 4px;
+  width: fit-content;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
 .product-info {
   padding: 14px 14px 16px;
   display: flex;

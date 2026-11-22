@@ -321,6 +321,31 @@
   font-size: 11px;
 }
 
+.product-detail-offer-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  border: 1px solid #fed7aa;
+  border-left: 4px solid #ea580c;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.product-detail-offer-banner .offer-banner-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.product-detail-offer-banner .offer-banner-text {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #9a3412;
+  letter-spacing: 0.01em;
+}
+
 /* Multi-Currency Converted Price Display */
 .product-converted-price-block {
   display: flex;

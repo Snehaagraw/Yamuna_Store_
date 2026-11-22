@@ -134,6 +134,12 @@ class ProductSerializer(serializers.ModelSerializer):
         default=0
     )
 
+    discount_label = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        default=""
+    )
+
     average_rating = serializers.SerializerMethodField()
     reviews_count = serializers.SerializerMethodField()
 
@@ -159,6 +165,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "price",
             "original_price",
             "discount_percent",
+            "discount_label",
             "fabric",
             "weight",
             "colors",
@@ -331,6 +338,10 @@ class ProductSerializer(serializers.ModelSerializer):
                     data["discount_percent"] = int(float(disc))
                 except (ValueError, TypeError):
                     data["discount_percent"] = 0
+
+        if "discount_label" in data:
+            d_lbl = data.get("discount_label")
+            data["discount_label"] = str(d_lbl).strip() if d_lbl is not None else ""
 
         return super().to_internal_value(data)
 

@@ -112,6 +112,13 @@ class Product(models.Model):
         help_text="Discount percentage (e.g. 20 for 20% OFF)"
     )
 
+    discount_label = models.CharField(
+        max_length=255,
+        blank=True,
+        default="",
+        help_text="Optional seasonal sale or offer tag (e.g. 'Special Winter Offer till December')"
+    )
+
     fabric = models.CharField(
         max_length=100,
         blank=True

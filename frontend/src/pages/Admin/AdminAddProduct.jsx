@@ -17,6 +17,7 @@ function AdminAddProduct({
     description: "",
     original_price: "",
     discount_percent: "",
+    discount_label: "",
     price: "",
     fabric: "",
     weight: "",
@@ -98,6 +99,7 @@ function AdminAddProduct({
         description: "",
         original_price: "",
         discount_percent: "",
+        discount_label: "",
         price: "",
         fabric: "",
         weight: "",
@@ -155,6 +157,7 @@ function AdminAddProduct({
       description: productToEdit.description || "",
       original_price: editOriginalPrice,
       discount_percent: editDiscount !== "" && editDiscount > 0 ? String(editDiscount) : "",
+      discount_label: productToEdit.discount_label || "",
       price: editPrice,
       fabric: productToEdit.fabric || "",
       weight: productToEdit.weight || "",
@@ -611,6 +614,10 @@ function AdminAddProduct({
       data.append("price", String(finalPrice));
       data.append("original_price", String(finalOriginalPrice));
       data.append("discount_percent", String(finalDiscount));
+      data.append(
+        "discount_label",
+        formData.discount_label ? formData.discount_label.trim() : ""
+      );
 
       data.append(
         "fabric",
@@ -1040,6 +1047,63 @@ function AdminAddProduct({
                 )}
               </div>
 
+              {/* 4. Special Offer / Seasonal Event Note (Requested Feature) */}
+              <div className="admin-offer-tag-section">
+                <div className="admin-field-header-row">
+                  <label htmlFor="product-discount-label" style={{ fontWeight: 600, color: "var(--maroon)", fontSize: "13px" }}>
+                    🏷️ Special Offer / Seasonal Note <span className="admin-field-tag-optional">Optional</span>
+                  </label>
+                </div>
+                <input
+                  id="product-discount-label"
+                  name="discount_label"
+                  type="text"
+                  value={formData.discount_label}
+                  onChange={handleChange}
+                  placeholder="e.g. Special Winter Offer till December, Diwali Dhamaka Sale, etc."
+                  style={{
+                    width: "100%",
+                    padding: "10px 14px",
+                    fontSize: "13px",
+                    borderRadius: "6px",
+                    border: "1px solid rgba(93, 30, 52, 0.25)",
+                    background: "#fff",
+                    boxSizing: "border-box",
+                  }}
+                />
+                <div className="admin-offer-chips-row">
+                  <span className="chips-label">Quick Suggestions:</span>
+                  {[
+                    "❄️ Special Winter Offer till December",
+                    "🎉 Festive Dham Sale",
+                    "🌸 New Arrival Special",
+                    "✨ Limited Time Offer",
+                    "🔥 Clearance Deal"
+                  ].map((tag) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      className={`admin-offer-chip ${formData.discount_label === tag ? "active" : ""}`}
+                      onClick={() => setFormData((prev) => ({ ...prev, discount_label: tag }))}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                  {formData.discount_label && (
+                    <button
+                      type="button"
+                      className="admin-offer-chip-clear"
+                      onClick={() => setFormData((prev) => ({ ...prev, discount_label: "" }))}
+                    >
+                      ✕ Clear Note
+                    </button>
+                  )}
+                </div>
+                <small className="field-hint" style={{ marginTop: "4px", display: "block" }}>
+                  Customers will see this offer badge prominently on the product card and product page.
+                </small>
+              </div>
+
               {/* Live Price Display Preview */}
               {formData.original_price && Number(formData.original_price) > 0 && (
                 <div className="admin-price-preview-banner">
@@ -1051,7 +1115,7 @@ function AdminAddProduct({
                     {Number(formData.discount_percent) > 0 && Number(formData.original_price) > Number(formData.price) && (
                       <>
                         <span className="preview-mrp">
-                          ₹{Number(formData.original_price).toLocaleString("en-IN")}
+                          MRP ₹{Number(formData.original_price).toLocaleString("en-IN")}
                         </span>
                         <span className="preview-badge">
                           {formData.discount_percent}% OFF
@@ -1060,6 +1124,11 @@ function AdminAddProduct({
                           (Customer saves ₹{(Number(formData.original_price) - Number(formData.price)).toLocaleString("en-IN")})
                         </span>
                       </>
+                    )}
+                    {formData.discount_label && (
+                      <span className="preview-offer-badge">
+                        {formData.discount_label}
+                      </span>
                     )}
                   </div>
                 </div>

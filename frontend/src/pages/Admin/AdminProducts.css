@@ -175,6 +175,28 @@
   letter-spacing: 0.03em;
 }
 
+.admin-product-offer-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #7c2d12;
+  background: #ffedd5;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+
+.product-tag.product-tag-offer {
+  background: #ffedd5;
+  color: #9a3412;
+  border: 1px solid #fed7aa;
+  font-weight: 700;
+  text-transform: none;
+}
+
+
 /* =========================================================
    PRODUCT DESCRIPTION
    ========================================================= */

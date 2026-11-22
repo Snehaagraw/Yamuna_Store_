@@ -562,7 +562,14 @@ function ProductDetails() {
                     </span>
                   )}
                 </div>
+                {product.discount_label && (
+                  <div className="product-detail-offer-banner">
+                    <span className="offer-banner-icon">🏷️</span>
+                    <span className="offer-banner-text">{product.discount_label}</span>
+                  </div>
+                )}
               </div>
+
 
               {/* Quick Specs Highlight Bar (Only for real attributes entered by admin) */}
               {(product.fabric || product.weight || product.origin || product.occasion) && (

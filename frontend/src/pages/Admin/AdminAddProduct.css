@@ -821,3 +821,84 @@
   font-weight: 600;
   color: #15803d;
 }
+
+/* Special Offer / Seasonal Note Styling */
+.admin-offer-tag-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  background: #fdf8f4;
+  border: 1px dashed rgba(93, 30, 52, 0.35);
+  border-radius: 6px;
+}
+
+.admin-offer-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.admin-offer-chips-row .chips-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-right: 4px;
+}
+
+.admin-offer-chip {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--maroon, #5d1e34);
+  background: #ffffff;
+  border: 1px solid rgba(93, 30, 52, 0.25);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.admin-offer-chip:hover {
+  background: rgba(93, 30, 52, 0.08);
+  border-color: var(--maroon, #5d1e34);
+}
+
+.admin-offer-chip.active {
+  background: var(--maroon, #5d1e34);
+  color: #ffffff;
+  border-color: var(--maroon, #5d1e34);
+  box-shadow: 0 2px 6px rgba(93, 30, 52, 0.25);
+}
+
+.admin-offer-chip-clear {
+  margin-left: auto;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid rgba(185, 28, 28, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.admin-offer-chip-clear:hover {
+  background: #b91c1c;
+  color: #ffffff;
+}
+
+.preview-offer-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7c2d12;
+  background: #ffedd5;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}

@@ -115,6 +115,11 @@ function ProductCard({ product, onClick }) {
 
         {/* Status & Merchandising Badges */}
         <div className="product-badges">
+          {product.discount_label && !isOutOfStock && (
+            <span className="product-badge badge-special-offer" title={product.discount_label}>
+              {product.discount_label}
+            </span>
+          )}
           {hasDiscount && !isOutOfStock && (
             <span className="product-badge badge-discount">{discountPercent}% OFF</span>
           )}
@@ -148,6 +153,14 @@ function ProductCard({ product, onClick }) {
         <h3 className="product-name" title={product.name}>
           {product.name}
         </h3>
+
+        {product.discount_label && (
+          <div className="product-card-offer-pill" title={product.discount_label}>
+            <span className="offer-pill-icon">🏷️</span>
+            <span className="offer-pill-text">{product.discount_label}</span>
+          </div>
+        )}
+
 
         {product.reviews_count !== undefined && product.reviews_count > 0 && (
           <div className="product-card-rating">
