@@ -44,34 +44,30 @@ function ProductCard({ product, onClick }) {
     sizePricesList.length > 0 &&
     Math.min(...sizePricesList) !== Math.max(...sizePricesList);
 
-  const displayBasePrice =
+  const rawBasePrice =
     hasVaryingPrices ? Math.min(...sizePricesList) : product.price;
 
-  const priceInfo = formatPrice(displayBasePrice);
+  const rawOrigNum = product.original_price ? Number(product.original_price) : null;
+  let discountPercent = Number(product.discount_percent) || 0;
+  let finalSellingPrice = Number(rawBasePrice);
+  let effectiveOriginalPrice = rawOrigNum;
 
-  const currentPriceNum = Number(displayBasePrice);
-  const originalPriceNum = product.original_price
-    ? Number(product.original_price)
-    : Number(product.discount_percent) > 0
-    ? Math.round(currentPriceNum / (1 - Number(product.discount_percent) / 100))
-    : null;
+  if (discountPercent > 0) {
+    if (effectiveOriginalPrice && finalSellingPrice >= effectiveOriginalPrice) {
+      finalSellingPrice = Math.round(effectiveOriginalPrice * (1 - discountPercent / 100));
+    } else if (!effectiveOriginalPrice) {
+      effectiveOriginalPrice = Math.round(finalSellingPrice / (1 - discountPercent / 100));
+    }
+  } else if (effectiveOriginalPrice && effectiveOriginalPrice > finalSellingPrice) {
+    discountPercent = Math.round(((effectiveOriginalPrice - finalSellingPrice) / effectiveOriginalPrice) * 100);
+  }
+
   const hasDiscount =
-    (originalPriceNum !== null && originalPriceNum > currentPriceNum) ||
-    Number(product.discount_percent) > 0;
-  const discountPercent =
-    Number(product.discount_percent) ||
-    (originalPriceNum && originalPriceNum > currentPriceNum
-      ? Math.round(
-          ((originalPriceNum - currentPriceNum) / originalPriceNum) * 100
-        )
-      : 0);
-  const effectiveOriginalPrice =
-    originalPriceNum && originalPriceNum > currentPriceNum
-      ? originalPriceNum
-      : discountPercent > 0
-      ? Math.round(currentPriceNum / (1 - discountPercent / 100))
-      : null;
-  const originalPriceInfo = effectiveOriginalPrice
+    (effectiveOriginalPrice !== null && effectiveOriginalPrice > finalSellingPrice) ||
+    discountPercent > 0;
+
+  const priceInfo = formatPrice(finalSellingPrice);
+  const originalPriceInfo = effectiveOriginalPrice && hasDiscount
     ? formatPrice(effectiveOriginalPrice)
     : null;
 

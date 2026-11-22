@@ -72,7 +72,7 @@ function CartProvider({ children }) {
 
     const qty = Math.max(1, Number(quantityToAdd) || 1);
 
-    const itemPrice =
+    const rawPrice =
       product.size_prices &&
       selectedSize &&
       product.size_prices[selectedSize] !== undefined &&
@@ -80,6 +80,13 @@ function CartProvider({ children }) {
       !isNaN(Number(product.size_prices[selectedSize]))
         ? Number(product.size_prices[selectedSize])
         : Number(product.price);
+
+    const disc = Number(product.discount_percent) || 0;
+    const orig = product.original_price ? Number(product.original_price) : null;
+    let itemPrice = rawPrice;
+    if (disc > 0 && orig && itemPrice >= orig) {
+      itemPrice = Math.round(orig * (1 - disc / 100));
+    }
 
     const normColor = selectedColor ? selectedColor.trim() : "";
     const normSize = selectedSize ? selectedSize.trim() : "";

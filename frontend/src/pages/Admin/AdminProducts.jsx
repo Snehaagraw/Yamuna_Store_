@@ -385,21 +385,40 @@ function AdminProducts({
 
                   <h3>{product.name}</h3>
 
-                  <div className="admin-product-price-row">
-                    <span className="admin-product-price">
-                      ₹{Number(product.price).toLocaleString("en-IN")}
-                    </span>
-                    {product.original_price && Number(product.original_price) > Number(product.price) && (
-                      <>
-                        <span className="admin-product-original-mrp">
-                          ₹{Number(product.original_price).toLocaleString("en-IN")}
+                  {(() => {
+                    const priceNum = Number(product.price);
+                    const origNum = product.original_price ? Number(product.original_price) : null;
+                    const disc = Number(product.discount_percent) || 0;
+                    const hasDiscount = (origNum !== null && origNum > priceNum) || disc > 0;
+                    const effectiveOrig = origNum && origNum > priceNum
+                      ? origNum
+                      : disc > 0
+                      ? Math.round(priceNum / (1 - disc / 100))
+                      : priceNum;
+                    const effectiveDisc = disc > 0
+                      ? disc
+                      : effectiveOrig > priceNum
+                      ? Math.round(((effectiveOrig - priceNum) / effectiveOrig) * 100)
+                      : 0;
+
+                    return (
+                      <div className="admin-product-price-row">
+                        <span className="admin-product-price">
+                          ₹{priceNum.toLocaleString("en-IN")}
                         </span>
-                        <span className="admin-product-discount-pill">
-                          {product.discount_percent || Math.round(((Number(product.original_price) - Number(product.price)) / Number(product.original_price)) * 100)}% OFF
-                        </span>
-                      </>
-                    )}
-                  </div>
+                        {hasDiscount && effectiveOrig > priceNum && (
+                          <>
+                            <span className="admin-product-original-mrp" title="Actual MRP">
+                              MRP ₹{effectiveOrig.toLocaleString("en-IN")}
+                            </span>
+                            <span className="admin-product-discount-pill">
+                              {effectiveDisc}% OFF
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    );
+                  })()}
 
                   {product.description && (
                     <p className="admin-product-description">

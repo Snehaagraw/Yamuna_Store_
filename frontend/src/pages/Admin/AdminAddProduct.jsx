@@ -118,12 +118,23 @@ function AdminAddProduct({
       return;
     }
 
-    const editOriginalPrice =
-      productToEdit.original_price ?? productToEdit.price ?? "";
-    const editPrice = productToEdit.price ?? "";
-    let editDiscount = productToEdit.discount_percent ?? "";
-    if (
-      editDiscount === "" &&
+    const rawOrig = productToEdit.original_price;
+    const rawPrice = productToEdit.price;
+    const rawDiscount = productToEdit.discount_percent;
+
+    let editOriginalPrice = rawOrig ? String(Number(rawOrig)) : "";
+    let editPrice = rawPrice ? String(Number(rawPrice)) : "";
+    let editDiscount = rawDiscount !== undefined && rawDiscount !== null && rawDiscount !== ""
+      ? Number(rawDiscount)
+      : "";
+
+    // If discount % is set but price and original_price are equal, recalculate selling price
+    if (editDiscount > 0 && editOriginalPrice) {
+      if (!editPrice || Number(editPrice) === Number(editOriginalPrice)) {
+        editPrice = String(Math.round(Number(editOriginalPrice) * (1 - editDiscount / 100)));
+      }
+    } else if (
+      (editDiscount === "" || editDiscount === 0) &&
       editOriginalPrice &&
       editPrice &&
       Number(editOriginalPrice) > Number(editPrice)
@@ -133,6 +144,8 @@ function AdminAddProduct({
           Number(editOriginalPrice)) *
           100
       );
+    } else if (!editOriginalPrice && editPrice) {
+      editOriginalPrice = editPrice;
     }
 
     setFormData({
@@ -141,7 +154,7 @@ function AdminAddProduct({
       category: productToEdit.category || "Gopi Dress",
       description: productToEdit.description || "",
       original_price: editOriginalPrice,
-      discount_percent: editDiscount !== "" ? String(editDiscount) : "",
+      discount_percent: editDiscount !== "" && editDiscount > 0 ? String(editDiscount) : "",
       price: editPrice,
       fabric: productToEdit.fabric || "",
       weight: productToEdit.weight || "",
@@ -223,11 +236,16 @@ function AdminAddProduct({
 
     setFormData((prev) => {
       const disc = parseFloat(prev.discount_percent);
+      const existingPrice = parseFloat(prev.price);
       let calculatedPrice = val;
+      let calculatedDisc = prev.discount_percent;
 
       if (!isNaN(numVal) && numVal > 0) {
         if (!isNaN(disc) && disc > 0 && disc < 100) {
           calculatedPrice = String(Math.round(numVal * (1 - disc / 100)));
+        } else if (!isNaN(existingPrice) && existingPrice > 0 && existingPrice < numVal) {
+          calculatedDisc = String(Math.round(((numVal - existingPrice) / numVal) * 100));
+          calculatedPrice = String(existingPrice);
         } else {
           calculatedPrice = val;
         }
@@ -236,6 +254,7 @@ function AdminAddProduct({
       return {
         ...prev,
         original_price: val,
+        discount_percent: calculatedDisc,
         price: calculatedPrice,
       };
     });
@@ -257,6 +276,23 @@ function AdminAddProduct({
         }
       }
 
+      // Sync size prices if any match old base price or MRP
+      if (calculatedPrice) {
+        setSizePrices((prevSizes) => {
+          const updated = { ...prevSizes };
+          Object.keys(updated).forEach((k) => {
+            if (
+              updated[k] === prev.price ||
+              updated[k] === prev.original_price ||
+              !updated[k]
+            ) {
+              updated[k] = calculatedPrice;
+            }
+          });
+          return updated;
+        });
+      }
+
       return {
         ...prev,
         discount_percent: val,
@@ -272,6 +308,7 @@ function AdminAddProduct({
     setFormData((prev) => {
       const orig = parseFloat(prev.original_price);
       let calculatedDisc = prev.discount_percent;
+      let calculatedOrig = prev.original_price;
 
       if (!isNaN(orig) && orig > 0 && !isNaN(finalPrice) && finalPrice >= 0) {
         if (finalPrice < orig) {
@@ -281,11 +318,17 @@ function AdminAddProduct({
         } else {
           calculatedDisc = "0";
         }
+      } else if ((isNaN(orig) || orig <= 0) && !isNaN(finalPrice) && finalPrice > 0) {
+        const d = parseFloat(calculatedDisc);
+        if (!isNaN(d) && d > 0 && d < 100) {
+          calculatedOrig = String(Math.round(finalPrice / (1 - d / 100)));
+        }
       }
 
       return {
         ...prev,
         price: val,
+        original_price: calculatedOrig,
         discount_percent: calculatedDisc,
       };
     });
@@ -302,6 +345,23 @@ function AdminAddProduct({
         } else {
           calculatedPrice = String(orig);
         }
+      }
+
+      // Sync size prices that matched the old base price or MRP
+      if (calculatedPrice) {
+        setSizePrices((prevSizes) => {
+          const updated = { ...prevSizes };
+          Object.keys(updated).forEach((k) => {
+            if (
+              updated[k] === prev.price ||
+              updated[k] === prev.original_price ||
+              !updated[k]
+            ) {
+              updated[k] = calculatedPrice;
+            }
+          });
+          return updated;
+        });
       }
 
       return {
@@ -517,13 +577,40 @@ function AdminAddProduct({
         formData.description.trim()
       );
 
-      const effectivePrice = formData.price || formData.original_price;
-      const effectiveOriginalPrice = formData.original_price || formData.price;
-      const effectiveDiscount = formData.discount_percent || 0;
+      const origNum = parseFloat(formData.original_price);
+      const discNum = parseFloat(formData.discount_percent);
+      const priceNum = parseFloat(formData.price);
 
-      data.append("price", effectivePrice);
-      data.append("original_price", effectiveOriginalPrice);
-      data.append("discount_percent", effectiveDiscount);
+      let finalOriginalPrice = "";
+      let finalPrice = "";
+      let finalDiscount = 0;
+
+      if (!isNaN(origNum) && origNum > 0) {
+        finalOriginalPrice = origNum;
+        if (!isNaN(discNum) && discNum > 0) {
+          finalDiscount = Math.round(discNum);
+          finalPrice = Math.round(origNum * (1 - finalDiscount / 100));
+        } else if (!isNaN(priceNum) && priceNum > 0 && priceNum < origNum) {
+          finalPrice = priceNum;
+          finalDiscount = Math.round(((origNum - priceNum) / origNum) * 100);
+        } else {
+          finalPrice = !isNaN(priceNum) && priceNum > 0 ? priceNum : origNum;
+          finalDiscount = 0;
+        }
+      } else if (!isNaN(priceNum) && priceNum > 0) {
+        finalPrice = priceNum;
+        if (!isNaN(discNum) && discNum > 0 && discNum < 100) {
+          finalDiscount = Math.round(discNum);
+          finalOriginalPrice = Math.round(priceNum / (1 - finalDiscount / 100));
+        } else {
+          finalOriginalPrice = priceNum;
+          finalDiscount = 0;
+        }
+      }
+
+      data.append("price", String(finalPrice));
+      data.append("original_price", String(finalOriginalPrice));
+      data.append("discount_percent", String(finalDiscount));
 
       data.append(
         "fabric",
@@ -578,14 +665,22 @@ function AdminAddProduct({
         sizesArray.forEach((sz) => {
           finalSizeInventory[sz] =
             sizeInventory[sz] !== undefined ? Number(sizeInventory[sz]) : 10;
+          const rawSz = sizePrices[sz];
           if (
-            sizePrices[sz] !== undefined &&
-            sizePrices[sz] !== "" &&
-            !isNaN(Number(sizePrices[sz]))
+            rawSz !== undefined &&
+            rawSz !== "" &&
+            !isNaN(Number(rawSz))
           ) {
-            finalSizePrices[sz] = Number(sizePrices[sz]);
-          } else if (formData.price) {
-            finalSizePrices[sz] = Number(formData.price);
+            const numSz = Number(rawSz);
+            // If the custom size price was exactly the un-discounted MRP, but now there is a discount,
+            // ensure it reflects the discounted price so sizes don't show full MRP
+            if (finalDiscount > 0 && numSz === Number(finalOriginalPrice)) {
+              finalSizePrices[sz] = Number(finalPrice);
+            } else {
+              finalSizePrices[sz] = numSz;
+            }
+          } else if (finalPrice) {
+            finalSizePrices[sz] = Number(finalPrice);
           }
         });
       }

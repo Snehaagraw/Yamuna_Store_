@@ -284,7 +284,7 @@ function ProductDetails() {
     addToCart(product, selectedSize, quantity, selectedColor, currentImg);
   };
 
-  const activePrice = useMemo(() => {
+  const rawBaseSizePrice = useMemo(() => {
     if (!product) return 0;
     if (
       selectedSize &&
@@ -298,6 +298,34 @@ function ProductDetails() {
     return Number(product.price || 0);
   }, [product, selectedSize]);
 
+  const rawOrigNum = product?.original_price ? Number(product.original_price) : null;
+  let discountPercent = Number(product?.discount_percent) || 0;
+  let activePrice = Number(rawBaseSizePrice);
+  let effectiveOriginalPrice = rawOrigNum;
+
+  if (discountPercent > 0) {
+    if (effectiveOriginalPrice && activePrice >= effectiveOriginalPrice) {
+      activePrice = Math.round(effectiveOriginalPrice * (1 - discountPercent / 100));
+    } else if (!effectiveOriginalPrice) {
+      effectiveOriginalPrice = Math.round(activePrice / (1 - discountPercent / 100));
+    }
+  } else if (effectiveOriginalPrice && effectiveOriginalPrice > activePrice) {
+    discountPercent = Math.round(((effectiveOriginalPrice - activePrice) / effectiveOriginalPrice) * 100);
+  }
+
+  const hasDiscount =
+    (effectiveOriginalPrice !== null && effectiveOriginalPrice > activePrice) ||
+    discountPercent > 0;
+
+  const priceInfo = formatPrice(activePrice);
+  const originalPriceInfo = effectiveOriginalPrice && hasDiscount
+    ? formatPrice(effectiveOriginalPrice)
+    : null;
+  const savingsAmount =
+    effectiveOriginalPrice && effectiveOriginalPrice > activePrice
+      ? effectiveOriginalPrice - activePrice
+      : 0;
+
   const hasMultipleSizePrices = useMemo(() => {
     if (!product?.sizes || !product?.size_prices) return false;
     const prices = Object.values(product.size_prices)
@@ -305,38 +333,6 @@ function ProductDetails() {
       .filter((p) => !isNaN(p) && p > 0);
     return new Set(prices).size > 1;
   }, [product]);
-
-  const priceInfo = formatPrice(activePrice);
-
-  const currentPriceNum = Number(activePrice);
-  const originalPriceNum = product?.original_price
-    ? Number(product.original_price)
-    : Number(product?.discount_percent) > 0
-    ? Math.round(currentPriceNum / (1 - Number(product.discount_percent) / 100))
-    : null;
-  const hasDiscount =
-    (originalPriceNum !== null && originalPriceNum > currentPriceNum) ||
-    Number(product?.discount_percent) > 0;
-  const discountPercent =
-    Number(product?.discount_percent) ||
-    (originalPriceNum && originalPriceNum > currentPriceNum
-      ? Math.round(
-          ((originalPriceNum - currentPriceNum) / originalPriceNum) * 100
-        )
-      : 0);
-  const effectiveOriginalPrice =
-    originalPriceNum && originalPriceNum > currentPriceNum
-      ? originalPriceNum
-      : discountPercent > 0
-      ? Math.round(currentPriceNum / (1 - discountPercent / 100))
-      : null;
-  const originalPriceInfo = effectiveOriginalPrice
-    ? formatPrice(effectiveOriginalPrice)
-    : null;
-  const savingsAmount =
-    effectiveOriginalPrice && effectiveOriginalPrice > currentPriceNum
-      ? effectiveOriginalPrice - currentPriceNum
-      : 0;
 
   if (loading) {
     return (

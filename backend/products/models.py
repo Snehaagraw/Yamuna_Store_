@@ -184,22 +184,64 @@ class Product(models.Model):
         if self.category and hasattr(self.category, "section") and not self.section:
             self.section = self.category.section
 
-        from decimal import Decimal
-        # Auto-compute price or discount_percent when original_price is provided
-        if self.original_price and self.original_price > 0:
-            if self.discount_percent and self.discount_percent > 0:
-                discount_multiplier = Decimal(str(self.discount_percent)) / Decimal("100")
-                discount_amount = self.original_price * discount_multiplier
-                self.price = (self.original_price - discount_amount).quantize(Decimal("0.01"))
-            elif self.price and self.original_price > self.price:
-                diff = self.original_price - self.price
-                calculated_pct = (diff / self.original_price) * Decimal("100")
+        from decimal import Decimal, InvalidOperation
+
+        # Safely parse and convert original_price and price to Decimal to avoid type/string comparison errors
+        parsed_orig = None
+        if self.original_price is not None:
+            try:
+                parsed_orig = Decimal(str(self.original_price))
+            except (InvalidOperation, TypeError, ValueError):
+                parsed_orig = None
+
+        parsed_price = None
+        if self.price is not None:
+            try:
+                parsed_price = Decimal(str(self.price))
+            except (InvalidOperation, TypeError, ValueError):
+                parsed_price = None
+
+        parsed_disc = 0
+        if self.discount_percent is not None:
+            try:
+                parsed_disc = int(self.discount_percent)
+            except (TypeError, ValueError):
+                parsed_disc = 0
+
+        # Auto-compute price or discount_percent when original_price or discount_percent is provided
+        if parsed_orig is not None and parsed_orig > 0:
+            if parsed_disc > 0:
+                # If a discount percentage is specified, compute the discounted selling price
+                discount_multiplier = Decimal(str(parsed_disc)) / Decimal("100")
+                discount_amount = parsed_orig * discount_multiplier
+                self.price = (parsed_orig - discount_amount).quantize(Decimal("0.01"))
+                self.original_price = parsed_orig.quantize(Decimal("0.01"))
+                self.discount_percent = parsed_disc
+            elif parsed_price is not None and parsed_orig > parsed_price:
+                # If both are provided and MRP > Selling price, compute the discount percentage
+                diff = parsed_orig - parsed_price
+                calculated_pct = (diff / parsed_orig) * Decimal("100")
                 self.discount_percent = int(round(float(calculated_pct)))
-            else:
+                self.original_price = parsed_orig.quantize(Decimal("0.01"))
+                self.price = parsed_price.quantize(Decimal("0.01"))
+            elif parsed_price is not None:
+                self.original_price = parsed_orig.quantize(Decimal("0.01"))
+                self.price = parsed_price.quantize(Decimal("0.01"))
                 self.discount_percent = 0
-        elif self.price and not self.original_price:
-            self.original_price = self.price
-            self.discount_percent = 0
+        elif parsed_price is not None and parsed_price > 0:
+            if parsed_disc > 0:
+                # If selling price and discount % are provided without MRP, compute MRP
+                disc_mult = Decimal("1") - (Decimal(str(parsed_disc)) / Decimal("100"))
+                if disc_mult > 0:
+                    self.original_price = (parsed_price / disc_mult).quantize(Decimal("0.01"))
+                else:
+                    self.original_price = parsed_price.quantize(Decimal("0.01"))
+                self.price = parsed_price.quantize(Decimal("0.01"))
+                self.discount_percent = parsed_disc
+            else:
+                self.original_price = parsed_price.quantize(Decimal("0.01"))
+                self.price = parsed_price.quantize(Decimal("0.01"))
+                self.discount_percent = 0
 
         super().save(*args, **kwargs)
 
