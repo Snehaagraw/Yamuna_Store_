@@ -508,7 +508,11 @@ function CustomerAccount() {
                             {order.tracking_number ? (
                               <div className="tracking-consignment-box">
                                 <div className="tracking-consignment-label">
-                                  India Post Consignment / Tracking Number:
+                                  {order.shipping_carrier?.toLowerCase().includes("maruti")
+                                    ? "Shree Maruti Courier Waybill / Tracking Number:"
+                                    : order.shipping_carrier?.toLowerCase().includes("dhl")
+                                    ? "DHL Air Waybill (AWB) / Tracking Number:"
+                                    : `${order.shipping_carrier || "India Post"} Consignment / Tracking Number:`}
                                 </div>
                                 <div className="tracking-consignment-val-row">
                                   <span className="tracking-consignment-code">{order.tracking_number}</span>
@@ -572,17 +576,25 @@ function CustomerAccount() {
 
                             <div className="tracking-action-bar">
                               <a
-                                href={order.tracking_url || "https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx"}
+                                href={
+                                  order.tracking_url ||
+                                  (order.shipping_carrier?.toLowerCase().includes("maruti")
+                                    ? "https://shreemaruti.com/track-your-shipment"
+                                    : order.shipping_carrier?.toLowerCase().includes("dhl")
+                                    ? "https://www.dhl.com/in-en/home/tracking.html"
+                                    : "https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx")
+                                }
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="tracking-track-portal-btn"
                               >
-                                <span>🔍</span> Track on India Post Official Website ↗
+                                <span>🔍</span> Track on {order.shipping_carrier || "Carrier"} Official Portal ↗
                               </a>
                               <small className="tracking-hint">
-                                Opens India Post Speed Post portal in new tab.
+                                Opens {order.shipping_carrier || "courier"} tracking portal in a new tab.
                               </small>
                             </div>
+
                           </div>
                         </div>
                       )}

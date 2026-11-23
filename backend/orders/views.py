@@ -309,11 +309,20 @@ class OrderViewSet(viewsets.ModelViewSet):
         elif new_status == "Delivered" and not instance.delivered_at:
             extra_fields["delivered_at"] = timezone.now()
 
-        # If tracking number provided but tracking_url is blank, auto-generate standard India Post URL if carrier is India Post
+        # If tracking number provided but tracking_url is blank, auto-generate standard tracking URL based on carrier
         tracking_num = self.request.data.get("tracking_number", "").strip()
         if tracking_num and not self.request.data.get("tracking_url"):
-            carrier = self.request.data.get("shipping_carrier") or instance.shipping_carrier
-            if "india post" in carrier.lower():
+            carrier = (self.request.data.get("shipping_carrier") or instance.shipping_carrier or "").lower()
+            if "maruti" in carrier:
+                extra_fields["tracking_url"] = "https://shreemaruti.com/track-your-shipment"
+            elif "india post" in carrier:
                 extra_fields["tracking_url"] = "https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx"
+            elif "dhl" in carrier:
+                extra_fields["tracking_url"] = "https://www.dhl.com/in-en/home/tracking.html"
+            elif "blue dart" in carrier:
+                extra_fields["tracking_url"] = "https://www.bluedart.com/tracking"
+            elif "dtdc" in carrier:
+                extra_fields["tracking_url"] = "https://www.dtdc.in/tracking.asp"
 
         serializer.save(**extra_fields)
+

@@ -44,19 +44,34 @@ function AdminOrders() {
   const [deliveryNotes, setDeliveryNotes] = useState("");
   const [deliveryLoading, setDeliveryLoading] = useState(false);
 
+  const getCarrierDefaultTrackingUrl = (carrier) => {
+    const c = (carrier || "").toLowerCase();
+    if (c.includes("maruti")) return "https://shreemaruti.com/track-your-shipment";
+    if (c.includes("dhl")) return "https://www.dhl.com/in-en/home/tracking.html";
+    if (c.includes("blue dart")) return "https://www.bluedart.com/tracking";
+    if (c.includes("dtdc")) return "https://www.dtdc.in/tracking.asp";
+    return "https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx";
+  };
+
+  const handleCarrierChange = (newCarrier) => {
+    setShippingCarrier(newCarrier);
+    setTrackingUrl(getCarrierDefaultTrackingUrl(newCarrier));
+  };
+
   const getTrackingWhatsAppUrl = (order) => {
     if (!order) return "";
     const cleanPhone = String(order.customer_phone || "").replace(/\D/g, "");
     const formattedPhone = cleanPhone.startsWith("91") && cleanPhone.length > 10 ? cleanPhone : `91${cleanPhone.replace(/^0+/, "")}`;
     const carrierName = order.shipping_carrier || "India Post (Speed Post)";
     const trackNum = order.tracking_number || "Consignment generated";
-    const trackLink = order.tracking_url || "https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx";
+    const trackLink = order.tracking_url || getCarrierDefaultTrackingUrl(carrierName);
 
     const msg = encodeURIComponent(
-      `Hare Krishna ${order.customer_name}! 🙏\n\nYour order *${order.order_number}* from Yamuna Store Vrindavan has been dispatched via *${carrierName}*.\n\n📦 *Consignment / Tracking No:* ${trackNum}\n🔗 *Track Online:* ${trackLink}\n\nWe will ensure safe and auspicious delivery to your address. Feel free to message us if you need any assistance!`
+      `Hare Krishna ${order.customer_name}! 🙏\n\nYour order *${order.order_number}* from Yamuna Store Vrindavan has been dispatched via *${carrierName}*.\n\n📦 *Tracking / Consignment No:* ${trackNum}\n🔗 *Track Online:* ${trackLink}\n\nWe will ensure safe and auspicious delivery to your address. Feel free to message us if you need any assistance!`
     );
     return `https://wa.me/${formattedPhone}?text=${msg}`;
   };
+
 
   const copyToClipboard = (text, id) => {
     if (!text) return;
@@ -171,12 +186,10 @@ function AdminOrders() {
       const order = orders.find((o) => o.id === orderId);
       if (order) {
         setShippingOrder(order);
-        setShippingCarrier(order.shipping_carrier || "India Post (Speed Post)");
+        const carrier = order.shipping_carrier || "India Post (Speed Post)";
+        setShippingCarrier(carrier);
         setTrackingNumber(order.tracking_number || "");
-        setTrackingUrl(
-          order.tracking_url ||
-            "https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx"
-        );
+        setTrackingUrl(order.tracking_url || getCarrierDefaultTrackingUrl(carrier));
         return;
       }
     }
@@ -185,13 +198,15 @@ function AdminOrders() {
       const order = orders.find((o) => o.id === orderId);
       if (order) {
         setDeliveryOrder(order);
+        const carrier = order.shipping_carrier || "courier";
         setDeliveryNotes(
           order.delivery_notes ||
-            "Delivered via India Post Speed Post - verified by postal tracking."
+            `Delivered via ${carrier} - verified by tracking.`
         );
         return;
       }
     }
+
 
     try {
       setUpdatingId(orderId);
@@ -228,7 +243,7 @@ function AdminOrders() {
       const cleanTracking = trackingNumber.trim().toUpperCase();
       const cleanUrl =
         trackingUrl.trim() ||
-        "https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx";
+        getCarrierDefaultTrackingUrl(shippingCarrier);
       const nowIso = new Date().toISOString();
 
       const res = await api.patch(
@@ -892,12 +907,12 @@ function AdminOrders() {
                       )}
                       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "6px" }}>
                         <a
-                          href={selectedOrder.tracking_url || "https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx"}
+                          href={selectedOrder.tracking_url || getCarrierDefaultTrackingUrl(selectedOrder.shipping_carrier)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="admin-tracking-link-btn"
                         >
-                          Track on India Post ↗
+                          Track on {selectedOrder.shipping_carrier || "Carrier"} ↗
                         </a>
                         <a
                           href={getTrackingWhatsAppUrl(selectedOrder)}
@@ -918,15 +933,17 @@ function AdminOrders() {
                         style={{ borderColor: "#0284c7", background: "#f0f9ff", color: "#0369a1" }}
                         onClick={() => {
                           setShippingOrder(selectedOrder);
-                          setShippingCarrier(selectedOrder.shipping_carrier || "India Post (Speed Post)");
+                          const carrier = selectedOrder.shipping_carrier || "India Post (Speed Post)";
+                          setShippingCarrier(carrier);
                           setTrackingNumber("");
-                          setTrackingUrl("https://www.indiapost.gov.in/_layouts/15/dpt.cept.cptc/tracking.aspx");
+                          setTrackingUrl(selectedOrder.tracking_url || getCarrierDefaultTrackingUrl(carrier));
                         }}
                       >
-                        📦 Add India Post Tracking
+                        📦 Add Tracking / Waybill
                       </button>
                     </div>
                   )}
+
 
                   {selectedOrder.order_notes && (
                     <p style={{ marginTop: "6px" }}>
@@ -1344,10 +1361,11 @@ function AdminOrders() {
                   <select
                     className="shipping-input"
                     value={shippingCarrier}
-                    onChange={(e) => setShippingCarrier(e.target.value)}
+                    onChange={(e) => handleCarrierChange(e.target.value)}
                     disabled={shippingLoading}
                   >
                     <option value="India Post (Speed Post)">India Post (Speed Post)</option>
+                    <option value="Shree Maruti Courier">Shree Maruti Courier Service</option>
                     <option value="India Post (Registered Parcel)">India Post (Registered Parcel)</option>
                     <option value="DHL Express (Worldwide)">DHL Express (Worldwide)</option>
                     <option value="Blue Dart Express">Blue Dart Express</option>
@@ -1357,19 +1375,35 @@ function AdminOrders() {
                 </div>
 
                 <div className="shipping-form-group">
-                  <label>India Post Consignment / Tracking Number *:</label>
+                  <label>
+                    {shippingCarrier.toLowerCase().includes("maruti")
+                      ? "Shree Maruti Courier Waybill / Tracking Number *:"
+                      : shippingCarrier.toLowerCase().includes("dhl")
+                      ? "DHL Air Waybill (AWB) Number *:"
+                      : "Consignment / Tracking Number *:"}
+                  </label>
                   <input
                     type="text"
                     required
                     className="shipping-input"
                     style={{ fontFamily: "monospace", fontWeight: 700, letterSpacing: "0.05em" }}
-                    placeholder="e.g. EM123456789IN / ED987654321IN"
+                    placeholder={
+                      shippingCarrier.toLowerCase().includes("maruti")
+                        ? "e.g. 1234567890 (Waybill / Docket Number)"
+                        : shippingCarrier.toLowerCase().includes("dhl")
+                        ? "e.g. 1234567890 (10-digit AWB)"
+                        : "e.g. EM123456789IN / ED987654321IN"
+                    }
                     value={trackingNumber}
                     onChange={(e) => setTrackingNumber(e.target.value.toUpperCase())}
                     disabled={shippingLoading}
                   />
                   <small>
-                    Find the 13-character tracking barcode on your India Post booking receipt (starts with 'E' or 'R' and ends with 'IN').
+                    {shippingCarrier.toLowerCase().includes("maruti")
+                      ? "Find the waybill / docket barcode number on your Shree Maruti Courier booking slip."
+                      : shippingCarrier.toLowerCase().includes("dhl")
+                      ? "Find the 10-digit Air Waybill number on your DHL booking receipt."
+                      : "Find the 13-character tracking barcode on your India Post booking receipt (starts with 'E' or 'R' and ends with 'IN')."}
                   </small>
                 </div>
 
@@ -1383,7 +1417,9 @@ function AdminOrders() {
                     disabled={shippingLoading}
                   />
                   <small>
-                    Default official India Post tracking portal. The customer will see a 1-click button to track their parcel directly.
+                    {shippingCarrier.toLowerCase().includes("maruti")
+                      ? "Official Shree Maruti Courier online tracking portal. The customer can track their parcel with 1 click."
+                      : "Default official courier tracking portal. The customer will see a 1-click button to track their parcel directly."}
                   </small>
                 </div>
 
@@ -1391,10 +1427,11 @@ function AdminOrders() {
                   <strong>💡 What happens when you confirm:</strong>
                   <div style={{ marginTop: "4px" }}>
                     • Order status updates to <strong>"Shipped"</strong> in real-time.<br />
-                    • Customer sees the <strong>India Post Consignment number</strong> and <strong>"Track on India Post"</strong> button in their account.<br />
+                    • Customer sees the <strong>{shippingCarrier}</strong> tracking number and <strong>"Track on {shippingCarrier}"</strong> button in their account.<br />
                     • You get a <strong>1-Click WhatsApp button</strong> to send the tracking link directly to the customer.
                   </div>
                 </div>
+
               </div>
 
               <div className="order-modal-footer">
@@ -1535,10 +1572,10 @@ function AdminOrders() {
               <div style={{ textAlign: "center", padding: "16px 0" }}>
                 <div style={{ fontSize: "40px", marginBottom: "8px" }}>📦</div>
                 <h4 style={{ margin: "0 0 6px", fontSize: "16px", color: "#111827" }}>
-                  India Post Tracking Added Successfully!
+                  {shippedSuccessOrder.shipping_carrier || "Carrier"} Tracking Added Successfully!
                 </h4>
                 <p style={{ margin: "0", fontSize: "12.5px", color: "#4b5563" }}>
-                  Consignment Number: <strong style={{ color: "#1e40af", fontFamily: "monospace" }}>{shippedSuccessOrder.tracking_number}</strong>
+                  Tracking / Waybill Number: <strong style={{ color: "#1e40af", fontFamily: "monospace" }}>{shippedSuccessOrder.tracking_number}</strong>
                 </p>
               </div>
 
@@ -1547,8 +1584,9 @@ function AdminOrders() {
                   💬 Notify Customer on WhatsApp:
                 </strong>
                 <p style={{ margin: "0", fontSize: "11.5px", color: "#374151", lineHeight: 1.45 }}>
-                  Click below to send a pre-filled WhatsApp message with the India Post tracking link directly to <strong>{shippedSuccessOrder.customer_name}</strong> ({shippedSuccessOrder.customer_phone}).
+                  Click below to send a pre-filled WhatsApp message with the {shippedSuccessOrder.shipping_carrier || "courier"} tracking link directly to <strong>{shippedSuccessOrder.customer_name}</strong> ({shippedSuccessOrder.customer_phone}).
                 </p>
+
               </div>
             </div>
 

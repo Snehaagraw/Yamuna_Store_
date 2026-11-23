@@ -181,7 +181,7 @@ export default function LegalPolicies({ initialTab }) {
           {activeTab === "shipping" && (
             <article className="policy-card">
               <div className="policy-card-header">
-                <span className="policy-badge">Carrier Partners: India Post & DHL</span>
+                <span className="policy-badge">Carrier Partners: India Post, Shree Maruti Courier & DHL</span>
                 <h2>Shipping & Delivery Policy</h2>
                 <p className="policy-card-sub">
                   Every order is packed with reverence in Sri Vrindavan Dham and dispatched with secure tracking.
@@ -200,8 +200,9 @@ export default function LegalPolicies({ initialTab }) {
                 <div className="shipping-grid">
                   <div className="shipping-col">
                     <h4>Carrier</h4>
-                    <p><strong>India Post Speed Post</strong> & Express Courier Partners</p>
+                    <p><strong>India Post (Speed Post)</strong>, <strong>Shree Maruti Courier</strong> & Express Courier Partners</p>
                   </div>
+
                   <div className="shipping-col">
                     <h4>Delhi NCR & UP</h4>
                     <p><strong>2 – 3 Business Days</strong></p>

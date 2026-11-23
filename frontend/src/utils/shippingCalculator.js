@@ -2,8 +2,10 @@
  * Shipping Calculator for Yamuna Store
  * Carriers supported:
  * 1. India Post (Domestic across India) - Speed Post / Registered Parcel
- * 2. DHL Express (International across 50+ countries) - Worldwide Air Courier
+ * 2. Shree Maruti Courier (Domestic express courier across India)
+ * 3. DHL Express (International across 50+ countries) - Worldwide Air Courier
  */
+
 
 // Category typical fallback weights (in grams) when product.weight is not provided
 export const CATEGORY_DEFAULT_WEIGHTS = {
