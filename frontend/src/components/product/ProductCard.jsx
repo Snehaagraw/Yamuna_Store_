@@ -43,16 +43,18 @@ function ProductCard({ product, onClick }) {
     return s === "out of stock" || s === "sold out" || s === "0";
   };
 
+  const isDirectlyOutOfStock =
+    product.stock_status === "Out of Stock" ||
+    (typeof product.stock_status === "string" &&
+      product.stock_status.toLowerCase().includes("out"));
+
   const hasColors = Boolean(product.colors && product.colors.length > 0);
   const allColorsOutOfStock =
     hasColors && product.colors.every((c) => isColorOutOfStock(c));
+  const someColorsOutOfStock =
+    hasColors && !allColorsOutOfStock && product.colors.some((c) => isColorOutOfStock(c));
 
-  const isOutOfStock =
-    allColorsOutOfStock ||
-    (!hasColors &&
-      (product.stock_status === "Out of Stock" ||
-        (typeof product.stock_status === "string" &&
-          product.stock_status.toLowerCase().includes("out"))));
+  const isOutOfStock = isDirectlyOutOfStock || allColorsOutOfStock;
 
   const sizePricesList =
     product.size_prices && typeof product.size_prices === "object"
@@ -147,6 +149,18 @@ function ProductCard({ product, onClick }) {
           {isOutOfStock && (
             <span className="product-badge badge-sold-out">Sold Out</span>
           )}
+          {someColorsOutOfStock && !isOutOfStock && (
+            <span
+              className="product-badge badge-some-out"
+              style={{
+                background: "#d97706",
+                color: "#ffffff",
+                boxShadow: "0 2px 6px rgba(217, 119, 6, 0.35)",
+              }}
+            >
+              Some Prints Sold Out
+            </span>
+          )}
           {isNewCollection && !isOutOfStock && (
             <span className="product-badge badge-new">New Arrival</span>
           )}
@@ -224,6 +238,22 @@ function ProductCard({ product, onClick }) {
           </div>
           {isOutOfStock ? (
             <span className="product-stock-tag out">Out of Stock</span>
+          ) : someColorsOutOfStock ? (
+            <span
+              className="product-stock-tag some-out"
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                color: "#b45309",
+                background: "#fef3c7",
+                border: "1px solid #fde68a",
+                padding: "2px 6px",
+                borderRadius: "4px",
+                letterSpacing: "0.02em",
+              }}
+            >
+              Limited Prints
+            </span>
           ) : hasDiscount ? (
             <span
               className="product-discount-chip"

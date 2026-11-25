@@ -160,6 +160,8 @@ function AdminProducts({
 
   const [deletingProductId, setDeletingProductId] =
     useState(null);
+  const [updatingStockId, setUpdatingStockId] =
+    useState(null);
   const [activeSectionFilter, setActiveSectionFilter] =
     useState("all");
 
@@ -169,7 +171,11 @@ function AdminProducts({
       setError("");
 
       const response = await api.get(
-        "/api/products/"
+        "/api/products/",
+        {
+          params: { _t: Date.now() },
+          headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
+        }
       );
 
       setProducts(response.data);
@@ -181,6 +187,131 @@ function AdminProducts({
       );
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleToggleStockStatus = async (product) => {
+    const newStatus =
+      product.stock_status === "In Stock" ? "Out of Stock" : "In Stock";
+    const token = localStorage.getItem("admin_access_token");
+    if (!token) {
+      alert("Your admin session has expired. Please log in again.");
+      return;
+    }
+
+    setUpdatingStockId(product.id);
+
+    // Optimistic UI update in real time
+    setProducts((prev) =>
+      prev.map((p) =>
+        p.id === product.id ? { ...p, stock_status: newStatus } : p
+      )
+    );
+
+    try {
+      await api.patch(
+        `/api/products/${product.id}/`,
+        { stock_status: newStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    } catch (err) {
+      console.error("Failed to update stock status:", err);
+      // Revert on error
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === product.id ? { ...p, stock_status: product.stock_status } : p
+        )
+      );
+      alert("Failed to update stock status on server. Please try again.");
+    } finally {
+      setUpdatingStockId(null);
+    }
+  };
+
+  const handleToggleColorStock = async (product, colorName) => {
+    const inv = { ...(product.color_inventory || {}) };
+    const colorKey =
+      Object.keys(inv).find(
+        (k) => k.trim().toLowerCase() === colorName.trim().toLowerCase()
+      ) || colorName;
+
+    const currentVal = inv[colorKey] || "In Stock";
+    const isCurrentlyOut =
+      currentVal === "Out of Stock" ||
+      currentVal === "sold out" ||
+      currentVal === "0" ||
+      currentVal === 0 ||
+      currentVal === false;
+
+    const newColorStatus = isCurrentlyOut ? "In Stock" : "Out of Stock";
+    inv[colorKey] = newColorStatus;
+
+    // Check if all colors are now out of stock
+    const colorsList = product.colors || [];
+    const allColorsOut =
+      colorsList.length > 0 &&
+      colorsList.every((c) => {
+        const k =
+          Object.keys(inv).find(
+            (x) => x.trim().toLowerCase() === c.trim().toLowerCase()
+          ) || c;
+        const v = inv[k];
+        return (
+          v === "Out of Stock" ||
+          v === "sold out" ||
+          v === "0" ||
+          v === 0 ||
+          v === false
+        );
+      });
+
+    let newStockStatus = product.stock_status;
+    if (allColorsOut) {
+      newStockStatus = "Out of Stock";
+    } else if (newColorStatus === "In Stock" && product.stock_status === "Out of Stock") {
+      newStockStatus = "In Stock";
+    }
+
+    const token = localStorage.getItem("admin_access_token");
+    if (!token) {
+      alert("Your admin session has expired. Please log in again.");
+      return;
+    }
+
+    setUpdatingStockId(`${product.id}-${colorName}`);
+
+    // Instant optimistic UI update
+    setProducts((prev) =>
+      prev.map((p) =>
+        p.id === product.id
+          ? { ...p, color_inventory: inv, stock_status: newStockStatus }
+          : p
+      )
+    );
+
+    try {
+      await api.patch(
+        `/api/products/${product.id}/`,
+        { color_inventory: inv, stock_status: newStockStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    } catch (err) {
+      console.error("Failed to update print stock status:", err);
+      // Revert
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === product.id
+            ? {
+                ...p,
+                color_inventory: product.color_inventory,
+                stock_status: product.stock_status,
+              }
+            : p
+        )
+      );
+      alert("Failed to update print stock status on server. Please try again.");
+    } finally {
+      setUpdatingStockId(null);
     }
   };
 
@@ -449,7 +580,10 @@ function AdminProducts({
                   {product.colors &&
                     product.colors.length > 0 && (
                       <div className="admin-product-colors">
-                        <strong>Prints & Stock:</strong>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                          <strong>Prints & Stock:</strong>
+                          <span style={{ fontSize: "10.5px", color: "var(--maroon)", opacity: 0.8 }}>⚡ Click to toggle stock</span>
+                        </div>
 
                         <div className="admin-product-color-list">
                           {product.colors.map((color, index) => {
@@ -465,16 +599,25 @@ function AdminProducts({
                               val === 0 ||
                               val === false;
 
+                            const isUpdating = updatingStockId === `${product.id}-${color}`;
+
                             return (
-                              <span
+                              <button
                                 key={`${color}-${index}`}
-                                className={`admin-color-tag ${isOut ? "out-of-stock" : "in-stock"}`}
-                                title={`${color}: ${isOut ? "Out of Stock" : "In Stock"}`}
+                                type="button"
+                                className={`admin-color-tag admin-color-toggle-btn ${isOut ? "out-of-stock" : "in-stock"}`}
+                                onClick={() => handleToggleColorStock(product, color)}
+                                title={`Click to instantly mark ${color} as ${isOut ? "In Stock" : "Out of Stock"}`}
+                                disabled={isUpdating}
                               >
                                 <span className={`status-dot ${isOut ? "red" : "green"}`} />
-                                {color}
-                                {isOut && <small className="tag-out-lbl"> (Sold Out)</small>}
-                              </span>
+                                <span>{color}</span>
+                                {isOut ? (
+                                  <small className="tag-out-lbl"> (Sold Out)</small>
+                                ) : (
+                                  <small className="tag-in-lbl"> (In Stock)</small>
+                                )}
+                              </button>
                             );
                           })}
                         </div>
@@ -528,16 +671,21 @@ function AdminProducts({
                     )}
 
                   <div className="admin-product-status">
-                    <span
-                      className={
-                        product.stock_status ===
-                        "In Stock"
+                    <button
+                      type="button"
+                      className={`admin-stock-toggle-btn ${
+                        product.stock_status === "In Stock"
                           ? "status-in-stock"
                           : "status-out-stock"
-                      }
+                      }`}
+                      onClick={() => handleToggleStockStatus(product)}
+                      title={`Click to instantly toggle product stock status (Currently: ${product.stock_status})`}
+                      disabled={updatingStockId === product.id}
                     >
-                      {product.stock_status}
-                    </span>
+                      <span className={`status-dot ${product.stock_status === "In Stock" ? "green" : "red"}`} />
+                      <span>{product.stock_status}</span>
+                      <small className="toggle-hint-chip">Click to toggle</small>
+                    </button>
 
                     {product.is_best_seller && (
                       <span className="product-tag">
