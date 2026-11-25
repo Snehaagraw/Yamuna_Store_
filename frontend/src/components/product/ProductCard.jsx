@@ -28,10 +28,31 @@ function ProductCard({ product, onClick }) {
   const isBestSeller =
     product.is_best_seller ?? product.isBestSeller ?? false;
 
+  const isColorOutOfStock = (colorName) => {
+    if (!product.color_inventory || !colorName) return false;
+    const inv = product.color_inventory;
+    const key = Object.keys(inv).find(
+      (k) => k.trim().toLowerCase() === colorName.trim().toLowerCase()
+    );
+    if (!key) return false;
+    const val = inv[key];
+    if (val === undefined || val === null) return false;
+    if (typeof val === "boolean") return !val;
+    if (typeof val === "number") return val <= 0;
+    const s = String(val).trim().toLowerCase();
+    return s === "out of stock" || s === "sold out" || s === "0";
+  };
+
+  const hasColors = Boolean(product.colors && product.colors.length > 0);
+  const allColorsOutOfStock =
+    hasColors && product.colors.every((c) => isColorOutOfStock(c));
+
   const isOutOfStock =
-    product.stock_status === "Out of Stock" ||
-    (typeof product.stock_status === "string" &&
-      product.stock_status.toLowerCase().includes("out"));
+    allColorsOutOfStock ||
+    (!hasColors &&
+      (product.stock_status === "Out of Stock" ||
+        (typeof product.stock_status === "string" &&
+          product.stock_status.toLowerCase().includes("out"))));
 
   const sizePricesList =
     product.size_prices && typeof product.size_prices === "object"

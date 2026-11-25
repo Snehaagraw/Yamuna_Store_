@@ -135,10 +135,17 @@ class Product(models.Model):
         blank=True
     )
 
+    color_inventory = models.JSONField(
+        default=dict,
+        blank=True,
+        help_text="Stock status or inventory count per color/print variant, e.g. {'Red Print': 'In Stock', 'Blue Print': 'Out of Stock'}"
+    )
+
     sizes = models.JSONField(
         default=list,
         blank=True
     )
+
 
     size_inventory = models.JSONField(
         default=dict,
@@ -271,7 +278,52 @@ class Product(models.Model):
         else:
             self.save()
 
+    def deduct_color_stock(self, color_name, quantity=1):
+        """
+        Deduct stock for a specific color/print. If all colors reach 'Out of Stock' or 0, update stock_status to 'Out of Stock'.
+        """
+        if not self.color_inventory or not color_name:
+            return
+
+        matched_key = None
+        for k in self.color_inventory.keys():
+            if k.strip().lower() == color_name.strip().lower():
+                matched_key = k
+                break
+
+        if not matched_key:
+            return
+
+        current_val = self.color_inventory[matched_key]
+        if isinstance(current_val, int):
+            new_stock = max(0, current_val - quantity)
+            self.color_inventory[matched_key] = new_stock if new_stock > 0 else "Out of Stock"
+        elif str(current_val).strip().lower() in ("in stock", "available"):
+            # If tracking boolean/status and quantity was 1, can remain In Stock unless manually set
+            pass
+
+        # If every color/print in colors is marked Out of Stock, set product stock_status to Out of Stock
+        if self.colors:
+            all_out = True
+            for c in self.colors:
+                c_clean = c.strip()
+                val = self.color_inventory.get(c_clean, "In Stock")
+                if isinstance(val, int) and val > 0:
+                    all_out = False
+                    break
+                elif str(val).strip().lower() not in ("out of stock", "sold out", "0"):
+                    all_out = False
+                    break
+            if all_out:
+                self.stock_status = "Out of Stock"
+
+        if self.pk:
+            self.save(update_fields=["color_inventory", "stock_status"])
+        else:
+            self.save()
+
     def __str__(self):
+
         return self.name
 
 

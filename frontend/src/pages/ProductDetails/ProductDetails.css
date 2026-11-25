@@ -1028,3 +1028,72 @@
     text-align: left;
   }
 }
+
+/* =========================================================
+   PER-PRINT / VARIANT OUT OF STOCK STYLING
+   ========================================================= */
+
+.product-color-btn.sold-out {
+  background: #f9fafb;
+  border-color: #e5e7eb;
+  opacity: 0.82;
+}
+
+.product-color-btn.sold-out .color-btn-text {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.product-color-btn.sold-out .color-btn-thumb {
+  filter: grayscale(70%);
+  opacity: 0.8;
+}
+
+.color-btn-soldout-chip {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  letter-spacing: 0.03em;
+  margin-left: 2px;
+}
+
+.selected-color-status-soldout {
+  color: #dc2626;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.variant-out-of-stock-alert {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-left: 4px solid #ef4444;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.variant-out-of-stock-alert .alert-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.variant-out-of-stock-alert strong {
+  display: block;
+  font-size: 13px;
+  color: #991b1b;
+  margin-bottom: 2px;
+}
+
+.variant-out-of-stock-alert p {
+  margin: 0;
+  font-size: 12px;
+  color: #7f1d1d;
+}

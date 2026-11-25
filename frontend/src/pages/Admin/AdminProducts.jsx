@@ -449,18 +449,34 @@ function AdminProducts({
                   {product.colors &&
                     product.colors.length > 0 && (
                       <div className="admin-product-colors">
-                        <strong>Colors:</strong>
+                        <strong>Prints & Stock:</strong>
 
                         <div className="admin-product-color-list">
-                          {product.colors.map(
-                            (color, index) => (
+                          {product.colors.map((color, index) => {
+                            const inv = product.color_inventory || {};
+                            const colorKey = Object.keys(inv).find(
+                              (k) => k.trim().toLowerCase() === color.trim().toLowerCase()
+                            );
+                            const val = colorKey !== undefined ? inv[colorKey] : "In Stock";
+                            const isOut =
+                              val === "Out of Stock" ||
+                              val === "sold out" ||
+                              val === "0" ||
+                              val === 0 ||
+                              val === false;
+
+                            return (
                               <span
                                 key={`${color}-${index}`}
+                                className={`admin-color-tag ${isOut ? "out-of-stock" : "in-stock"}`}
+                                title={`${color}: ${isOut ? "Out of Stock" : "In Stock"}`}
                               >
+                                <span className={`status-dot ${isOut ? "red" : "green"}`} />
                                 {color}
+                                {isOut && <small className="tag-out-lbl"> (Sold Out)</small>}
                               </span>
-                            )
-                          )}
+                            );
+                          })}
                         </div>
                       </div>
                     )}

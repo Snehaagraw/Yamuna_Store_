@@ -107,6 +107,11 @@ class ProductSerializer(serializers.ModelSerializer):
         default=list
     )
 
+    color_inventory = serializers.JSONField(
+        required=False,
+        default=dict
+    )
+
     sizes = serializers.JSONField(
         required=False,
         default=list
@@ -121,6 +126,7 @@ class ProductSerializer(serializers.ModelSerializer):
         required=False,
         default=dict
     )
+
 
     original_price = serializers.DecimalField(
         max_digits=10,
@@ -169,6 +175,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "fabric",
             "weight",
             "colors",
+            "color_inventory",
             "sizes",
             "size_inventory",
             "size_prices",
@@ -249,7 +256,31 @@ class ProductSerializer(serializers.ModelSerializer):
             elif val is None and field_name in data:
                 data[field_name] = []
 
+        color_inv = data.get("color_inventory")
+        if isinstance(color_inv, str):
+            val_str = color_inv.strip()
+            if val_str:
+                try:
+                    parsed = json.loads(val_str)
+                    if isinstance(parsed, dict):
+                        data["color_inventory"] = {
+                            str(k).strip(): str(v).strip() for k, v in parsed.items() if str(k).strip()
+                        }
+                    else:
+                        data["color_inventory"] = {}
+                except Exception:
+                    data["color_inventory"] = {}
+            else:
+                data["color_inventory"] = {}
+        elif isinstance(color_inv, dict):
+            data["color_inventory"] = {
+                str(k).strip(): str(v).strip() for k, v in color_inv.items() if str(k).strip()
+            }
+        elif color_inv is None and "color_inventory" in data:
+            data["color_inventory"] = {}
+
         size_inv = data.get("size_inventory")
+
         if isinstance(size_inv, str):
             val_str = size_inv.strip()
             if val_str:

@@ -30,6 +30,8 @@ function AdminAddProduct({
 
   const [sizeInventory, setSizeInventory] = useState({});
   const [sizePrices, setSizePrices] = useState({});
+  const [colorInventory, setColorInventory] = useState({});
+
 
   /*
    * New images selected from the computer.
@@ -112,7 +114,9 @@ function AdminAddProduct({
 
       setSizeInventory({});
       setSizePrices({});
+      setColorInventory({});
       setExistingImages([]);
+
       setRemovedImageIds([]);
       setNewImageColors([]);
       setExistingImageColors({});
@@ -185,7 +189,13 @@ function AdminAddProduct({
         ? { ...productToEdit.size_prices }
         : {}
     );
+    setColorInventory(
+      productToEdit.color_inventory && typeof productToEdit.color_inventory === "object"
+        ? { ...productToEdit.color_inventory }
+        : {}
+    );
     const existingImgs = productToEdit.images || [];
+
     setExistingImages(existingImgs);
     const initColors = {};
     existingImgs.forEach((img) => {
@@ -654,7 +664,31 @@ function AdminAddProduct({
         JSON.stringify(colorsArray)
       );
 
+      const finalColorInventory = {};
+      if (colorsArray.length > 0) {
+        colorsArray.forEach((c) => {
+          finalColorInventory[c] =
+            colorInventory[c] !== undefined ? colorInventory[c] : "In Stock";
+        });
+      }
+      data.append(
+        "color_inventory",
+        JSON.stringify(finalColorInventory)
+      );
+
+      // If all colors/prints are explicitly marked Out of Stock, also set overall stock_status to Out of Stock
+      if (
+        colorsArray.length > 0 &&
+        colorsArray.every(
+          (c) =>
+            String(finalColorInventory[c] || "").trim().toLowerCase() === "out of stock"
+        )
+      ) {
+        data.set("stock_status", "Out of Stock");
+      }
+
       const sizesArray = formData.sizes
+
         ? formData.sizes
             .split(",")
             .map((size) => size.trim())
@@ -1187,9 +1221,9 @@ function AdminAddProduct({
               </small>
             </div>
 
-            <div className="admin-form-group">
+            <div className="admin-form-group admin-form-group-full">
               <label htmlFor="product-colors">
-                Colors
+                Colors / Prints / Variants
               </label>
 
               <input
@@ -1198,13 +1232,114 @@ function AdminAddProduct({
                 type="text"
                 value={formData.colors}
                 onChange={handleChange}
-                placeholder="Red, Yellow, Blue"
+                placeholder="e.g. Peacock Blue, Lotus Pink, Kesari Yellow or Print 1, Print 2"
               />
 
               <small>
-                Enter multiple colors separated by commas.
+                Enter multiple colors or prints separated by commas (e.g. "Peacock Blue, Lotus Pink, Yellow"). You can toggle each print In Stock or Out of Stock individually below.
               </small>
+
+              {/* Color & Print Stock Status Panel */}
+              {availableColorOptions.length > 0 && (
+                <div className="admin-color-stock-panel">
+                  <div className="color-stock-panel-header">
+                    <div>
+                      <span className="color-stock-panel-title">
+                        🎨 Color &amp; Print Stock Status
+                      </span>
+                      <small className="color-stock-panel-subtitle">
+                        Click on any print to switch between In Stock and Out of Stock.
+                      </small>
+                    </div>
+                    <div className="color-stock-bulk-actions">
+                      <button
+                        type="button"
+                        className="color-stock-bulk-btn in-stock"
+                        onClick={() => {
+                          const updated = {};
+                          availableColorOptions.forEach((c) => {
+                            updated[c] = "In Stock";
+                          });
+                          setColorInventory(updated);
+                        }}
+                        title="Mark all colors/prints as In Stock"
+                      >
+                        ✓ Mark All In Stock
+                      </button>
+                      <button
+                        type="button"
+                        className="color-stock-bulk-btn out-stock"
+                        onClick={() => {
+                          const updated = {};
+                          availableColorOptions.forEach((c) => {
+                            updated[c] = "Out of Stock";
+                          });
+                          setColorInventory(updated);
+                        }}
+                        title="Mark all colors/prints as Out of Stock"
+                      >
+                        ✕ Mark All Out of Stock
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="color-stock-grid">
+                    {availableColorOptions.map((colorName) => {
+                      const isOut =
+                        String(colorInventory[colorName] || "").trim().toLowerCase() === "out of stock";
+
+                      // Find thumbnail if an existing image or newly uploaded preview is tagged with this color
+                      const pairedExisting = existingImages.find(
+                        (img) => (existingImageColors[img.id] || img.color || "").trim().toLowerCase() === colorName.toLowerCase()
+                      );
+                      const pairedNewIdx = newImageColors.findIndex(
+                        (c) => (c || "").trim().toLowerCase() === colorName.toLowerCase()
+                      );
+                      const pairedThumb = pairedExisting?.image || (pairedNewIdx >= 0 ? previews[pairedNewIdx] : null);
+
+                      return (
+                        <div
+                          key={colorName}
+                          className={`color-stock-card ${isOut ? "is-out" : "is-in"}`}
+                        >
+                          <div className="color-stock-card-left">
+                            {pairedThumb ? (
+                              <img
+                                src={pairedThumb}
+                                alt={colorName}
+                                className="color-stock-card-thumb"
+                              />
+                            ) : (
+                              <div className="color-stock-card-placeholder">🎨</div>
+                            )}
+                            <div className="color-stock-card-details">
+                              <span className="color-stock-card-name">{colorName}</span>
+                              <span className={`color-stock-status-badge ${isOut ? "out" : "in"}`}>
+                                {isOut ? "● Out of Stock" : "● In Stock"}
+                              </span>
+                            </div>
+                          </div>
+
+                          <button
+                            type="button"
+                            className={`color-stock-toggle-pill ${isOut ? "pill-make-in" : "pill-make-out"}`}
+                            onClick={() => {
+                              setColorInventory((prev) => ({
+                                ...prev,
+                                [colorName]: isOut ? "In Stock" : "Out of Stock",
+                              }));
+                            }}
+                          >
+                            {isOut ? "Make In Stock" : "Make Out of Stock"}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
+
 
             <div className="admin-form-group admin-form-group-full">
               <div className="admin-field-header-row">

@@ -10,6 +10,21 @@ import ProductImageZoom from "../../components/product/ProductImageZoom";
 
 import "./ProductDetails.css";
 
+const checkColorOutOfStock = (productObj, colorName) => {
+  if (!productObj?.color_inventory || !colorName) return false;
+  const inv = productObj.color_inventory;
+  const key = Object.keys(inv).find(
+    (k) => k.trim().toLowerCase() === colorName.trim().toLowerCase()
+  );
+  if (!key) return false;
+  const val = inv[key];
+  if (val === undefined || val === null) return false;
+  if (typeof val === "boolean") return !val;
+  if (typeof val === "number") return val <= 0;
+  const s = String(val).trim().toLowerCase();
+  return s === "out of stock" || s === "sold out" || s === "0";
+};
+
 function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -25,6 +40,8 @@ function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
+
+  const isColorOutOfStock = (colorName) => checkColorOutOfStock(product, colorName);
 
   const addedToCart = useMemo(() => {
     if (!product) return false;
@@ -73,7 +90,20 @@ function ProductDetails() {
     }
 
     if (product?.colors && product.colors.length > 0) {
-      setSelectedColor(product.colors[0]);
+      // Pick first color print that is in-stock, or fallback to first color
+      const availableColor =
+        product.colors.find((c) => !checkColorOutOfStock(product, c)) ||
+        product.colors[0];
+      setSelectedColor(availableColor);
+
+      // Auto-focus matching image for available color if present
+      const imgs = product.images || [];
+      const matchedIdx = imgs.findIndex(
+        (img) => img.color && img.color.toLowerCase() === availableColor.toLowerCase()
+      );
+      if (matchedIdx >= 0) {
+        setSelectedImage(matchedIdx);
+      }
     } else {
       setSelectedColor("");
     }
@@ -234,10 +264,18 @@ function ProductDetails() {
   const isSelectedSizeOutOfStock =
     selectedSizeStock !== undefined && Number(selectedSizeStock) <= 0;
 
+  const hasColors = Boolean(product?.colors && product.colors.length > 0);
+  const allColorsOutOfStock =
+    hasColors && product.colors.every((c) => isColorOutOfStock(c));
+  const isSelectedColorOutOfStock =
+    Boolean(selectedColor) && isColorOutOfStock(selectedColor);
+
   const isOutOfStock =
     !product ||
     product.stock_status === "Out of Stock" ||
-    isSelectedSizeOutOfStock;
+    allColorsOutOfStock ||
+    isSelectedSizeOutOfStock ||
+    isSelectedColorOutOfStock;
 
   const maxAllowedStock =
     selectedSizeStock !== undefined ? Number(selectedSizeStock) : 99;
@@ -610,10 +648,13 @@ function ProductDetails() {
               {product.colors?.length > 0 && (
                 <div className="product-option-block">
                   <div className="option-label-row">
-                    <span className="option-title">Select Color</span>
+                    <span className="option-title">Select Color / Print</span>
                     {selectedColor && (
                       <span className="selected-color-pill">
                         Chosen: <strong>{selectedColor}</strong>
+                        {isSelectedColorOutOfStock && (
+                          <span className="selected-color-status-soldout"> · Out of Stock</span>
+                        )}
                       </span>
                     )}
                   </div>
@@ -623,6 +664,7 @@ function ProductDetails() {
                       const isSelected =
                         (selectedColor || "").trim().toLowerCase() ===
                         color.trim().toLowerCase();
+                      const isSoldOut = isColorOutOfStock(color);
 
                       // Optional thumbnail preview of the dress for this color
                       const colorImg =
@@ -640,9 +682,13 @@ function ProductDetails() {
                           type="button"
                           className={`product-color-btn ${
                             isSelected ? "active" : ""
-                          }`}
+                          } ${isSoldOut ? "sold-out" : ""}`}
                           onClick={() => handleSelectColor(color, index)}
-                          title={`Select ${color} dress`}
+                          title={
+                            isSoldOut
+                              ? `${color} (Out of Stock)`
+                              : `Select ${color}`
+                          }
                           aria-label={`Select color ${color}`}
                         >
                           {colorImg && (
@@ -655,13 +701,26 @@ function ProductDetails() {
                             </span>
                           )}
                           <span className="color-btn-text">{color}</span>
-                          {isSelected && (
+                          {isSoldOut && (
+                            <span className="color-btn-soldout-chip">Sold Out</span>
+                          )}
+                          {isSelected && !isSoldOut && (
                             <span className="color-btn-check">✓</span>
                           )}
                         </button>
                       );
                     })}
                   </div>
+
+                  {isSelectedColorOutOfStock && (
+                    <div className="variant-out-of-stock-alert">
+                      <span className="alert-icon">⚠️</span>
+                      <div className="alert-content">
+                        <strong>This print ({selectedColor}) is currently out of stock.</strong>
+                        <p>Please select another available print above to place your order.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -777,7 +836,13 @@ function ProductDetails() {
                   disabled={isOutOfStock || isMaxStockReached}
                   onClick={handleAddToCart}
                 >
-                  {isOutOfStock
+                  {allColorsOutOfStock
+                    ? "All Prints Sold Out"
+                    : isSelectedColorOutOfStock
+                    ? "Selected Print Sold Out"
+                    : isSelectedSizeOutOfStock
+                    ? "Selected Size Sold Out"
+                    : isOutOfStock
                     ? "Out of Stock"
                     : isMaxStockReached
                     ? `All in Cart (${cartQuantity}) ✓`
