@@ -638,6 +638,12 @@ function AdminProducts({
                               product.size_prices[size] !== ""
                                 ? Number(product.size_prices[size])
                                 : null;
+                            const customWeight =
+                              product.size_weights &&
+                              product.size_weights[size] !== undefined &&
+                              product.size_weights[size] !== ""
+                                ? product.size_weights[size]
+                                : null;
                             const isSoldOut = stock !== null && stock <= 0;
 
                             return (
@@ -659,6 +665,7 @@ function AdminProducts({
                                 {size}
                                 {customPrice !== null ? ` · ₹${customPrice}` : ""}
                                 {stock !== null ? ` (${stock} pcs)` : ""}
+                                {customWeight ? ` · ⚖️ ${customWeight}` : ""}
                               </span>
                             );
                           })}

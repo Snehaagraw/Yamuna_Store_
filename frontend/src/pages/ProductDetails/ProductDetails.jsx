@@ -336,6 +336,18 @@ function ProductDetails() {
     return Number(product.price || 0);
   }, [product, selectedSize]);
 
+  const currentSizeWeight = useMemo(() => {
+    if (!product) return "";
+    if (
+      selectedSize &&
+      product.size_weights &&
+      product.size_weights[selectedSize]
+    ) {
+      return product.size_weights[selectedSize];
+    }
+    return product.weight || "";
+  }, [product, selectedSize]);
+
   const rawOrigNum = product?.original_price ? Number(product.original_price) : null;
   let discountPercent = Number(product?.discount_percent) || 0;
   let activePrice = Number(rawBaseSizePrice);
@@ -610,7 +622,7 @@ function ProductDetails() {
 
 
               {/* Quick Specs Highlight Bar (Only for real attributes entered by admin) */}
-              {(product.fabric || product.weight || product.origin || product.occasion) && (
+              {(product.fabric || currentSizeWeight || product.origin || product.occasion) && (
                 <div className="product-quick-specs-grid">
                   {product.fabric && (
                     <div className="spec-card">
@@ -619,10 +631,12 @@ function ProductDetails() {
                     </div>
                   )}
 
-                  {product.weight && (
+                  {currentSizeWeight && (
                     <div className="spec-card">
-                      <span className="spec-label">Weight</span>
-                      <strong className="spec-value">⚖️ {product.weight}</strong>
+                      <span className="spec-label">
+                        Weight {selectedSize && product.size_weights?.[selectedSize] ? `(${selectedSize})` : ""}
+                      </span>
+                      <strong className="spec-value">⚖️ {currentSizeWeight}</strong>
                     </div>
                   )}
 
@@ -758,6 +772,13 @@ function ProductDetails() {
                           ? Number(product.size_prices[size])
                           : null;
 
+                      const customSizeWeight =
+                        product.size_weights &&
+                        product.size_weights[size] !== undefined &&
+                        product.size_weights[size] !== ""
+                          ? product.size_weights[size]
+                          : null;
+
                       const showCustomPrice =
                         hasMultipleSizePrices &&
                         customSizePrice !== null &&
@@ -781,8 +802,8 @@ function ProductDetails() {
                             isSoldOut
                               ? `${size} (Sold Out)`
                               : showCustomPrice
-                              ? `Select size ${size} - ${formatPrice(customSizePrice).formatted}`
-                              : `Select size ${size}`
+                              ? `Select size ${size} - ${formatPrice(customSizePrice).formatted}${customSizeWeight ? ` · ⚖️ ${customSizeWeight}` : ""}`
+                              : `Select size ${size}${customSizeWeight ? ` · ⚖️ ${customSizeWeight}` : ""}`
                           }
                         >
                           <span className="size-btn-label">{size}</span>
@@ -955,10 +976,10 @@ function ProductDetails() {
                             <strong>{product.fabric}</strong>
                           </div>
                         )}
-                        {product.weight && (
+                        {currentSizeWeight && (
                           <div className="tab-spec-row">
-                            <span>Approx. Weight</span>
-                            <strong>{product.weight}</strong>
+                            <span>Approx. Weight {selectedSize && product.size_weights?.[selectedSize] ? `(${selectedSize})` : ""}</span>
+                            <strong>{currentSizeWeight}</strong>
                           </div>
                         )}
                         <div className="tab-spec-row">

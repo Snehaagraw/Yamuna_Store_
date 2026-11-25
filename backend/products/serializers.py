@@ -127,6 +127,11 @@ class ProductSerializer(serializers.ModelSerializer):
         default=dict
     )
 
+    size_weights = serializers.JSONField(
+        required=False,
+        default=dict
+    )
+
 
     original_price = serializers.DecimalField(
         max_digits=10,
@@ -179,6 +184,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "sizes",
             "size_inventory",
             "size_prices",
+            "size_weights",
             "stock_status",
             "is_best_seller",
             "is_new_collection",
@@ -329,6 +335,33 @@ class ProductSerializer(serializers.ModelSerializer):
             }
         elif size_pr is None and "size_prices" in data:
             data["size_prices"] = {}
+
+        size_wt = data.get("size_weights")
+        if isinstance(size_wt, str):
+            val_str = size_wt.strip()
+            if val_str:
+                try:
+                    parsed = json.loads(val_str)
+                    if isinstance(parsed, dict):
+                        data["size_weights"] = {
+                            str(k).strip(): str(v).strip()
+                            for k, v in parsed.items()
+                            if v is not None and str(v).strip() != ""
+                        }
+                    else:
+                        data["size_weights"] = {}
+                except Exception:
+                    data["size_weights"] = {}
+            else:
+                data["size_weights"] = {}
+        elif isinstance(size_wt, dict):
+            data["size_weights"] = {
+                str(k).strip(): str(v).strip()
+                for k, v in size_wt.items()
+                if v is not None and str(v).strip() != ""
+            }
+        elif size_wt is None and "size_weights" in data:
+            data["size_weights"] = {}
 
         if "remove_image_ids" in data:
             rem_ids = data.get("remove_image_ids")

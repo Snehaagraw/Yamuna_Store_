@@ -103,6 +103,11 @@ function CartProvider({ children }) {
       chosenImage = product.images?.[0]?.image || null;
     }
 
+    const effectiveWeight =
+      product.size_weights && normSize && product.size_weights[normSize]
+        ? product.size_weights[normSize]
+        : product.weight || "";
+
     setCartItems((previousItems) => {
       const existingItem = previousItems.find(
         (item) =>
@@ -123,6 +128,7 @@ function CartProvider({ children }) {
             ? {
                 ...item,
                 price: itemPrice,
+                weight: effectiveWeight || item.weight || "",
                 image: chosenImage || item.image,
                 maxStock,
                 quantity: Math.min(maxStock, item.quantity + qty),
@@ -141,7 +147,7 @@ function CartProvider({ children }) {
           color: normColor,
           price: itemPrice,
           fabric: product.fabric,
-          weight: product.weight || "",
+          weight: effectiveWeight,
           image: chosenImage,
           quantity: Math.min(maxStock, qty),
           maxStock,

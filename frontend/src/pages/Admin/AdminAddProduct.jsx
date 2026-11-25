@@ -30,6 +30,7 @@ function AdminAddProduct({
 
   const [sizeInventory, setSizeInventory] = useState({});
   const [sizePrices, setSizePrices] = useState({});
+  const [sizeWeights, setSizeWeights] = useState({});
   const [colorInventory, setColorInventory] = useState({});
 
 
@@ -187,6 +188,11 @@ function AdminAddProduct({
     setSizePrices(
       productToEdit.size_prices && typeof productToEdit.size_prices === "object"
         ? { ...productToEdit.size_prices }
+        : {}
+    );
+    setSizeWeights(
+      productToEdit.size_weights && typeof productToEdit.size_weights === "object"
+        ? { ...productToEdit.size_weights }
         : {}
     );
     setColorInventory(
@@ -702,6 +708,7 @@ function AdminAddProduct({
 
       const finalSizeInventory = {};
       const finalSizePrices = {};
+      const finalSizeWeights = {};
       if (sizesArray.length > 0) {
         sizesArray.forEach((sz) => {
           finalSizeInventory[sz] =
@@ -723,6 +730,14 @@ function AdminAddProduct({
           } else if (finalPrice) {
             finalSizePrices[sz] = Number(finalPrice);
           }
+
+          // Size Weight
+          const rawWt = sizeWeights[sz];
+          if (rawWt !== undefined && String(rawWt).trim() !== "") {
+            finalSizeWeights[sz] = String(rawWt).trim();
+          } else if (formData.weight && formData.weight.trim()) {
+            finalSizeWeights[sz] = formData.weight.trim();
+          }
         });
       }
       data.append(
@@ -732,6 +747,10 @@ function AdminAddProduct({
       data.append(
         "size_prices",
         JSON.stringify(finalSizePrices)
+      );
+      data.append(
+        "size_weights",
+        JSON.stringify(finalSizeWeights)
       );
 
       /*
@@ -1415,43 +1434,76 @@ function AdminAddProduct({
                           display: "block",
                         }}
                       >
-                        🏷️ Size Pricing & Inventory
+                        🏷️ Size Pricing, Inventory & Weight
                       </label>
                       <small style={{ fontSize: "10px", color: "rgba(93, 30, 52, 0.65)" }}>
-                        Set custom price and stock per size. If price is left empty, Base Price (₹{formData.price || 0}) is used.
+                        Set custom price, stock, and weight per size. If empty, Base Price (₹{formData.price || 0}) and Base Weight ({formData.weight || "N/A"}) are used.
                       </small>
                     </div>
 
-                    {formData.price && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const sizesArray = formData.sizes
-                            .split(",")
-                            .map((s) => s.trim())
-                            .filter(Boolean);
-                          const updated = {};
-                          sizesArray.forEach((s) => {
-                            updated[s] = formData.price;
-                          });
-                          setSizePrices(updated);
-                        }}
-                        style={{
-                          background: "#fff",
-                          border: "1px solid var(--maroon)",
-                          color: "var(--maroon)",
-                          borderRadius: "14px",
-                          padding: "4px 12px",
-                          fontSize: "10px",
-                          cursor: "pointer",
-                          fontWeight: "500",
-                          transition: "all 0.2s ease",
-                        }}
-                        title="Copy the base product price to all available sizes"
-                      >
-                        📋 Copy Base Price (₹{formData.price}) to All Sizes
-                      </button>
-                    )}
+                    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                      {formData.price && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const sizesArray = formData.sizes
+                              .split(",")
+                              .map((s) => s.trim())
+                              .filter(Boolean);
+                            const updated = {};
+                            sizesArray.forEach((s) => {
+                              updated[s] = formData.price;
+                            });
+                            setSizePrices(updated);
+                          }}
+                          style={{
+                            background: "#fff",
+                            border: "1px solid var(--maroon)",
+                            color: "var(--maroon)",
+                            borderRadius: "14px",
+                            padding: "4px 12px",
+                            fontSize: "10px",
+                            cursor: "pointer",
+                            fontWeight: "500",
+                            transition: "all 0.2s ease",
+                          }}
+                          title="Copy the base product price to all available sizes"
+                        >
+                          📋 Copy Base Price (₹{formData.price})
+                        </button>
+                      )}
+
+                      {formData.weight && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const sizesArray = formData.sizes
+                              .split(",")
+                              .map((s) => s.trim())
+                              .filter(Boolean);
+                            const updated = {};
+                            sizesArray.forEach((s) => {
+                              updated[s] = formData.weight;
+                            });
+                            setSizeWeights(updated);
+                          }}
+                          style={{
+                            background: "#fff",
+                            border: "1px solid var(--maroon)",
+                            color: "var(--maroon)",
+                            borderRadius: "14px",
+                            padding: "4px 12px",
+                            fontSize: "10px",
+                            cursor: "pointer",
+                            fontWeight: "500",
+                            transition: "all 0.2s ease",
+                          }}
+                          title="Copy the base product weight to all available sizes"
+                        >
+                          ⚖️ Copy Base Weight ({formData.weight})
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   <div
@@ -1579,6 +1631,48 @@ function AdminAddProduct({
                             >
                               pcs
                             </span>
+                          </div>
+
+                          {/* Weight Input */}
+                          <div
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "3px",
+                            }}
+                            title={`Weight for size ${sz} (e.g. 450g or 0.5 kg). Leave empty to use base weight (${formData.weight || "N/A"})`}
+                          >
+                            <span
+                              style={{
+                                fontSize: "11px",
+                              }}
+                            >
+                              ⚖️
+                            </span>
+                            <input
+                              type="text"
+                              placeholder={formData.weight || "Weight"}
+                              style={{
+                                width: "70px",
+                                padding: "4px 6px",
+                                fontSize: "12px",
+                                border: "1px solid #ccc",
+                                borderRadius: "3px",
+                                textAlign: "center",
+                              }}
+                              value={
+                                sizeWeights[sz] !== undefined
+                                  ? sizeWeights[sz]
+                                  : ""
+                              }
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setSizeWeights((prev) => ({
+                                  ...prev,
+                                  [sz]: val,
+                                }));
+                              }}
+                            />
                           </div>
                         </div>
                       ))}

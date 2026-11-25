@@ -157,6 +157,12 @@ class Product(models.Model):
         blank=True
     )
 
+    size_weights = models.JSONField(
+        default=dict,
+        blank=True,
+        help_text="Custom weight per size variant, e.g. {'S': '350g', 'XL': '550g'}"
+    )
+
     stock_status = models.CharField(
         max_length=20,
         choices=STOCK_CHOICES,
