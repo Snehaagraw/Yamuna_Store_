@@ -1,0 +1,7 @@
+# Cache hashed assets aggressively
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Ensure index.html and routes always fetch the latest chunk hashes
+/*
+  Cache-Control: public, max-age=0, must-revalidate
