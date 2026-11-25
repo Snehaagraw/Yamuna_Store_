@@ -222,10 +222,7 @@ function Collections() {
         setLoading(true);
         setError("");
 
-        const response = await api.get("/api/products/", {
-          params: { _t: Date.now() },
-          headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
-        });
+        const response = await api.get("/api/products/");
         setProducts(Array.isArray(response.data) ? response.data : []);
       } catch (err) {
         console.error("Failed to fetch products:", err);

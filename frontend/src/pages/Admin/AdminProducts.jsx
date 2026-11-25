@@ -171,11 +171,7 @@ function AdminProducts({
       setError("");
 
       const response = await api.get(
-        "/api/products/",
-        {
-          params: { _t: Date.now() },
-          headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
-        }
+        "/api/products/"
       );
 
       setProducts(response.data);

@@ -234,6 +234,14 @@ else:
         "https://www.yamunastore.com",
     ]
 
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "cache-control",
+    "pragma",
+    "expires",
+]
+
 # Security Headers
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"

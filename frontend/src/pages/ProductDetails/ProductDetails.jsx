@@ -59,10 +59,7 @@ function ProductDetails() {
         setLoading(true);
         setError("");
 
-        const response = await api.get(`/api/products/${id}/`, {
-          params: { _t: Date.now() },
-          headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
-        });
+        const response = await api.get(`/api/products/${id}/`);
         setProduct(response.data);
       } catch (err) {
         console.error("Failed to load product details:", err);
