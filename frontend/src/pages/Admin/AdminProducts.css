@@ -791,3 +791,83 @@
   color: #4a148c;
   border: 1px solid rgba(74, 20, 140, 0.2);
 }
+
+/* Inline Weight Quick-Edit on Admin Product Card */
+.admin-product-weight-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.admin-weight-badge-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(114, 38, 63, 0.05);
+  border: 1px dashed rgba(114, 38, 63, 0.35);
+  color: var(--maroon, #72263f);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-weight-badge-btn:hover {
+  background: rgba(114, 38, 63, 0.12);
+  border-color: var(--maroon, #72263f);
+}
+
+.admin-weight-edit-pencil {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.admin-weight-inline-form {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-weight-inline-input {
+  width: 90px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-family: inherit;
+  border: 1.5px solid var(--maroon, #72263f);
+  border-radius: 4px;
+  outline: none;
+}
+
+.admin-weight-inline-btn {
+  border: none;
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+
+.admin-weight-inline-btn.save {
+  background: #15803d;
+  color: #ffffff;
+}
+
+.admin-weight-inline-btn.save:hover {
+  background: #166534;
+}
+
+.admin-weight-inline-btn.cancel {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.admin-weight-inline-btn.cancel:hover {
+  background: #d1d5db;
+}

@@ -70,6 +70,16 @@ function ProductDetails() {
     };
 
     fetchProduct();
+
+    // Auto-refresh when user switches back to this tab
+    const handleFocus = () => {
+      api.get(`/api/products/${id}/`).then((res) => {
+        if (res.data) setProduct(res.data);
+      }).catch(() => {});
+    };
+
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
   }, [id]);
 
   useEffect(() => {
@@ -338,12 +348,12 @@ function ProductDetails() {
 
   const currentSizeWeight = useMemo(() => {
     if (!product) return "";
-    if (
-      selectedSize &&
-      product.size_weights &&
-      product.size_weights[selectedSize]
-    ) {
-      return product.size_weights[selectedSize];
+    const custom =
+      selectedSize && product.size_weights
+        ? product.size_weights[selectedSize]
+        : null;
+    if (custom && String(custom).trim() !== "") {
+      return String(custom).trim();
     }
     return product.weight || "";
   }, [product, selectedSize]);
@@ -775,8 +785,9 @@ function ProductDetails() {
                       const customSizeWeight =
                         product.size_weights &&
                         product.size_weights[size] !== undefined &&
-                        product.size_weights[size] !== ""
-                          ? product.size_weights[size]
+                        product.size_weights[size] !== "" &&
+                        product.size_weights[size].trim().toLowerCase() !== (product.weight || "").trim().toLowerCase()
+                          ? product.size_weights[size].trim()
                           : null;
 
                       const showCustomPrice =
@@ -791,7 +802,7 @@ function ProductDetails() {
                           className={`product-size-btn ${
                             selectedSize === size ? "active" : ""
                           } ${isSoldOut ? "sold-out" : ""} ${
-                            showCustomPrice ? "has-custom-price" : ""
+                            showCustomPrice || customSizeWeight ? "has-custom-price" : ""
                           }`}
                           onClick={() => {
                             setSelectedSize(size);
@@ -810,6 +821,11 @@ function ProductDetails() {
                           {showCustomPrice && (
                             <span className="size-btn-price-chip">
                               {formatPrice(customSizePrice).formatted}
+                            </span>
+                          )}
+                          {customSizeWeight && (
+                            <span className="size-btn-weight-chip">
+                              ⚖️ {customSizeWeight}
                             </span>
                           )}
                         </button>

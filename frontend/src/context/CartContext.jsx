@@ -103,10 +103,11 @@ function CartProvider({ children }) {
       chosenImage = product.images?.[0]?.image || null;
     }
 
-    const effectiveWeight =
+    const customSzWeight =
       product.size_weights && normSize && product.size_weights[normSize]
-        ? product.size_weights[normSize]
-        : product.weight || "";
+        ? String(product.size_weights[normSize]).trim()
+        : "";
+    const effectiveWeight = customSzWeight || product.weight || "";
 
     setCartItems((previousItems) => {
       const existingItem = previousItems.find(

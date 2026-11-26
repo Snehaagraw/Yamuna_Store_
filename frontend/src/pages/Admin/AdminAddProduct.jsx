@@ -190,11 +190,21 @@ function AdminAddProduct({
         ? { ...productToEdit.size_prices }
         : {}
     );
-    setSizeWeights(
+    // Filter out any size weights that were just duplicate copies of base weight,
+    // so they don't lock the size from updating when base weight changes
+    const rawSizeWeights =
       productToEdit.size_weights && typeof productToEdit.size_weights === "object"
         ? { ...productToEdit.size_weights }
-        : {}
-    );
+        : {};
+    const baseProductWeight = (productToEdit.weight || "").trim().toLowerCase();
+    const cleanSizeWeights = {};
+    Object.entries(rawSizeWeights).forEach(([sz, wt]) => {
+      const trimmedWt = String(wt || "").trim();
+      if (trimmedWt && trimmedWt.toLowerCase() !== baseProductWeight) {
+        cleanSizeWeights[sz] = trimmedWt;
+      }
+    });
+    setSizeWeights(cleanSizeWeights);
     setColorInventory(
       productToEdit.color_inventory && typeof productToEdit.color_inventory === "object"
         ? { ...productToEdit.color_inventory }
@@ -731,12 +741,15 @@ function AdminAddProduct({
             finalSizePrices[sz] = Number(finalPrice);
           }
 
-          // Size Weight
+          // Size Weight: only store specific custom overrides per size.
+          // Sizes without explicit overrides naturally inherit the base weight in real time.
           const rawWt = sizeWeights[sz];
-          if (rawWt !== undefined && String(rawWt).trim() !== "") {
+          if (
+            rawWt !== undefined &&
+            rawWt !== null &&
+            String(rawWt).trim() !== ""
+          ) {
             finalSizeWeights[sz] = String(rawWt).trim();
-          } else if (formData.weight && formData.weight.trim()) {
-            finalSizeWeights[sz] = formData.weight.trim();
           }
         });
       }
@@ -806,8 +819,9 @@ function AdminAddProduct({
         ? `/api/products/${productToEdit.id}/`
         : "/api/products/";
 
+      let savedProductData = null;
       if (isEditMode) {
-        await api.patch(
+        const res = await api.patch(
           url,
           data,
           {
@@ -816,8 +830,9 @@ function AdminAddProduct({
             },
           }
         );
+        savedProductData = res.data;
       } else {
-        await api.post(
+        const res = await api.post(
           url,
           data,
           {
@@ -826,9 +841,10 @@ function AdminAddProduct({
             },
           }
         );
+        savedProductData = res.data;
       }
 
-      onProductCreated();
+      onProductCreated(savedProductData);
     } catch (err) {
       console.error(err);
 

@@ -22,6 +22,14 @@ api.interceptors.request.use(
     const url = config.url || "";
     const method = (config.method || "get").toLowerCase();
 
+    // Cache-busting query param to ensure browser never serves stale cached GET responses
+    if (method === "get") {
+      config.params = config.params || {};
+      if (!config.params._t) {
+        config.params._t = Date.now();
+      }
+    }
+
     // 1. Admin endpoints
     const isAdminEndpoint =
       url.includes("/api/auth/customers") ||

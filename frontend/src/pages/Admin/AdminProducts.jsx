@@ -162,8 +162,52 @@ function AdminProducts({
     useState(null);
   const [updatingStockId, setUpdatingStockId] =
     useState(null);
+  const [editingWeightId, setEditingWeightId] =
+    useState(null);
+  const [inlineWeightValue, setInlineWeightValue] =
+    useState("");
+  const [updatingWeightId, setUpdatingWeightId] =
+    useState(null);
   const [activeSectionFilter, setActiveSectionFilter] =
     useState("all");
+
+  const handleSaveInlineWeight = async (product) => {
+    const newWeight = (inlineWeightValue || "").trim();
+    const token = localStorage.getItem("admin_access_token");
+    if (!token) {
+      alert("Your admin session has expired. Please log in again.");
+      return;
+    }
+
+    setUpdatingWeightId(product.id);
+
+    // Instant optimistic update in real time
+    setProducts((prev) =>
+      prev.map((p) =>
+        p.id === product.id ? { ...p, weight: newWeight } : p
+      )
+    );
+    setEditingWeightId(null);
+
+    try {
+      await api.patch(
+        `/api/products/${product.id}/`,
+        { weight: newWeight },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    } catch (err) {
+      console.error("Failed to update weight:", err);
+      // Revert on error
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === product.id ? { ...p, weight: product.weight } : p
+        )
+      );
+      alert("Failed to update weight on server. Please try again.");
+    } finally {
+      setUpdatingWeightId(null);
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -566,12 +610,58 @@ function AdminProducts({
                     </p>
                   )}
 
-                  {product.weight && (
-                    <p className="admin-product-fabric">
-                      <strong>Weight:</strong>{" "}
-                      {product.weight}
-                    </p>
-                  )}
+                  <div className="admin-product-weight-row">
+                    <strong>Weight:</strong>{" "}
+                    {editingWeightId === product.id ? (
+                      <form
+                        className="admin-weight-inline-form"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          handleSaveInlineWeight(product);
+                        }}
+                      >
+                        <input
+                          type="text"
+                          className="admin-weight-inline-input"
+                          value={inlineWeightValue}
+                          onChange={(e) => setInlineWeightValue(e.target.value)}
+                          placeholder="e.g. 450g"
+                          autoFocus
+                          disabled={updatingWeightId === product.id}
+                        />
+                        <button
+                          type="submit"
+                          className="admin-weight-inline-btn save"
+                          disabled={updatingWeightId === product.id}
+                          title="Save weight"
+                        >
+                          ✓
+                        </button>
+                        <button
+                          type="button"
+                          className="admin-weight-inline-btn cancel"
+                          onClick={() => setEditingWeightId(null)}
+                          disabled={updatingWeightId === product.id}
+                          title="Cancel"
+                        >
+                          ✕
+                        </button>
+                      </form>
+                    ) : (
+                      <button
+                        type="button"
+                        className="admin-weight-badge-btn"
+                        onClick={() => {
+                          setEditingWeightId(product.id);
+                          setInlineWeightValue(product.weight || "");
+                        }}
+                        title="Click to instantly edit weight"
+                      >
+                        <span>{product.weight ? `⚖️ ${product.weight}` : "⚖️ Not set"}</span>
+                        <span className="admin-weight-edit-pencil"> ✏️</span>
+                      </button>
+                    )}
+                  </div>
 
                   {product.colors &&
                     product.colors.length > 0 && (
@@ -641,8 +731,9 @@ function AdminProducts({
                             const customWeight =
                               product.size_weights &&
                               product.size_weights[size] !== undefined &&
-                              product.size_weights[size] !== ""
-                                ? product.size_weights[size]
+                              product.size_weights[size] !== "" &&
+                              product.size_weights[size].trim().toLowerCase() !== (product.weight || "").trim().toLowerCase()
+                                ? product.size_weights[size].trim()
                                 : null;
                             const isSoldOut = stock !== null && stock <= 0;
 
