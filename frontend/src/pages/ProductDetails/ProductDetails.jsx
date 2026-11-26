@@ -642,9 +642,9 @@ function ProductDetails() {
                   )}
 
                   {currentSizeWeight && (
-                    <div className="spec-card">
+                    <div className="spec-card spec-card-weight">
                       <span className="spec-label">
-                        Weight {selectedSize && product.size_weights?.[selectedSize] ? `(${selectedSize})` : ""}
+                        Weight {selectedSize ? `(${selectedSize})` : ""}
                       </span>
                       <strong className="spec-value">⚖️ {currentSizeWeight}</strong>
                     </div>
@@ -782,14 +782,6 @@ function ProductDetails() {
                           ? Number(product.size_prices[size])
                           : null;
 
-                      const customSizeWeight =
-                        product.size_weights &&
-                        product.size_weights[size] !== undefined &&
-                        product.size_weights[size] !== "" &&
-                        product.size_weights[size].trim().toLowerCase() !== (product.weight || "").trim().toLowerCase()
-                          ? product.size_weights[size].trim()
-                          : null;
-
                       const showCustomPrice =
                         hasMultipleSizePrices &&
                         customSizePrice !== null &&
@@ -802,7 +794,7 @@ function ProductDetails() {
                           className={`product-size-btn ${
                             selectedSize === size ? "active" : ""
                           } ${isSoldOut ? "sold-out" : ""} ${
-                            showCustomPrice || customSizeWeight ? "has-custom-price" : ""
+                            showCustomPrice ? "has-custom-price" : ""
                           }`}
                           onClick={() => {
                             setSelectedSize(size);
@@ -813,19 +805,14 @@ function ProductDetails() {
                             isSoldOut
                               ? `${size} (Sold Out)`
                               : showCustomPrice
-                              ? `Select size ${size} - ${formatPrice(customSizePrice).formatted}${customSizeWeight ? ` · ⚖️ ${customSizeWeight}` : ""}`
-                              : `Select size ${size}${customSizeWeight ? ` · ⚖️ ${customSizeWeight}` : ""}`
+                              ? `Select size ${size} - ${formatPrice(customSizePrice).formatted}`
+                              : `Select size ${size}`
                           }
                         >
                           <span className="size-btn-label">{size}</span>
                           {showCustomPrice && (
                             <span className="size-btn-price-chip">
                               {formatPrice(customSizePrice).formatted}
-                            </span>
-                          )}
-                          {customSizeWeight && (
-                            <span className="size-btn-weight-chip">
-                              ⚖️ {customSizeWeight}
                             </span>
                           )}
                         </button>
